@@ -2,15 +2,6 @@ import React from "react";
 
 import Image from "next/image";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faLock, faEnvelope } from "@fortawesome/free-solid-svg-icons";
-import {
-  faFacebook,
-  faGoogle,
-  faTwitter,
-  faInstagram,
-} from "@fortawesome/free-brands-svg-icons";
-
 const LoginRegister = () => {
   return (
     <div className="login-register__container login">
@@ -19,19 +10,15 @@ const LoginRegister = () => {
           <div className="form-wrapper align-items-center">
             <div className="form register">
               <div className="input-group">
-                <FontAwesomeIcon className="icon" icon={faUser} />
                 <input type="text" placeholder="Username" />
               </div>
               <div className="input-group">
-                <FontAwesomeIcon className="icon" icon={faEnvelope} />
                 <input type="email" placeholder="Email" />
               </div>
               <div className="input-group">
-                <FontAwesomeIcon className="icon" icon={faLock} />
                 <input type="password" placeholder="Password" />
               </div>
               <div className="input-group">
-                <FontAwesomeIcon className="icon" icon={faLock} />
                 <input type="password" placeholder="Confirm password" />
               </div>
               <button>Sign up</button>
@@ -45,18 +32,10 @@ const LoginRegister = () => {
           </div>
           <div className="form-wrapper">
             <div className="social-list align-items-center register">
-              <div className="align-items-center facebook-bg">
-                <FontAwesomeIcon className="icon" icon={faFacebook} />
-              </div>
-              <div className="align-items-center google-bg">
-                <FontAwesomeIcon className="icon" icon={faGoogle} />
-              </div>
-              <div className="align-items-center twitter-bg">
-                <FontAwesomeIcon className="icon" icon={faTwitter} />
-              </div>
-              <div className="align-items-center insta-bg">
-                <FontAwesomeIcon className="icon" icon={faInstagram} />
-              </div>
+              <div className="align-items-center facebook-bg"></div>
+              <div className="align-items-center google-bg"></div>
+              <div className="align-items-center twitter-bg"></div>
+              <div className="align-items-center insta-bg"></div>
             </div>
           </div>
         </div>
@@ -64,11 +43,9 @@ const LoginRegister = () => {
           <div className="form-wrapper align-items-center">
             <div className="form login">
               <div className="input-group">
-                <FontAwesomeIcon className="icon" icon={faUser} />
                 <input type="text" placeholder="Username" />
               </div>
               <div className="input-group">
-                <FontAwesomeIcon className="icon" icon={faLock} />
                 <input type="password" placeholder="Password" />
               </div>
               <button>Sign in</button>
@@ -87,18 +64,10 @@ const LoginRegister = () => {
           </div>
           <div className="form-wrapper">
             <div className="social-list align-items-center login">
-              <div className="align-items-center facebook-bg">
-                <FontAwesomeIcon className="icon" icon={faFacebook} />
-              </div>
-              <div className="align-items-center google-bg">
-                <FontAwesomeIcon className="icon" icon={faGoogle} />
-              </div>
-              <div className="align-items-center twitter-bg">
-                <FontAwesomeIcon className="icon" icon={faTwitter} />
-              </div>
-              <div className="align-items-center insta-bg">
-                <FontAwesomeIcon className="icon" icon={faInstagram} />
-              </div>
+              <div className="align-items-center facebook-bg"></div>
+              <div className="align-items-center google-bg"></div>
+              <div className="align-items-center twitter-bg"></div>
+              <div className="align-items-center insta-bg"></div>
             </div>
           </div>
         </div>
