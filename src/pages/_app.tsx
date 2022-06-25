@@ -1,9 +1,5 @@
 import React from "react";
 
-import "@fortawesome/fontawesome-svg-core/styles.css";
-import { config } from "@fortawesome/fontawesome-svg-core";
-config.autoAddCss = false;
-
 import Head from "next/head";
 import type { AppProps } from "next/app";
 
@@ -21,6 +17,7 @@ function App({ Component, pageProps }: AppProps) {
           href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css"
         ></link>
       </Head>
+
       <Header />
       <Component {...pageProps} />
     </React.Fragment>
