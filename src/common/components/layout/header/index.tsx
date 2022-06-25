@@ -1,7 +1,5 @@
 import React from "react";
 
-import Image from "next/image";
-
 import styles from "./header.module.scss";
 
 const Header = () => {
