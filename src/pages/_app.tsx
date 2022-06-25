@@ -2,8 +2,6 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 import { config } from "@fortawesome/fontawesome-svg-core";
 config.autoAddCss = false;
 
-import "bootstrap/dist/css/bootstrap.css";
-
 import type { AppProps } from "next/app";
 
 import { Header } from "common/components";
