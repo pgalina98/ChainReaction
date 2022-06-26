@@ -1,0 +1,20 @@
+@import "common/styles/colors.scss";
+
+.h_full {
+  height: calc(100vh - 64px);
+}
+
+.left_content {
+  color: $white;
+  background-color: $primary;
+}
+
+@mixin div_rounded($rightRadius, $leftRadius, $indent) {
+  .div_rounded_#{$rightRadius}_#{$leftRadius}_#{$indent} {
+    border-bottom-right-radius: max(#{$rightRadius}vw, #{$rightRadius}vh);
+    border-top-left-radius: max(#{$leftRadius}vw, #{$leftRadius}vh);
+    height: calc(100vh + #{$indent}px);
+  }
+}
+
+@include div_rounded(50, 0, 32);

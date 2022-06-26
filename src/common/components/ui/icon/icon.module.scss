@@ -1,0 +1,25 @@
+@import "common/styles/colors.scss";
+
+.icon_color_facebook {
+  color: $white;
+  background-color: $facebook;
+}
+
+.icon_color_google {
+  color: $white;
+  background-color: $google;
+}
+
+.icon_color_instagram {
+  color: $white;
+  background-color: $instagram;
+}
+
+.icon_container:hover {
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  transform: scale(1.15);
+}
+
+.icon_container:hover .icon {
+  transform: scale(1.15);
+}

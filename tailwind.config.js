@@ -8,4 +8,9 @@ module.exports = {
     extend: {},
   },
   plugins: [require("@tailwindcss/forms")],
+  variants: {
+    extend: {
+      animation: ["group-hover"],
+    },
+  },
 };
