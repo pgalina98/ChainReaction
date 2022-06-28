@@ -1,6 +1,6 @@
 import React from "react";
 
-import { InptType } from "common/types/inputy-type";
+import { InptType } from "common/types/input-type";
 
 import { Tooltip } from "../tooltip";
 

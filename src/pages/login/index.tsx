@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 import { Button, Card, Icon, Input } from "common/components";
 
-import { InptType } from "common/types/inputy-type";
+import { InptType } from "common/types/input-type";
 import { ButtonType } from "common/types/button-type";
 
 import {
