@@ -9,15 +9,15 @@
   background-color: $primary;
 }
 
-@mixin div_rounded($rightRadius, $leftRadius, $indent) {
-  .div_rounded_#{$rightRadius}_#{$leftRadius}_#{$indent} {
+@mixin div_rounded_br_tl($rightRadius, $leftRadius, $indent) {
+  .div_rounded_br_tl_#{$rightRadius}_#{$leftRadius}_#{$indent} {
     border-bottom-right-radius: max(#{$rightRadius}vw, #{$rightRadius}vh);
     border-top-left-radius: max(#{$leftRadius}vw, #{$leftRadius}vh);
     height: calc(100vh + #{$indent}px);
   }
 }
 
-@include div_rounded(50, 0, 32);
+@include div_rounded_br_tl(50, 0, 32);
 
 .icon_arrow {
   background-color: $primary;

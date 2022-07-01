@@ -2,6 +2,10 @@ import React, { useState } from "react";
 
 import { motion } from "framer-motion";
 
+import { NextPage } from "next";
+import Image from "next/image";
+import Link from "next/link";
+
 import { Button, Card, Icon, Input } from "common/components";
 
 import { InptType } from "common/types/input-type";
@@ -14,11 +18,9 @@ import {
   useBounce,
 } from "common/animations";
 
-import Image from "next/image";
-
 import styles from "./login.module.scss";
 
-const Login = () => {
+const Login: NextPage = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
 
   const handleTogglePasswordVisibilityClick = () => {
@@ -30,27 +32,26 @@ const Login = () => {
       <motion.div
         initial="initial"
         animate="animate"
+        exit="exit"
         variants={useFadeInOutLeftVariants({ duration: 0.5 })}
-        className={`${styles.div_rounded_50_0_32} ${styles.left_content} p-8 relative`}
+        className={`${styles.div_rounded_br_tl_50_0_32} ${styles.left_content} p-8 relative`}
       >
-        <motion.div
-          animate="animate"
-          whileHover={useBounce({ repeat: Infinity })}
-          variants={useRotateAndScaleVariants()}
-          className={`absolute right-0 -mr-5 p-2 text-4xl rounded-full flex justify-center content-center ${styles.icon_arrow}`}
-        >
-          <i className="las la-chevron-circle-right" />
-        </motion.div>
+        <Link href="/register">
+          <motion.div
+            animate="animate"
+            exit="exit"
+            whileHover={useBounce({ repeat: Infinity })}
+            variants={useRotateAndScaleVariants()}
+            className={`absolute right-0 -mr-5 p-2 text-4xl rounded-full flex justify-center content-center ${styles.icon_arrow}`}
+          >
+            <i className="las la-chevron-circle-right" />
+          </motion.div>
+        </Link>
         <div className="flex justify-center">
           <p className="font-light text-5xl">Sign In</p>
         </div>
         <div className="absolute bottom-10">
-          <Image
-            src="/assets/login.svg"
-            alt="Login illustration"
-            width={550}
-            height={550}
-          />
+          <Image src="/assets/login.svg" alt="Login illustration" width={550} height={550} />
         </div>
       </motion.div>
       <motion.div
@@ -60,11 +61,7 @@ const Login = () => {
         className="ml-40 mr-40 mt-28"
       >
         <Card className="w-full">
-          <Input
-            label="Username"
-            placeholder="Enter username"
-            prependIcon="lar la-user"
-          />
+          <Input label="Username" placeholder="Enter username" prependIcon="lar la-user" />
           <Input
             label="Password"
             placeholder="Enter password"
@@ -76,11 +73,7 @@ const Login = () => {
             appendIconActive={isPasswordVisible}
             className="mt-4"
           />
-          <Button
-            className="mt-4 w-full"
-            label="Sign In"
-            type={ButtonType.DARK}
-          />
+          <Button className="mt-4 w-full" label="Sign In" type={ButtonType.DARK} />
           <div className="flex justify-center mt-3">
             <a className="hover:cursor-pointer font-semibold hover:text-gray-700">
               Forgot password?
@@ -88,9 +81,11 @@ const Login = () => {
           </div>
           <div className="flex justify-center mt-3">
             <p>{"Don't have an account?"}</p>
-            <a className="ml-2 hover:cursor-pointer font-semibold hover:text-gray-700">
-              Sign up here
-            </a>
+            <Link href="/register">
+              <a className="ml-2 hover:cursor-pointer font-semibold hover:text-gray-700">
+                Sign up here
+              </a>
+            </Link>
           </div>
         </Card>
         <Card className="w-full mt-8 p-1">

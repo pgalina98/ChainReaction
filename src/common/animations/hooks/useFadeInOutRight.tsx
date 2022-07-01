@@ -1,23 +1,23 @@
 import { Variants } from "framer-motion";
 
-interface FadeInOutLeftProps {
+interface FadeInOutRightProps {
   duration?: number;
   delay?: number;
 }
 
-const useFadeInOutLeft = ({ duration = 0.5, delay = 0 }: FadeInOutLeftProps): Variants => {
+const useFadeInOutRight = ({ duration = 0.5, delay = 0 }: FadeInOutRightProps): Variants => {
   return {
-    initial: { opacity: 0, x: "-100%" },
+    initial: { opacity: 0, x: "105vw" },
     animate: {
       opacity: 1,
       x: 0,
       transition: { duration, delay },
     },
     exit: {
-      width: "150vw",
+      width: "100vw",
       transition: { duration },
     },
   };
 };
 
-export default useFadeInOutLeft;
+export default useFadeInOutRight;

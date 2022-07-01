@@ -1,0 +1,25 @@
+@import "common/styles/colors.scss";
+
+.h_full {
+  height: calc(100vh - 64px);
+}
+
+.right_content {
+  color: $white;
+  background-color: $primary;
+}
+
+@mixin div_rounded_tr_bl($rightRadius, $leftRadius, $indent) {
+  .div_rounded_tr_bl_#{$rightRadius}_#{$leftRadius}_#{$indent} {
+    border-top-right-radius: max(#{$rightRadius}vw, #{$rightRadius}vh);
+    border-bottom-left-radius: max(#{$leftRadius}vw, #{$leftRadius}vh);
+    height: calc(100vh + #{$indent}px);
+  }
+}
+
+@include div_rounded_tr_bl(0, 50, 32);
+
+.icon_arrow {
+  background-color: $primary;
+  cursor: pointer;
+}

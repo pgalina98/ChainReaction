@@ -4,7 +4,7 @@ import Image from "next/image";
 
 const LoginRegister = () => {
   return (
-    <div className="login-register__container login">
+    <div className="login-register__container register">
       <div className="row">
         <div className="column-50 align-items-center flex-column register">
           <div className="form-wrapper align-items-center">

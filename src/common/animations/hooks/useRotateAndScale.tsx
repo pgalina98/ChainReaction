@@ -7,6 +7,11 @@ const useRotateAndScale = (): Variants => {
       rotate: [0, 0, 360, 360, 0],
       borderRadius: ["25%", "25%", "50%", "50%", "50%"],
     },
+    exit: {
+      scale: [1, 2, 2, 2, 1],
+      rotate: [0, 0, 360, 360, 0],
+      borderRadius: ["25%", "25%", "50%", "50%", "50%"],
+    },
   };
 };
 
