@@ -41,7 +41,7 @@ const Register: NextPage = () => {
         className="ml-40 mr-40 mt-12"
       >
         <Card className="w-full">
-          <Input label="Full name" placeholder="Enter full name" prependIcon="lar la-user" />
+          <Input label="Full name" placeholder="Enter full name" prependIcon="las la-id-card" />
           <Input
             label="Username"
             placeholder="Enter username"
@@ -51,7 +51,7 @@ const Register: NextPage = () => {
           <Input
             label="E-mail"
             placeholder="Enter e-mail"
-            prependIcon="lar la-user"
+            prependIcon="lar la-envelope"
             className="mt-4"
           />
           <Input
