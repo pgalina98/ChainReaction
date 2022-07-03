@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import { Tooltip } from "@components";
 
-import { ValidationResult } from "@features/register/types/validation-result.type";
+import { ValidationResult } from "@shared/types/validation-result.type";
 
 import { InptType } from "@enums/input-type";
 

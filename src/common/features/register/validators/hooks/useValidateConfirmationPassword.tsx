@@ -1,4 +1,4 @@
-import { ValidationResult } from "@features/register/types/validation-result.type";
+import { ValidationResult } from "@shared/types/validation-result.type";
 
 import { messages } from "@constants/messages";
 import { isEmpty, isEqual } from "@utils/common";

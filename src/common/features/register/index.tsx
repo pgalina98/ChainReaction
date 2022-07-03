@@ -1,1 +1,1 @@
-export const registerUser = () => {};
+export const register = () => {};
