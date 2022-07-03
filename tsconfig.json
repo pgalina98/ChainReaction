@@ -4,12 +4,13 @@
     "paths": {
       "@components": ["common/components/index.jsx"],
       "@animations": ["common/animations/index.jsx"],
-      "@constants": ["common/constants/index.jsx"],
+      "@constants/*": ["common/constants/*"],
       "@enums/*": ["common/enums/*"],
       "@features/*": ["common/features/*"],
       "@models/*": ["common/models/*"],
       "@styles/*": ["common/styles/*"],
-      "@utils/*": ["common/utils/*"]
+      "@utils/*": ["common/utils/*"],
+      "@shared/*": ["common/shared/*"]
     },
     "target": "es6",
     "lib": ["dom", "dom.iterable", "esnext"],

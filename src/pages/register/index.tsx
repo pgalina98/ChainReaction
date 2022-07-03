@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { motion } from "framer-motion";
 
@@ -16,7 +16,18 @@ import {
   useRotateAndScaleVariants,
   useFadeInOutVariants,
   useBounce,
+  useDisplayNoneOnExit,
 } from "@animations";
+
+import User, { createEmptyUserObject } from "@models/user.model";
+
+import {
+  useValidateFullname,
+  useValidateUsername,
+  useValidateEmail,
+  useValidatePassword,
+  useValidateConfirmationPassword,
+} from "@features/register/validators";
 
 import styles from "./register.module.scss";
 
@@ -24,12 +35,30 @@ const Register: NextPage = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState<boolean>(false);
 
-  const handleTogglePasswordVisibilityClick = () => {
+  const [user, setUser] = useState<User>(createEmptyUserObject());
+
+  const handleTogglePasswordVisibilityClick = (): void => {
     setIsPasswordVisible(!isPasswordVisible);
   };
 
-  const handleToggleConfirmPasswordVisibilityClick = () => {
+  const handleToggleConfirmationPasswordVisibilityClick = (): void => {
     setIsConfirmPasswordVisible(!isConfirmPasswordVisible);
+  };
+
+  const handleFullnameChange = (fullname: string): void => {
+    setUser({ ...user, fullname });
+  };
+
+  const handleUsernameChange = (username: string): void => {
+    setUser({ ...user, username });
+  };
+
+  const handleEmailChange = (email: string): void => {
+    setUser({ ...user, email });
+  };
+
+  const handlePasswordChange = (password: string): void => {
+    setUser({ ...user, password });
   };
 
   return (
@@ -42,20 +71,34 @@ const Register: NextPage = () => {
         className="ml-40 mr-40 mt-12"
       >
         <Card className="w-full">
-          <Input label="Full name" placeholder="Enter full name" prependIcon="las la-id-card" />
           <Input
+            id="fullname"
+            label="Fullname"
+            placeholder="Enter fullname"
+            prependIcon="las la-id-card"
+            onChange={handleFullnameChange}
+            validator={useValidateFullname}
+          />
+          <Input
+            id="username"
             label="Username"
             placeholder="Enter username"
             prependIcon="lar la-user"
             className="mt-4"
+            onChange={handleUsernameChange}
+            validator={useValidateUsername}
           />
           <Input
+            id="email"
             label="E-mail"
             placeholder="Enter e-mail"
             prependIcon="lar la-envelope"
             className="mt-4"
+            onChange={handleEmailChange}
+            validator={useValidateEmail}
           />
           <Input
+            id="password"
             label="Password"
             placeholder="Enter password"
             type={InptType.PASSWORD}
@@ -65,17 +108,22 @@ const Register: NextPage = () => {
             onAppendIconClick={() => handleTogglePasswordVisibilityClick()}
             appendIconActive={isPasswordVisible}
             className="mt-4"
+            onChange={handlePasswordChange}
+            validator={useValidatePassword}
           />
           <Input
+            id="confirmation_passwprd"
             label="Password confirmation"
             placeholder="Confirm password"
             type={InptType.PASSWORD}
             prependIcon="las la-unlock-alt"
             appendIcon={isConfirmPasswordVisible ? "lar la-eye" : "lar la-eye-slash"}
             appendIconClicable
-            onAppendIconClick={() => handleToggleConfirmPasswordVisibilityClick()}
+            onAppendIconClick={() => handleToggleConfirmationPasswordVisibilityClick()}
             appendIconActive={isConfirmPasswordVisible}
             className="mt-4"
+            validator={useValidateConfirmationPassword}
+            additionalValidationData={user.password}
           />
           <Button className="mt-4 w-full" label="Sign Up" type={ButtonType.DARK} />
           <div className="flex justify-center mt-3">
@@ -106,12 +154,18 @@ const Register: NextPage = () => {
             <i className="las la-chevron-circle-right" />
           </motion.div>
         </Link>
-        <div className="flex justify-center">
+        <motion.div className="flex justify-center" exit="exit" variants={useDisplayNoneOnExit()}>
           <p className="font-light text-5xl">Sign Up</p>
-        </div>
-        <div className="absolute bottom-10">
-          <Image src="/assets/register.svg" alt="Register illustration" width={550} height={550} />
-        </div>
+        </motion.div>
+        <motion.div className="absolute bottom-10" exit="exit" variants={useDisplayNoneOnExit()}>
+          <Image
+            src="/assets/register.svg"
+            alt="Register illustration"
+            width={550}
+            height={550}
+            priority
+          />
+        </motion.div>
       </motion.div>
     </div>
   );

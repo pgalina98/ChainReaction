@@ -16,6 +16,7 @@ import {
   useRotateAndScaleVariants,
   useFadeInOutVariants,
   useBounce,
+  useDisplayNoneOnExit,
 } from "@animations";
 
 import styles from "./login.module.scss";
@@ -23,7 +24,7 @@ import styles from "./login.module.scss";
 const Login: NextPage = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
 
-  const handleTogglePasswordVisibilityClick = () => {
+  const handleTogglePasswordVisibilityClick = (): void => {
     setIsPasswordVisible(!isPasswordVisible);
   };
 
@@ -47,12 +48,18 @@ const Login: NextPage = () => {
             <i className="las la-chevron-circle-right" />
           </motion.div>
         </Link>
-        <div className="flex justify-center">
+        <motion.div className="flex justify-center" exit="exit" variants={useDisplayNoneOnExit()}>
           <p className="font-light text-5xl">Sign In</p>
-        </div>
-        <div className="absolute bottom-10">
-          <Image src="/assets/login.svg" alt="Login illustration" width={550} height={550} />
-        </div>
+        </motion.div>
+        <motion.div className="absolute bottom-10" exit="exit" variants={useDisplayNoneOnExit()}>
+          <Image
+            src="/assets/login.svg"
+            alt="Login illustration"
+            width={550}
+            height={550}
+            priority
+          />
+        </motion.div>
       </motion.div>
       <motion.div
         initial="initial"
@@ -62,8 +69,14 @@ const Login: NextPage = () => {
         className="ml-40 mr-40 mt-28"
       >
         <Card className="w-full">
-          <Input label="Username" placeholder="Enter username" prependIcon="lar la-user" />
           <Input
+            id="username"
+            label="Username"
+            placeholder="Enter username"
+            prependIcon="lar la-user"
+          />
+          <Input
+            id="password"
             label="Password"
             placeholder="Enter password"
             type={InptType.PASSWORD}

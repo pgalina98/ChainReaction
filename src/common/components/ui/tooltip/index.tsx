@@ -5,7 +5,7 @@ interface TooltipProps {
   children: React.ReactNode;
 }
 
-export const Tooltip = ({ message, children }: TooltipProps) => {
+const Tooltip = ({ message, children }: TooltipProps) => {
   return (
     <div className="relative flex flex-col items-center group">
       {children}
@@ -18,3 +18,5 @@ export const Tooltip = ({ message, children }: TooltipProps) => {
     </div>
   );
 };
+
+export default Tooltip;

@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { Tooltip } from "@components";
+
+import { ValidationResult } from "@features/register/types/validation-result.type";
 
 import { InptType } from "@enums/input-type";
 
 import styles from "./input.module.scss";
 
 interface InputProps {
+  id: string;
   className?: string;
   label?: string;
   type?: InptType;
@@ -16,12 +19,14 @@ interface InputProps {
   appendIconClicable?: boolean;
   onAppendIconClick?: any;
   appendIconActive?: boolean;
+  onChange?: any;
+  validator?: any;
+  additionalValidationData?: any;
   isDisabled?: boolean;
-  isInvalid?: boolean;
-  error?: string;
 }
 
 const Input = ({
+  id,
   className,
   label,
   type = InptType.TEXT,
@@ -31,10 +36,34 @@ const Input = ({
   appendIconClicable = false,
   onAppendIconClick,
   appendIconActive = false,
+  onChange,
+  validator,
+  additionalValidationData = null,
   isDisabled = false,
-  isInvalid = false,
-  error = "",
 }: InputProps) => {
+  const [isInvalid, setIsInvalid] = useState<boolean>(false);
+  const [error, setError] = useState<string>();
+
+  const handleInputFieldChange = (value: string): void => {
+    let valid: ValidationResult;
+
+    if (additionalValidationData) {
+      valid = validator(value, additionalValidationData);
+    } else {
+      valid = validator(value);
+    }
+
+    if (valid.isValid) {
+      setIsInvalid(false);
+      if (onChange) {
+        onChange(value);
+      }
+    } else {
+      setIsInvalid(true);
+      setError(valid.error);
+    }
+  };
+
   return (
     <div className={className}>
       <label
@@ -52,7 +81,7 @@ const Input = ({
           </div>
         )}
         <input
-          id={`inputField_${label}`}
+          id={`inputField_${id}`}
           type={type === InptType.PASSWORD && !appendIconActive ? "password" : "text"}
           className={`focus:ring-gray-500 focus:border-gray-500 block w-full ${
             prependIcon && "pl-10"
@@ -60,33 +89,34 @@ const Input = ({
             isInvalid && styles.invalid_input
           }`}
           placeholder={placeholder || ""}
+          onChange={({ target: { value } }) => handleInputFieldChange(value)}
           disabled={isDisabled}
         />
-        {appendIcon && (
-          <div
-            className={`absolute inset-y-0 right-0 pr-3 flex items-center mt-1 ${
-              appendIconClicable ? "cursor-pointer" : "pointer-events-none"
-            } ${styles.input}`}
-          >
-            <span className="text-gray-500" onClick={onAppendIconClick}>
-              <i className={appendIcon} style={{ fontSize: "1.3rem" }} />
-            </span>
-          </div>
-        )}
-        {isInvalid && (
-          <div
-            className={`absolute inset-y-0 right-0 pr-3 flex items-center mt-1 cursor-pointer ${styles.input}`}
-          >
-            <Tooltip message={error}>
-              <span className="text-gray-500" onClick={() => console.log("abcdef")}>
-                <i
-                  className={`las la-exclamation-circle ${styles.invalid_icon}`}
-                  style={{ fontSize: "1.3rem" }}
-                />
+        <div className="absolute inset-y-0 right-0 pr-3 flex">
+          {isInvalid && (
+            <div className={`flex items-center mt-1 mr-2 cursor-pointer ${styles.input}`}>
+              <Tooltip message={error!}>
+                <span className="text-gray-500">
+                  <i
+                    className={`las la-exclamation-circle ${styles.invalid_icon}`}
+                    style={{ fontSize: "1.3rem" }}
+                  />
+                </span>
+              </Tooltip>
+            </div>
+          )}
+          {appendIcon && (
+            <div
+              className={`flex items-center mt-1 ${
+                appendIconClicable ? "cursor-pointer" : "pointer-events-none"
+              } ${styles.input}`}
+            >
+              <span className="text-gray-500" onClick={onAppendIconClick}>
+                <i className={appendIcon} style={{ fontSize: "1.3rem" }} />
               </span>
-            </Tooltip>
-          </div>
-        )}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
