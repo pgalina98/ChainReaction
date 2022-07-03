@@ -94,7 +94,7 @@ const Input = ({
         />
         <div className="absolute inset-y-0 right-0 pr-3 flex">
           {isInvalid && (
-            <div className={`flex items-center mt-1 mr-2 cursor-pointer ${styles.input}`}>
+            <div className={`flex items-center mt-1 cursor-pointer ${styles.input}`}>
               <Tooltip message={error!}>
                 <span className="text-gray-500">
                   <i
@@ -107,7 +107,7 @@ const Input = ({
           )}
           {appendIcon && (
             <div
-              className={`flex items-center mt-1 ${
+              className={`flex items-center mt-1 ml-2 ${
                 appendIconClicable ? "cursor-pointer" : "pointer-events-none"
               } ${styles.input}`}
             >
