@@ -37,6 +37,7 @@ const Register: NextPage = () => {
       <motion.div
         initial="initial"
         animate="animate"
+        exit="exit"
         variants={useFadeInOutVariants({ duration: 0.5, delay: 0.6 })}
         className="ml-40 mr-40 mt-12"
       >
@@ -102,7 +103,7 @@ const Register: NextPage = () => {
             variants={useRotateAndScaleVariants()}
             className={`absolute left-0 -ml-5 p-2 text-4xl rounded-full flex justify-center content-center ${styles.icon_arrow}`}
           >
-            <i className="las la-chevron-circle-left" />
+            <i className="las la-chevron-circle-right" />
           </motion.div>
         </Link>
         <div className="flex justify-center">
