@@ -6,10 +6,10 @@ import { NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
-import { Button, Card, Icon, Input } from "common/components";
+import { Button, Card, Icon, Input } from "@components";
 
-import { InptType } from "common/types/input-type";
-import { ButtonType } from "common/types/button-type";
+import { InptType } from "@enums/input-type";
+import { ButtonType } from "@enums/button-type";
 
 import {
   useFadeInOutLeftVariants,

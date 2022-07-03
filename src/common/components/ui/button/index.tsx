@@ -1,7 +1,8 @@
 import React from "react";
 
-import { ButtonType } from "common/types/button-type";
-import Loader from "../loader";
+import { Loader } from "@components";
+
+import { ButtonType } from "@enums/button-type";
 
 interface ButtonProps {
   className?: string;
@@ -35,9 +36,7 @@ const Button = ({
         } text-white`;
 
       case ButtonType.DANGER:
-        return `border-red-500 bg-red-500 ${
-          !isButtonDisabled() && "hover:bg-red-600"
-        } text-white`;
+        return `border-red-500 bg-red-500 ${!isButtonDisabled() && "hover:bg-red-600"} text-white`;
 
       case ButtonType.WARNING:
         return `border-yellow-500 bg-yellow-500 ${

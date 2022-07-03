@@ -1,12 +1,18 @@
 {
   "compilerOptions": {
     "baseUrl": "src",
+    "paths": {
+      "@components": ["common/components/index.jsx"],
+      "@animations": ["common/animations/index.jsx"],
+      "@constants": ["common/constants/index.jsx"],
+      "@enums/*": ["common/enums/*"],
+      "@features/*": ["common/features/*"],
+      "@models/*": ["common/models/*"],
+      "@styles/*": ["common/styles/*"],
+      "@utils/*": ["common/utils/*"]
+    },
     "target": "es6",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -24,14 +30,6 @@
     "suppressImplicitAnyIndexErrors": true,
     "allowSyntheticDefaultImports": true
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.js",
-    "**/*.jsx",
-    "**/*.ts",
-    "**/*.tsx"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["next-env.d.ts", "**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
 }

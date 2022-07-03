@@ -5,7 +5,7 @@ import type { AppProps } from "next/app";
 
 import { AnimatePresence } from "framer-motion";
 
-import { Header } from "common/components";
+import { Header } from "@components";
 
 import "common/styles/globals.scss";
 

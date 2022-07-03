@@ -1,8 +1,8 @@
 import React from "react";
 
-import { InptType } from "common/types/input-type";
+import { Tooltip } from "@components";
 
-import { Tooltip } from "../tooltip";
+import { InptType } from "@enums/input-type";
 
 import styles from "./input.module.scss";
 
@@ -53,11 +53,7 @@ const Input = ({
         )}
         <input
           id={`inputField_${label}`}
-          type={
-            type === InptType.PASSWORD && !appendIconActive
-              ? "password"
-              : "text"
-          }
+          type={type === InptType.PASSWORD && !appendIconActive ? "password" : "text"}
           className={`focus:ring-gray-500 focus:border-gray-500 block w-full ${
             prependIcon && "pl-10"
           } pr-12 sm:text-sm border-gray-300 rounded-md ${styles.input} ${
@@ -82,10 +78,7 @@ const Input = ({
             className={`absolute inset-y-0 right-0 pr-3 flex items-center mt-1 cursor-pointer ${styles.input}`}
           >
             <Tooltip message={error}>
-              <span
-                className="text-gray-500"
-                onClick={() => console.log("abcdef")}
-              >
+              <span className="text-gray-500" onClick={() => console.log("abcdef")}>
                 <i
                   className={`las la-exclamation-circle ${styles.invalid_icon}`}
                   style={{ fontSize: "1.3rem" }}

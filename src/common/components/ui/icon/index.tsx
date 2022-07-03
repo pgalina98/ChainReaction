@@ -1,6 +1,6 @@
 import React from "react";
 
-import { IconColor } from "common/types/icon-color";
+import { IconColor } from "@enums/icon-color";
 
 import styles from "./icon.module.scss";
 
@@ -32,9 +32,7 @@ const Icon = ({ className, icon, color, hoverable = false }: IconProps) => {
     <div
       className={`${className} ml-4 mr-4 mt-2 mb-2 h-8 w-8 rounded-lg flex justify-center items-center ${
         styles[determineIconColor()]
-      } ${hoverable && "cursor-pointer"} ${
-        hoverable && `${styles.icon_container}`
-      }`}
+      } ${hoverable && "cursor-pointer"} ${hoverable && `${styles.icon_container}`}`}
     >
       <i className={`${icon} ${styles.icon}`} />
     </div>
