@@ -16,7 +16,7 @@ import {
   useRotateAndScaleVariants,
   useFadeInOutVariants,
   useBounce,
-} from "common/animations";
+} from "@animations";
 
 import styles from "./register.module.scss";
 
@@ -38,7 +38,7 @@ const Register: NextPage = () => {
         initial="initial"
         animate="animate"
         exit="exit"
-        variants={useFadeInOutVariants({ duration: 0.5, delay: 0.6 })}
+        variants={useFadeInOutVariants({ duration: 0.5, delay: 0.6, exit: { opacity: 0 } })}
         className="ml-40 mr-40 mt-12"
       >
         <Card className="w-full">
