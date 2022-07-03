@@ -16,7 +16,7 @@ import {
   useRotateAndScaleVariants,
   useFadeInOutVariants,
   useBounce,
-} from "common/animations";
+} from "@animations";
 
 import styles from "./login.module.scss";
 
