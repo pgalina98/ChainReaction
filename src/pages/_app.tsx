@@ -5,8 +5,6 @@ import type { AppProps } from "next/app";
 
 import { AnimatePresence } from "framer-motion";
 
-import { Header } from "@components";
-
 import "common/styles/globals.scss";
 
 function App({ Component, pageProps, router }: AppProps) {
@@ -16,7 +14,6 @@ function App({ Component, pageProps, router }: AppProps) {
         <title>ChainReaction</title>
       </Head>
 
-      <Header />
       <AnimatePresence exitBeforeEnter>
         <Component {...pageProps} key={router.pathname} />
       </AnimatePresence>

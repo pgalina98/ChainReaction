@@ -4,3 +4,17 @@
   height: 64px;
   background-color: $primary;
 }
+
+.logo_img_container {
+  background-color: $blue;
+  padding: 4px;
+  padding-left: 24px;
+  padding-right: 10px;
+}
+
+.logo_text_container {
+  height: 64px;
+  background-color: $blue;
+  padding-left: 10px;
+  padding-right: 10px;
+}
