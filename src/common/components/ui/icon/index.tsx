@@ -30,7 +30,7 @@ const Icon = ({ className, icon, color, hoverable = false }: IconProps) => {
 
   return (
     <div
-      className={`${className} ml-4 mr-4 mt-2 mb-2 h-9 w-9 rounded-lg flex justify-center items-center ${
+      className={`${className} ml-4 mr-4 mt-2 mb-2 h-8 w-8 rounded-lg flex justify-center items-center ${
         styles[determineIconColor()]
       } ${hoverable && "cursor-pointer"} ${hoverable && `${styles.icon_container}`}`}
     >
