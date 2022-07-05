@@ -68,7 +68,7 @@ const Login: NextPage = () => {
           animate="animate"
           exit="exit"
           variants={useFadeInOutVariants({ duration: 0.5, delay: 0.6 })}
-          className="ml-40 mr-40 mt-28"
+          className={`${styles.w_60_percentage} m-auto mt-24`}
         >
           <Card className="w-full p-6">
             <Input

@@ -70,13 +70,13 @@ const Register: NextPage = () => {
           animate="animate"
           exit="exit"
           variants={useFadeInOutVariants({ duration: 0.5, delay: 0.6, exit: { opacity: 0 } })}
-          className="ml-40 mr-40 mt-10"
+          className={`${styles.w_60_percentage} m-auto mt-10`}
         >
           <Card className="w-full p-6">
             <Input
-              id="fullname"
-              label="Fullname"
-              placeholder="Enter fullname"
+              id="full_name"
+              label="Full name"
+              placeholder="Enter full name"
               prependIcon="las la-id-card"
               onChange={handleFullnameChange}
               validator={useValidateFullname}
