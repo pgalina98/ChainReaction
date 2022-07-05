@@ -70,7 +70,7 @@ const Register: NextPage = () => {
           animate="animate"
           exit="exit"
           variants={useFadeInOutVariants({ duration: 0.5, delay: 0.6, exit: { opacity: 0 } })}
-          className={`${styles.w_60_percentage} m-auto mt-10`}
+          className={`${styles.w_60_percentage} m-auto mt-12`}
         >
           <Card className="w-full p-6">
             <Input
