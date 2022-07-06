@@ -6,10 +6,11 @@ import { NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
-import { Button, Card, Header, Icon, Input } from "@components";
+import { Button, Card, Header, Icon, Input, Toast } from "@components";
 
 import { InptType } from "@enums/input-type";
 import { ButtonType } from "@enums/button-type";
+import { ToastType } from "@enums/toast-type";
 
 import {
   useFadeInOutLeftVariants,
@@ -31,6 +32,7 @@ const Login: NextPage = () => {
   return (
     <div>
       <Header animated />
+      <Toast type={ToastType.SUCCESS} message={"asdads"} positionX={"right"} positionY={"top"} />
       <div className={`${styles.h_full} grid grid-cols-2 gap-4`}>
         <motion.div
           initial="initial"

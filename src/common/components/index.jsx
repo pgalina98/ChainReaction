@@ -6,3 +6,4 @@ export { default as Button } from "common/components/ui/button";
 export { default as Loader } from "common/components/ui/loader";
 export { default as Icon } from "common/components/ui/icon";
 export { default as Tooltip } from "common/components/ui/tooltip";
+export { default as Toast } from "common/components/ui/toast";
