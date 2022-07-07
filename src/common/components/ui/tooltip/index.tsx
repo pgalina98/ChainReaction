@@ -5,6 +5,7 @@ interface TooltipProps {
   children: React.ReactNode;
 }
 
+/* TODO ->  PropsWithChildren<TooltipProps> */
 const Tooltip = ({ message, children }: TooltipProps) => {
   return (
     <div className="relative flex flex-col items-center group">
