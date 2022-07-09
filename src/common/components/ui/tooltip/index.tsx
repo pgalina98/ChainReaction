@@ -1,12 +1,11 @@
-import React from "react";
+import React, { PropsWithChildren } from "react";
 
 interface TooltipProps {
   message: string;
   children: React.ReactNode;
 }
 
-/* TODO ->  PropsWithChildren<TooltipProps> */
-const Tooltip = ({ message, children }: TooltipProps) => {
+const Tooltip = ({ message, children }: PropsWithChildren<TooltipProps>) => {
   return (
     <div className="relative flex flex-col items-center group">
       {children}
