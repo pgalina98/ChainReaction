@@ -11,7 +11,8 @@
       "@models/*": ["common/models/*"],
       "@styles/*": ["common/styles/*"],
       "@utils/*": ["common/utils/*"],
-      "@shared/*": ["common/shared/*"]
+      "@shared/*": ["common/shared/*"],
+      "@config/*": ["config/*"]
     },
     "target": "es6",
     "lib": ["dom", "dom.iterable", "esnext"],
