@@ -20,7 +20,7 @@ export const useToast = ({ duration = 2000 }: useToastProps): [boolean, any] => 
     }, duration);
 
     return () => clearTimeout(timer);
-  }, [isShown]);
+  }, [isShown, duration]);
 
   return [isShown, setIsShown];
 };
