@@ -3,6 +3,7 @@
     "baseUrl": "src",
     "paths": {
       "@components": ["common/components/index.jsx"],
+      "@components/hooks/*": ["common/components/hooks/*"],
       "@animations": ["common/animations/index.jsx"],
       "@constants/*": ["common/constants/*"],
       "@enums/*": ["common/enums/*"],
