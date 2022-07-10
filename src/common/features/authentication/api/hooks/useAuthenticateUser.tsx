@@ -1,10 +1,8 @@
 import { useMutation, UseMutationResult } from "react-query";
-import { AxiosResponse } from "axios";
 
 import User from "@models/user.model";
-import JwtToken from "@models/jwt-token.model";
 
-import { authenticateUser } from "../queries";
+import { authenticateUser } from "../queries/index";
 
 import { AUTHENTICATE_USER } from "../queries/constants";
 

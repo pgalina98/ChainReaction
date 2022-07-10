@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
 
+import { useDispatch } from "react-redux";
+
 import { motion } from "framer-motion";
 
 import { NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
+
+import jwtDecode from "jwt-decode";
 
 import { Button, Card, Header, Icon, Input, Toast } from "@components";
 import { useToast } from "@components/hooks/useToast";
@@ -17,6 +21,7 @@ import { InptType } from "@enums/input-type";
 import { ButtonType } from "@enums/button-type";
 import { ToastType } from "@enums/toast-type";
 import { LOCAL_STORAGE_KEYS } from "@enums/local-storage-keys";
+import { getAuthorityByKey } from "@enums/authority";
 
 import {
   useFadeInOutLeftVariants,
@@ -26,16 +31,20 @@ import {
   useDisplayNoneOnExit,
 } from "@animations";
 
-import { useValidatePassword, useValidateUsername } from "@features/login/validators";
+import { useValidatePassword, useValidateUsername } from "@features/authentication/validators";
 
 import { isEmpty } from "@utils/common";
 import { setValue } from "@utils/local-storage";
 
-import { useAuthenticateUser } from "@features/login";
+import useAuthenticateUser from "@features/authentication/api/hooks/useAuthenticateUser";
+import { login } from "@features/authentication/authentication-slice";
+
+import mapJwtClaimsToUserObject from "@mappers/mapJwtClaimsToUserObject";
 
 import styles from "./login.module.scss";
 
 const Login: NextPage = () => {
+  const dispatch = useDispatch();
   const router = useRouter();
   const [isShown, setIsShown] = useToast({ duration: 4000 });
 
@@ -53,9 +62,15 @@ const Login: NextPage = () => {
       );
       setValue(LOCAL_STORAGE_KEYS.REFRESH_TOKEN, (data.data as JwtToken).refreshToken);
 
+      const jwtClaims: any = jwtDecode((data.data as JwtToken).authenticationToken);
+
+      const user: User = mapJwtClaimsToUserObject(jwtClaims);
+
+      dispatch(login({ ...user, authority: getAuthorityByKey(jwtClaims["authorities"]) }));
+
       router.push("/");
     }
-  }, [data, router]);
+  }, [data]);
 
   useEffect(() => {
     setIsShown(isError);

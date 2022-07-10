@@ -1,4 +1,4 @@
-import { ValidationResult } from "@shared/types/validation-result.type";
+import { ValidationResult } from "common/types/validation-result.type";
 
 import { messages } from "@constants/messages";
 import { isEmpty } from "@utils/common";

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { Tooltip } from "@components";
 
-import { ValidationResult } from "@shared/types/validation-result.type";
+import { ValidationResult } from "common/types/validation-result.type";
 
 import { InptType } from "@enums/input-type";
 

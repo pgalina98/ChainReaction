@@ -12,7 +12,9 @@
       "@styles/*": ["common/styles/*"],
       "@utils/*": ["common/utils/*"],
       "@shared/*": ["common/shared/*"],
-      "@config/*": ["config/*"]
+      "@config/*": ["config/*"],
+      "@store/*": ["common/store/*"],
+      "@mappers/*": ["common/mappers/*"]
     },
     "target": "es6",
     "lib": ["dom", "dom.iterable", "esnext"],
