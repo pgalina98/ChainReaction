@@ -39,7 +39,7 @@ const ComponentWrapper = ({ children }) => {
 
       dispatch(login({ ...user, authority: getAuthorityByKey(jwtClaims["authorities"]) }));
     }
-  }, []);
+  }, [dispatch]);
 
   return <React.Fragment>{children}</React.Fragment>;
 };

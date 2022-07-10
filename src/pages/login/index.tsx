@@ -70,7 +70,7 @@ const Login: NextPage = () => {
 
       router.push("/");
     }
-  }, [data]);
+  }, [data, dispatch, router]);
 
   useEffect(() => {
     setIsShown(isError);
