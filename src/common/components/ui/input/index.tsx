@@ -20,6 +20,7 @@ interface InputProps {
   onAppendIconClick?: any;
   appendIconActive?: boolean;
   onChange?: any;
+  validate?: boolean;
   validator?: any;
   additionalValidationData?: any;
   isDisabled?: boolean;
@@ -37,6 +38,7 @@ const Input = ({
   onAppendIconClick,
   appendIconActive = false,
   onChange,
+  validate = false,
   validator,
   additionalValidationData = null,
   isDisabled = false,
@@ -44,24 +46,28 @@ const Input = ({
   const [isInvalid, setIsInvalid] = useState<boolean>(false);
   const [error, setError] = useState<string>();
 
-  const handleInputFieldChange = (value: string): void => {
-    let valid: ValidationResult;
+  const onInputFieldChange = (value: string): void => {
+    if (validate) {
+      let valid: ValidationResult;
 
-    if (additionalValidationData) {
-      valid = validator(value, additionalValidationData);
-    } else {
-      valid = validator(value);
-    }
-
-    if (valid.isValid) {
-      setIsInvalid(false);
-      if (onChange) {
-        onChange(value);
+      if (additionalValidationData) {
+        valid = validator(value, additionalValidationData);
+      } else {
+        valid = validator(value);
       }
-    } else {
-      setIsInvalid(true);
-      setError(valid.error);
+
+      if (valid.isValid) {
+        setIsInvalid(false);
+        if (onChange) {
+          onChange(value);
+        }
+      } else {
+        setIsInvalid(true);
+        setError(valid.error);
+      }
     }
+
+    onChange(value);
   };
 
   return (
@@ -89,7 +95,7 @@ const Input = ({
             isInvalid && styles.invalid_input
           }`}
           placeholder={placeholder || ""}
-          onChange={({ target: { value } }) => handleInputFieldChange(value)}
+          onChange={({ target: { value } }) => onInputFieldChange(value)}
           disabled={isDisabled}
         />
         <div className="absolute inset-y-0 right-0 pr-3 flex">

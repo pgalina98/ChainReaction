@@ -5,15 +5,9 @@ import type { AppProps } from "next/app";
 
 import { AnimatePresence } from "framer-motion";
 
-import setupAxiosInterceptors from "@config/axios-interceptor";
-
 import { QueryClient, QueryClientProvider } from "react-query";
 
 import "common/styles/globals.scss";
-
-const initializeConfiguration = () => {
-  setupAxiosInterceptors();
-};
 
 const queryClient = new QueryClient();
 

@@ -32,34 +32,36 @@ import {
 import styles from "./register.module.scss";
 
 const Register: NextPage = () => {
+  const [user, setUser] = useState<User>(createEmptyUserObject());
+
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState<boolean>(false);
 
-  const [user, setUser] = useState<User>(createEmptyUserObject());
-
-  const handleTogglePasswordVisibilityClick = (): void => {
-    setIsPasswordVisible(!isPasswordVisible);
-  };
-
-  const handleToggleConfirmationPasswordVisibilityClick = (): void => {
-    setIsConfirmPasswordVisible(!isConfirmPasswordVisible);
-  };
-
-  const handleFullnameChange = (fullname: string): void => {
+  const onFullnameChange = (fullname: string): void => {
     setUser({ ...user, fullname });
   };
 
-  const handleUsernameChange = (username: string): void => {
+  const onUsernameChange = (username: string): void => {
     setUser({ ...user, username });
   };
 
-  const handleEmailChange = (email: string): void => {
+  const onEmailChange = (email: string): void => {
     setUser({ ...user, email });
   };
 
-  const handlePasswordChange = (password: string): void => {
+  const onPasswordChange = (password: string): void => {
     setUser({ ...user, password });
   };
+
+  const onTogglePasswordVisibilityClick = (): void => {
+    setIsPasswordVisible(!isPasswordVisible);
+  };
+
+  const onToggleConfirmationPasswordVisibilityClick = (): void => {
+    setIsConfirmPasswordVisible(!isConfirmPasswordVisible);
+  };
+
+  const onSignUpButtonClick = (): void => {};
 
   return (
     <div>
@@ -78,25 +80,28 @@ const Register: NextPage = () => {
               label="Full name"
               placeholder="Enter full name"
               prependIcon="las la-id-card"
-              onChange={handleFullnameChange}
+              onChange={onFullnameChange}
+              validate
               validator={useValidateFullname}
             />
             <Input
               id="username"
               label="Username"
               placeholder="Enter username"
-              prependIcon="lar la-user"
               className="mt-4"
-              onChange={handleUsernameChange}
+              prependIcon="lar la-user"
+              onChange={onUsernameChange}
+              validate
               validator={useValidateUsername}
             />
             <Input
               id="email"
               label="E-mail"
               placeholder="Enter e-mail"
-              prependIcon="lar la-envelope"
               className="mt-4"
-              onChange={handleEmailChange}
+              prependIcon="lar la-envelope"
+              onChange={onEmailChange}
+              validate
               validator={useValidateEmail}
             />
             <Input
@@ -104,13 +109,14 @@ const Register: NextPage = () => {
               label="Password"
               placeholder="Enter password"
               type={InptType.PASSWORD}
+              className="mt-4"
               prependIcon="las la-unlock-alt"
               appendIcon={isPasswordVisible ? "lar la-eye" : "lar la-eye-slash"}
               appendIconClicable
-              onAppendIconClick={() => handleTogglePasswordVisibilityClick()}
+              onAppendIconClick={() => onTogglePasswordVisibilityClick()}
               appendIconActive={isPasswordVisible}
-              className="mt-4"
-              onChange={handlePasswordChange}
+              onChange={onPasswordChange}
+              validate
               validator={useValidatePassword}
             />
             <Input
@@ -118,16 +124,22 @@ const Register: NextPage = () => {
               label="Password confirmation"
               placeholder="Confirm password"
               type={InptType.PASSWORD}
+              className="mt-4"
               prependIcon="las la-unlock-alt"
               appendIcon={isConfirmPasswordVisible ? "lar la-eye" : "lar la-eye-slash"}
               appendIconClicable
-              onAppendIconClick={() => handleToggleConfirmationPasswordVisibilityClick()}
+              onAppendIconClick={() => onToggleConfirmationPasswordVisibilityClick()}
               appendIconActive={isConfirmPasswordVisible}
-              className="mt-4"
+              validate
               validator={useValidateConfirmationPassword}
               additionalValidationData={user.password}
             />
-            <Button className="mt-4 w-full" label="Sign Up" type={ButtonType.DARK} />
+            <Button
+              className="mt-4 w-full"
+              label="Sign Up"
+              type={ButtonType.DARK}
+              onClick={() => onSignUpButtonClick()}
+            />
             <div className="flex justify-center mt-3">
               <p>{"Already have an account?"}</p>
               <Link href="/login">

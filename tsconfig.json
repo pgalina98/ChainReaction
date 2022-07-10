@@ -2,9 +2,9 @@
   "compilerOptions": {
     "baseUrl": "src",
     "paths": {
-      "@components": ["common/components/index.jsx"],
+      "@components": ["common/components/index.ts"],
       "@components/hooks/*": ["common/components/hooks/*"],
-      "@animations": ["common/animations/index.jsx"],
+      "@animations": ["common/animations/index.ts"],
       "@constants/*": ["common/constants/*"],
       "@enums/*": ["common/enums/*"],
       "@features/*": ["common/features/*"],

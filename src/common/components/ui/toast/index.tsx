@@ -4,8 +4,6 @@ import { motion } from "framer-motion";
 
 import { ToastType } from "@enums/toast-type";
 
-import { useToast } from "common/components/hooks/useToast";
-
 import { useFadeInOutRightVariants } from "@animations";
 
 interface ToastProps {
@@ -81,6 +79,7 @@ const renderDangerToast = (message: string, onCloseToastButtonClick: any) => {
         className="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700"
         data-dismiss-target="#toast-danger"
         aria-label="Close"
+        onClick={onCloseToastButtonClick}
       >
         <span className="sr-only">Close</span>
         <svg
@@ -123,6 +122,7 @@ const renderWarningToast = (message: string, onCloseToastButtonClick: any) => {
         className="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700"
         data-dismiss-target="#toast-warning"
         aria-label="Close"
+        onClick={onCloseToastButtonClick}
       >
         <span className="sr-only">Close</span>
         <svg
@@ -156,8 +156,9 @@ const Toast = ({
 
   return (
     <motion.div
+      key={isShown.toString()}
       initial="initial"
-      animate={isShown ? "animate" : { opacity: 0 }}
+      animate={isShown && "animate"}
       variants={useFadeInOutRightVariants({ duration: 0.2 })}
       className={`flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800 absolute z-10 ${positionX} ${positionY}`}
       role="alert"

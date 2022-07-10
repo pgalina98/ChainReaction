@@ -1,12 +1,8 @@
-import axios from "axios";
+import { AxiosInstance } from "axios";
 
 import { getValueByKey } from "@utils/local-storage";
 
-const TIMEOUT = 1 * 60 * 1000;
-axios.defaults.timeout = TIMEOUT;
-axios.defaults.baseURL = process.env.REACT_APP_API_URL;
-
-const setupAxiosInterceptors = () => {
+const setupAxiosInterceptors = (instance: AxiosInstance): AxiosInstance => {
   const onRequestSuccess = (config) => {
     const token = getValueByKey("authenticationToken");
     if (token) {
@@ -16,12 +12,13 @@ const setupAxiosInterceptors = () => {
   };
   const onResponseSuccess = (response) => response;
   const onResponseError = (error) => {
-    const status = error.status || (error.response ? error.response.status : 0);
-
     return Promise.reject(error);
   };
-  axios.interceptors.request.use(onRequestSuccess);
-  axios.interceptors.response.use(onResponseSuccess, onResponseError);
+
+  instance.interceptors.request.use(onRequestSuccess);
+  instance.interceptors.response.use(onResponseSuccess, onResponseError);
+
+  return instance;
 };
 
 export default setupAxiosInterceptors;
