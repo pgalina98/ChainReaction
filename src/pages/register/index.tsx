@@ -5,8 +5,10 @@ import { motion } from "framer-motion";
 import { NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 import { Button, Card, Header, Input } from "@components";
+import { useToast } from "@components/hooks/useToast";
 
 import { InptType } from "@enums/input-type";
 import { ButtonType } from "@enums/button-type";
@@ -27,15 +29,32 @@ import {
   useValidateEmail,
   useValidatePassword,
   useValidateConfirmationPassword,
-} from "@features/register/validators";
+} from "@features/registration/validators";
+
+import { isEmpty } from "@utils/common";
+
+import useRegisterUser from "@features/registration/api/hooks/useRegisterUser";
 
 import styles from "./register.module.scss";
 
 const Register: NextPage = () => {
+  const router = useRouter();
+  const [isShown, setIsShown] = useToast({ duration: 4000 });
+
   const [user, setUser] = useState<User>(createEmptyUserObject());
 
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState<boolean>(false);
+
+  const { isLoading, isError, data, error, mutate } = useRegisterUser(user);
+
+  const onTogglePasswordVisibilityClick = (): void => {
+    setIsPasswordVisible(!isPasswordVisible);
+  };
+
+  const onToggleConfirmationPasswordVisibilityClick = (): void => {
+    setIsConfirmPasswordVisible(!isConfirmPasswordVisible);
+  };
 
   const onFullnameChange = (fullname: string): void => {
     setUser({ ...user, fullname });
@@ -53,15 +72,19 @@ const Register: NextPage = () => {
     setUser({ ...user, password });
   };
 
-  const onTogglePasswordVisibilityClick = (): void => {
-    setIsPasswordVisible(!isPasswordVisible);
+  const isSignUpButtonDisabled = (): boolean => {
+    return (
+      isEmpty(user.fullname) ||
+      isEmpty(user.username) ||
+      isEmpty(user.email) ||
+      isEmpty(user.password) ||
+      isLoading
+    );
   };
 
-  const onToggleConfirmationPasswordVisibilityClick = (): void => {
-    setIsConfirmPasswordVisible(!isConfirmPasswordVisible);
+  const onSignUpButtonClick = (): void => {
+    mutate();
   };
-
-  const onSignUpButtonClick = (): void => {};
 
   return (
     <div>
@@ -139,6 +162,8 @@ const Register: NextPage = () => {
               label="Sign Up"
               type={ButtonType.DARK}
               onClick={() => onSignUpButtonClick()}
+              isLoading={false}
+              isDisabled={isSignUpButtonDisabled()}
             />
             <div className="flex justify-center mt-3">
               <p>{"Already have an account?"}</p>

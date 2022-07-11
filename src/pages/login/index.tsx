@@ -92,7 +92,7 @@ const Login: NextPage = () => {
     return isEmpty(user.username) || isEmpty(user.password) || isLoading;
   };
 
-  const onSignInButtonClick = () => {
+  const onSignInButtonClick = (): void => {
     mutate();
   };
 

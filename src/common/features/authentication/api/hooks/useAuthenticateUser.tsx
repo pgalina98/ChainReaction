@@ -1,4 +1,4 @@
-import { useMutation, UseMutationResult } from "react-query";
+import { useMutation } from "react-query";
 
 import User from "@models/user.model";
 

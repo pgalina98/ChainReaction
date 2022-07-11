@@ -67,7 +67,9 @@ const Input = ({
       }
     }
 
-    onChange(value);
+    if (!!onChange) {
+      onChange(value);
+    }
   };
 
   return (
