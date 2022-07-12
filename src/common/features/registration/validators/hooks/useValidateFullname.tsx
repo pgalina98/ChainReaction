@@ -3,7 +3,7 @@ import { ValidationResult } from "common/types/validation-result.type";
 import { messages } from "@constants/messages";
 import { isEmpty } from "@utils/common";
 
-const REGEX_FULLNAME_PATTERN: RegExp = /^[a-zA-Z-]+(?:\s[a-zA-Z-]+)+$/;
+const REGEX_FULLNAME_PATTERN: RegExp = /^[a-zA-ZŽžČčĆćĐđŠš-]+(?:\s[a-zA-ZŽžČčĆćĐđŠš-]+)+$/;
 
 const useValidateFullname = (fullname: string): ValidationResult => {
   if (isEmpty(fullname)) {
