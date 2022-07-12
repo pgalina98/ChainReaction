@@ -43,6 +43,8 @@ import { login } from "@features/authentication/authentication-slice";
 
 import mapJwtClaimsToUserObject from "@mappers/mapJwtClaimsToUserObject";
 
+import notAuthenticatedBoundaryRoute from "@components/hoc/route-guards/notAuthenticatedBoundaryRoute";
+
 import styles from "./login.module.scss";
 
 const Login: NextPage = () => {
@@ -226,4 +228,4 @@ const Login: NextPage = () => {
   );
 };
 
-export default Login;
+export default notAuthenticatedBoundaryRoute(Login);

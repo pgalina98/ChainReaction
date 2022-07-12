@@ -38,6 +38,8 @@ import { isEmpty } from "@utils/common";
 
 import useRegisterUser from "@features/registration/api/hooks/useRegisterUser";
 
+import notAuthenticatedBoundaryRoute from "@components/hoc/route-guards/notAuthenticatedBoundaryRoute";
+
 import styles from "./register.module.scss";
 
 const Register: NextPage = () => {
@@ -269,4 +271,4 @@ const Register: NextPage = () => {
   );
 };
 
-export default Register;
+export default notAuthenticatedBoundaryRoute(Register);

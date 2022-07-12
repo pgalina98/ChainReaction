@@ -1,18 +1,19 @@
 import React from "react";
 
-import { connect, useSelector } from "react-redux";
-import { RootState } from "@store/index";
-
 import type { NextPage } from "next";
 
-const Home: NextPage = (props) => {
-  return <></>;
+import { Header } from "@components";
+
+import { RootState } from "@store/index";
+
+import authenticatedBoundaryRoute from "@components/hoc/route-guards/authenticatedBoundaryRoute";
+
+const Home: NextPage = () => {
+  return (
+    <>
+      <Header animated />
+    </>
+  );
 };
 
-const mapStateToProps = ({ authentication }: RootState) => ({
-  authentication,
-});
-
-type StateProps = ReturnType<typeof mapStateToProps>;
-
-export default connect(mapStateToProps)(Home);
+export default authenticatedBoundaryRoute(Home);

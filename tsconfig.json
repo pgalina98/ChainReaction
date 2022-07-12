@@ -4,6 +4,7 @@
     "paths": {
       "@components": ["common/components/index.ts"],
       "@components/hooks/*": ["common/components/hooks/*"],
+      "@components/hoc/route-guards/*": ["common/components/high-order-components/route-guards/*"],
       "@animations": ["common/animations/index.ts"],
       "@constants/*": ["common/constants/*"],
       "@enums/*": ["common/enums/*"],

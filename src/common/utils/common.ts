@@ -25,6 +25,15 @@ export function isEmpty(value: any): boolean {
   if (typeof value === "object") {
     return valuesIn(value).filter((value) => !isEmpty(value)).length === 0;
   }
+
+  return false;
+}
+
+export function isUndefined(value: any): boolean {
+  if (value === undefined || value === "undefined") {
+    return true;
+  }
+
   return false;
 }
 
@@ -40,5 +49,6 @@ export function isEqual(value: string, valueForComparation: string): boolean {
   ) {
     return false;
   }
+
   return value === valueForComparation;
 }
