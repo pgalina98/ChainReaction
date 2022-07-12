@@ -99,7 +99,7 @@ const Register: NextPage = () => {
         >
           <Card className="w-full p-6">
             <Input
-              id="full_name"
+              id="fullname"
               label="Full name"
               placeholder="Enter full name"
               prependIcon="las la-id-card"
