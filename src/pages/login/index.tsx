@@ -14,14 +14,13 @@ import jwtDecode from "jwt-decode";
 import { Button, Card, Header, Icon, Input, Toast } from "@components";
 import { useToast } from "@components/hooks/useToast";
 
-import User, { createEmptyUserObject } from "@models/user.model";
-import JwtToken from "@models/jwt-token.model";
-
 import { InptType } from "@enums/input-type";
 import { ButtonType } from "@enums/button-type";
 import { ToastType } from "@enums/toast-type";
 import { LOCAL_STORAGE_KEYS } from "@enums/local-storage-keys";
 import { getAuthorityByKey } from "@enums/authority";
+
+import { messages } from "@constants/messages";
 
 import {
   useFadeInOutLeftVariants,
@@ -30,6 +29,9 @@ import {
   useBounce,
   useDisplayNoneOnExit,
 } from "@animations";
+
+import User, { createEmptyUserObject } from "@models/user.model";
+import JwtToken from "@models/jwt-token.model";
 
 import { useValidatePassword, useValidateUsername } from "@features/authentication/validators";
 
@@ -52,10 +54,10 @@ const Login: NextPage = () => {
 
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
 
-  const { isLoading, isError, data, error, mutate } = useAuthenticateUser(user);
+  const { isLoading, isError, isSuccess, data, error, mutate } = useAuthenticateUser(user);
 
   useEffect(() => {
-    if (!isEmpty(data)) {
+    if (isSuccess) {
       setValue(
         LOCAL_STORAGE_KEYS.AUTHENTICATION_TOKEN,
         (data.data as JwtToken).authenticationToken
@@ -70,7 +72,7 @@ const Login: NextPage = () => {
 
       router.push("/");
     }
-  }, [data, dispatch, router]);
+  }, [data, isSuccess, dispatch, router]);
 
   useEffect(() => {
     setIsShown(isError);
@@ -103,7 +105,7 @@ const Login: NextPage = () => {
         {isError && (
           <Toast
             type={ToastType.DANGER}
-            message={error.response.data.message}
+            message={error.response.data?.message || messages.INTERNAL_SERVER_ERROR}
             isShown={isShown}
             hideToast={() => setIsShown(false)}
           />

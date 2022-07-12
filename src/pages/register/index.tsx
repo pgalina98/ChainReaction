@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { motion } from "framer-motion";
 
@@ -7,11 +7,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import { Button, Card, Header, Input } from "@components";
+import { Button, Card, Header, Input, Toast } from "@components";
 import { useToast } from "@components/hooks/useToast";
 
 import { InptType } from "@enums/input-type";
 import { ButtonType } from "@enums/button-type";
+import { ToastType } from "@enums/toast-type";
+
+import { messages } from "@constants/messages";
 
 import {
   useFadeInOutRightVariants,
@@ -42,11 +45,24 @@ const Register: NextPage = () => {
   const [isShown, setIsShown] = useToast({ duration: 4000 });
 
   const [user, setUser] = useState<User>(createEmptyUserObject());
+  const [isFormInvalid, setIsFormInvalid] = useState<boolean>(false);
 
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState<boolean>(false);
 
-  const { isLoading, isError, data, error, mutate } = useRegisterUser(user);
+  const { isLoading, isError, isSuccess, error, mutate } = useRegisterUser(user);
+
+  useEffect(() => {
+    if (isSuccess) {
+      setTimeout(() => {
+        router.push("/login");
+      }, 4000);
+    }
+  }, [isSuccess, router]);
+
+  useEffect(() => {
+    setIsShown(isError || isSuccess);
+  }, [isError, isSuccess, setIsShown]);
 
   const onTogglePasswordVisibilityClick = (): void => {
     setIsPasswordVisible(!isPasswordVisible);
@@ -72,12 +88,22 @@ const Register: NextPage = () => {
     setUser({ ...user, password });
   };
 
+  const onConfirmationPasswordChange = (confirmationPassword: string): void => {
+    setUser({ ...user, confirmationPassword });
+  };
+
+  const isConfirmationPasswordMatchedWithPassword = (): boolean => {
+    return user.password === user.confirmationPassword;
+  };
+
   const isSignUpButtonDisabled = (): boolean => {
     return (
       isEmpty(user.fullname) ||
       isEmpty(user.username) ||
       isEmpty(user.email) ||
       isEmpty(user.password) ||
+      isFormInvalid ||
+      !isConfirmationPasswordMatchedWithPassword() ||
       isLoading
     );
   };
@@ -90,6 +116,22 @@ const Register: NextPage = () => {
     <div>
       <Header animated />
       <div className={`${styles.h_full} grid grid-cols-2 gap-4`}>
+        {isError && (
+          <Toast
+            type={ToastType.DANGER}
+            message={error.response.data?.message || messages.INTERNAL_SERVER_ERROR}
+            isShown={isShown}
+            hideToast={() => setIsShown(false)}
+          />
+        )}
+        {isSuccess && (
+          <Toast
+            type={ToastType.SUCCESS}
+            message={messages.ACCOUNT_SUCCESSFULLY_CREATED}
+            isShown={isShown}
+            hideToast={() => setIsShown(false)}
+          />
+        )}
         <motion.div
           initial="initial"
           animate="animate"
@@ -106,6 +148,9 @@ const Register: NextPage = () => {
               onChange={onFullnameChange}
               validate
               validator={useValidateFullname}
+              onValidationStateChange={(isInvalid: boolean) => {
+                setIsFormInvalid(isInvalid);
+              }}
             />
             <Input
               id="username"
@@ -116,6 +161,9 @@ const Register: NextPage = () => {
               onChange={onUsernameChange}
               validate
               validator={useValidateUsername}
+              onValidationStateChange={(isInvalid: boolean) => {
+                setIsFormInvalid(isInvalid);
+              }}
             />
             <Input
               id="email"
@@ -126,6 +174,9 @@ const Register: NextPage = () => {
               onChange={onEmailChange}
               validate
               validator={useValidateEmail}
+              onValidationStateChange={(isInvalid: boolean) => {
+                setIsFormInvalid(isInvalid);
+              }}
             />
             <Input
               id="password"
@@ -141,6 +192,9 @@ const Register: NextPage = () => {
               onChange={onPasswordChange}
               validate
               validator={useValidatePassword}
+              onValidationStateChange={(isInvalid: boolean) => {
+                setIsFormInvalid(isInvalid);
+              }}
             />
             <Input
               id="confirmation_passwprd"
@@ -153,16 +207,20 @@ const Register: NextPage = () => {
               appendIconClicable
               onAppendIconClick={() => onToggleConfirmationPasswordVisibilityClick()}
               appendIconActive={isConfirmPasswordVisible}
+              onChange={onConfirmationPasswordChange}
               validate
               validator={useValidateConfirmationPassword}
               additionalValidationData={user.password}
+              onValidationStateChange={(isInvalid: boolean) => {
+                setIsFormInvalid(isInvalid);
+              }}
             />
             <Button
               className="mt-4 w-full"
               label="Sign Up"
               type={ButtonType.DARK}
               onClick={() => onSignUpButtonClick()}
-              isLoading={false}
+              isLoading={isLoading}
               isDisabled={isSignUpButtonDisabled()}
             />
             <div className="flex justify-center mt-3">

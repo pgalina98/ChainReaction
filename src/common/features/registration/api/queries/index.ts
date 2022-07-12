@@ -2,6 +2,6 @@ import axios from "@utils/api";
 
 import User from "@models/user.model";
 
-export const registerUser = (user: User) => {
-  return async () => await axios.post<void>("/users", user);
+export const registerUser = ({ fullname, username, email, password }: User) => {
+  return async () => await axios.post<void>("/users", { fullname, username, email, password });
 };

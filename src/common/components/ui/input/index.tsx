@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Tooltip } from "@components";
 
@@ -23,6 +23,7 @@ interface InputProps {
   validate?: boolean;
   validator?: any;
   additionalValidationData?: any;
+  onValidationStateChange?: any;
   isDisabled?: boolean;
 }
 
@@ -41,10 +42,17 @@ const Input = ({
   validate = false,
   validator,
   additionalValidationData = null,
+  onValidationStateChange,
   isDisabled = false,
 }: InputProps) => {
   const [isInvalid, setIsInvalid] = useState<boolean>(false);
   const [error, setError] = useState<string>();
+
+  useEffect(() => {
+    if (!!onValidationStateChange) {
+      onValidationStateChange(isInvalid);
+    }
+  }, [isInvalid, onValidationStateChange]);
 
   const onInputFieldChange = (value: string): void => {
     if (validate) {
