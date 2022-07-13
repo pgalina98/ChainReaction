@@ -1,29 +1,26 @@
-import { useEffect } from "react";
-
-import { connect } from "react-redux";
-
 import { useRouter } from "next/router";
 
-import { RootState } from "@store/index";
+import { isUndefined } from "@utils/common";
+import { getValueByKey } from "@utils/local-storage";
+
+import { LOCAL_STORAGE_KEYS } from "@enums/local-storage-keys";
 
 const authenticatedBoundaryRoute = (Component: any) => {
-  const AuthenticatedBoundaryRoute = ({ authentication }): any => {
+  const AuthenticatedBoundaryRoute = (): any => {
     const router = useRouter();
 
-    useEffect(() => {
-      if (!authentication?.isAuthenticated) {
+    if (!isUndefined(typeof window)) {
+      const isAuthenitcated = getValueByKey(LOCAL_STORAGE_KEYS.AUTHENTICATION_TOKEN);
+
+      if (!isAuthenitcated) {
         router.push("/login");
       }
-    }, [authentication?.isAuthenticated, router]);
+    }
 
-    return authentication?.isAuthenticated && <Component authentication={authentication} />;
+    return <Component />;
   };
 
-  const mapStateToProps = ({ authentication }: RootState) => ({
-    authentication,
-  });
-
-  return connect(mapStateToProps)(AuthenticatedBoundaryRoute);
+  return AuthenticatedBoundaryRoute;
 };
 
 export default authenticatedBoundaryRoute;
