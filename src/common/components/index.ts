@@ -7,3 +7,4 @@ export { default as Loader } from "common/components/ui/loader";
 export { default as Icon } from "common/components/ui/icon";
 export { default as Tooltip } from "common/components/ui/tooltip";
 export { default as Toast } from "common/components/ui/toast";
+export { default as BarsIcon } from "common/components/ui/bars-icon";
