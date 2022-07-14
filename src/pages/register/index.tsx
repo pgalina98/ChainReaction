@@ -139,9 +139,9 @@ const Register: NextPage = () => {
           animate="animate"
           exit="exit"
           variants={useFadeInOutVariants({ duration: 0.5, delay: 0.6, exit: { opacity: 0 } })}
-          className={`${styles.w_60_percentage} m-auto mt-12`}
+          className={`${styles.h_full} w-full flex flex-col justify-center items-center`}
         >
-          <Card className="w-full p-6">
+          <Card className={`${styles.w_60_percentage} p-6`}>
             <Input
               id="fullname"
               label="Full name"

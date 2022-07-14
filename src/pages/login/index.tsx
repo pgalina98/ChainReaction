@@ -101,7 +101,7 @@ const Login: NextPage = () => {
   };
 
   return (
-    <div>
+    <div className="h-full">
       <Header animated />
       <div className={`${styles.h_full} grid grid-cols-2 gap-4`}>
         {isError && (
@@ -148,9 +148,9 @@ const Login: NextPage = () => {
           animate="animate"
           exit="exit"
           variants={useFadeInOutVariants({ duration: 0.5, delay: 0.6 })}
-          className={`${styles.w_60_percentage} m-auto mt-24`}
+          className={`${styles.h_full} w-full flex flex-col justify-center items-center`}
         >
-          <Card className="w-full p-6">
+          <Card className={`${styles.w_60_percentage} p-6`}>
             <Input
               id="username"
               label="Username"
@@ -197,7 +197,7 @@ const Login: NextPage = () => {
               </Link>
             </div>
           </Card>
-          <Card className="w-full mt-8 p-1">
+          <Card className={`${styles.w_60_percentage} mt-8 p-1`}>
             <div className="flex justify-center">
               <motion.div
                 initial="initial"
