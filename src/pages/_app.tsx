@@ -18,7 +18,7 @@ import User from "@models/user.model";
 import { LOCAL_STORAGE_KEYS } from "@enums/local-storage-keys";
 import { getAuthorityByKey } from "@enums/authority";
 
-import { getValueByKey } from "@utils/local-storage";
+import { clearAuthenticationToken, getValueByKey } from "@utils/local-storage";
 
 import { login } from "@features/authentication/authentication-slice";
 
@@ -33,11 +33,15 @@ const ComponentWrapper = ({ children }) => {
 
   useEffect(() => {
     if (!!getValueByKey(LOCAL_STORAGE_KEYS.AUTHENTICATION_TOKEN)) {
-      const jwtClaims: any = jwtDecode(getValueByKey(LOCAL_STORAGE_KEYS.AUTHENTICATION_TOKEN)!);
+      try {
+        const jwtClaims: any = jwtDecode(getValueByKey(LOCAL_STORAGE_KEYS.AUTHENTICATION_TOKEN)!);
 
-      const user: User = mapJwtClaimsToUserObject(jwtClaims);
+        const user: User = mapJwtClaimsToUserObject(jwtClaims);
 
-      dispatch(login({ ...user, authority: getAuthorityByKey(jwtClaims["authorities"]) }));
+        dispatch(login({ ...user, authority: getAuthorityByKey(jwtClaims["authorities"]) }));
+      } catch (error) {
+        clearAuthenticationToken();
+      }
     }
   }, [dispatch]);
 
@@ -48,7 +52,7 @@ function App({ Component, pageProps, router }: AppProps) {
   return (
     <React.Fragment>
       <Head>
-        <title>ChainReaction</title>
+        <title>ChainReaction.</title>
       </Head>
 
       <Provider store={store}>

@@ -5,8 +5,8 @@ export const clearLocalStorage = () => {
 };
 
 export const clearAuthenticationToken = () => {
-  localStorage.remove(LOCAL_STORAGE_KEYS.AUTHENTICATION_TOKEN);
-  localStorage.remove(LOCAL_STORAGE_KEYS.REFRESH_TOKEN);
+  localStorage.removeItem(LOCAL_STORAGE_KEYS.AUTHENTICATION_TOKEN);
+  localStorage.removeItem(LOCAL_STORAGE_KEYS.REFRESH_TOKEN);
 };
 
 export const setValue = (key: string, value: string) => {

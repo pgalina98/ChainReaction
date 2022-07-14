@@ -33,7 +33,7 @@ const Header = ({ animated = false }) => {
         variants={useFadeInOutTopVariants({ duration: 0.5 })}
         className={`${styles.logo_text_container} flex items-center text-white ml-4 mb-4 rounded-bl-xl rounded-br-xl`}
       >
-        <p className="text-2xl font-medium mt-4">Chain Reaction</p>
+        <p className="text-2xl font-medium mt-4">ChainReaction.</p>
       </motion.div>
     </div>
   );
