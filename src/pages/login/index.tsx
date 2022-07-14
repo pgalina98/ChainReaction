@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 
 import jwtDecode from "jwt-decode";
 
-import { Button, Card, Header, Icon, Input, Toast } from "@components";
+import { Button, Card, Header, SocialMediaIcon, Input, Toast } from "@components";
 import { useToast } from "@components/hooks/useToast";
 
 import { InptType } from "@enums/input-type";
@@ -204,21 +204,21 @@ const Login: NextPage = () => {
                 animate="animate"
                 variants={useFadeInOutVariants({ duration: 0.15, delay: 1 })}
               >
-                <Icon icon="lab la-facebook-f" color="facebook" hoverable />
+                <SocialMediaIcon icon="lab la-facebook-f" color="facebook" hoverable />
               </motion.div>
               <motion.div
                 initial="initial"
                 animate="animate"
                 variants={useFadeInOutVariants({ duration: 0.15, delay: 1.25 })}
               >
-                <Icon icon="lab la-google-plus-g" color="google" hoverable />
+                <SocialMediaIcon icon="lab la-google-plus-g" color="google" hoverable />
               </motion.div>
               <motion.div
                 initial="initial"
                 animate="animate"
                 variants={useFadeInOutVariants({ duration: 0.15, delay: 1.5 })}
               >
-                <Icon icon="lab la-instagram" color="instagram" hoverable />
+                <SocialMediaIcon icon="lab la-instagram" color="instagram" hoverable />
               </motion.div>
             </div>
           </Card>

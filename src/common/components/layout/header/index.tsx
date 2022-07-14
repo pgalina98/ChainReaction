@@ -3,38 +3,69 @@ import React from "react";
 import { motion } from "framer-motion";
 
 import Image from "next/image";
+import Link from "next/link";
+
+import { BarsIcon, Button, Avatar } from "@components";
 
 import { useFadeInOutLeftVariants, useFadeInOutTopVariants } from "@animations";
+
+import { ButtonType } from "@enums/button-type";
 
 import styles from "./header.module.scss";
 
 interface HeaderProps {
-  animated: boolean;
+  animated?: boolean;
+  backgroundColor?: "singleColor" | "split";
 }
 
-const Header = ({ animated = false }) => {
+const Header = ({ animated = false, backgroundColor = "singleColor" }: HeaderProps) => {
   return (
-    <div className={`${styles.header} flex items-center`}>
-      <motion.div
-        {...(animated && { initial: "initial", animate: "animate", exit: "exit" })}
-        variants={useFadeInOutLeftVariants({ duration: 0.5, exit: { translateX: "-110%" } })}
-        className={`${styles.logo_img_container} flex rounded-tr-xl rounded-br-xl`}
+    <div className={`${styles.header} grid grid-cols-2`}>
+      <div className="flex items-center bg_primary">
+        <motion.div
+          {...(animated && { initial: "initial", animate: "animate", exit: "exit" })}
+          variants={useFadeInOutLeftVariants({ duration: 0.5, exit: { translateX: "-110%" } })}
+          className={`${styles.logo_img_container} flex rounded-tr-xl rounded-br-xl`}
+        >
+          <Image
+            src="/assets/chain-reaction_logo.png"
+            alt="ChainReaction Logo"
+            width={45}
+            height={40}
+            priority
+          />
+        </motion.div>
+        <motion.div
+          {...(animated && { initial: "initial", animate: "animate", exit: "exit" })}
+          variants={useFadeInOutTopVariants({ duration: 0.5 })}
+          className={`${styles.logo_text_container} flex items-center text-white ml-4 mb-4 rounded-bl-xl rounded-br-xl`}
+        >
+          <p className="text-2xl font-medium mt-4">ChainReaction.</p>
+        </motion.div>
+      </div>
+      <BarsIcon />
+      <div
+        className={`${
+          backgroundColor === "singleColor" ? "bg_primary" : "bg_brown"
+        } text-white uppercase justify-between flex items-center font-light text-base flex`}
       >
-        <Image
-          src="/assets/chain-reaction_logo.png"
-          alt="ChainReaction Logo"
-          width={45}
-          height={40}
-          priority
+        <div className="space-x-14 ml-16">
+          <Link className="border-2" href="/">
+            Bikes
+          </Link>
+          <Link href="/">Accessories</Link>
+          <Link href="/">Services</Link>
+        </div>
+        <Button
+          label="Order now"
+          type={ButtonType.PRIMARY}
+          className="ml-16"
+          rounded
+          onClick={() => {}}
         />
-      </motion.div>
-      <motion.div
-        {...(animated && { initial: "initial", animate: "animate", exit: "exit" })}
-        variants={useFadeInOutTopVariants({ duration: 0.5 })}
-        className={`${styles.logo_text_container} flex items-center text-white ml-4 mb-4 rounded-bl-xl rounded-br-xl`}
-      >
-        <p className="text-2xl font-medium mt-4">ChainReaction.</p>
-      </motion.div>
+        <i className="las la-shopping-bag text-3xl cursor-pointer" />
+        <Avatar className="mr-6" showDropdown />
+      </div>
     </div>
   );
 };

@@ -8,6 +8,7 @@ interface ButtonProps {
   className?: string;
   label?: string;
   type?: ButtonType;
+  rounded?: boolean;
   onClick: any;
   isLoading?: boolean;
   isDisabled?: boolean;
@@ -17,6 +18,7 @@ const Button = ({
   className,
   label,
   type = ButtonType.PRIMARY,
+  rounded = false,
   onClick,
   isLoading = false,
   isDisabled = false,
@@ -72,7 +74,9 @@ const Button = ({
   return (
     <button
       type="button"
-      className={`${className} border rounded-md px-4 py-2 focus:outline-none focus:shadow-outline ${determineClassNames()} ${
+      className={`${className} border ${
+        rounded ? "rounded-full" : "rounded-md"
+      } px-4 py-2 rounded-full focus:outline-none focus:shadow-outline ${determineClassNames()} ${
         isButtonDisabled() && "cursor-not-allowed flex justify-center"
       }`}
       disabled={isDisabled || isLoading}

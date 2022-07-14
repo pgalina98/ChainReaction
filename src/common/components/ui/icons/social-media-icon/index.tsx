@@ -2,16 +2,16 @@ import React from "react";
 
 import { IconColor } from "@enums/icon-color";
 
-import styles from "./icon.module.scss";
+import styles from "./social-media-icon.module.scss";
 
-interface IconProps {
+interface SocialMediaIconProps {
   className?: string;
   icon: string;
   color: "facebook" | "google" | "instagram";
   hoverable: boolean;
 }
 
-const Icon = ({ className, icon, color, hoverable = false }: IconProps) => {
+const SocialMediaIcon = ({ className, icon, color, hoverable = false }: SocialMediaIconProps) => {
   const determineIconColor = (): string => {
     switch (color) {
       case "facebook":
@@ -39,4 +39,4 @@ const Icon = ({ className, icon, color, hoverable = false }: IconProps) => {
   );
 };
 
-export default Icon;
+export default SocialMediaIcon;
