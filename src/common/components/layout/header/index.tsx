@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 
-import { BarsIcon, Button, Avatar } from "@components";
+import { BarsIcon, Button, Avatar, ShoppingCardIcon } from "@components";
 
 import { useFadeInOutLeftVariants, useFadeInOutTopVariants } from "@animations";
 
@@ -49,21 +49,15 @@ const Header = ({ animated = false, backgroundColor = "singleColor" }: HeaderPro
           backgroundColor === "singleColor" ? "bg_primary" : "bg_brown"
         } text-white uppercase justify-between flex items-center font-light text-base flex`}
       >
-        <div className="space-x-14 ml-16">
+        <div className="space-x-14 ml-16 mr-16">
           <Link className="border-2" href="/">
             Bikes
           </Link>
           <Link href="/">Accessories</Link>
           <Link href="/">Services</Link>
         </div>
-        <Button
-          label="Order now"
-          type={ButtonType.PRIMARY}
-          className="ml-16"
-          rounded
-          onClick={() => {}}
-        />
-        <i className="las la-shopping-bag text-3xl cursor-pointer" />
+        <Button label="Order now" type={ButtonType.PRIMARY} rounded onClick={() => {}} />
+        <ShoppingCardIcon />
         <Avatar className="mr-6" showDropdown />
       </div>
     </div>
