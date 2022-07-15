@@ -15,10 +15,15 @@ import styles from "./header.module.scss";
 
 interface HeaderProps {
   animated?: boolean;
+  showMenu: boolean;
   backgroundColor?: "singleColor" | "split";
 }
 
-const Header = ({ animated = false, backgroundColor = "singleColor" }: HeaderProps) => {
+const Header = ({
+  animated = false,
+  showMenu = false,
+  backgroundColor = "singleColor",
+}: HeaderProps) => {
   return (
     <div className={`${styles.header} grid grid-cols-2`}>
       <div className="flex items-center bg_primary">
@@ -43,10 +48,10 @@ const Header = ({ animated = false, backgroundColor = "singleColor" }: HeaderPro
           <p className="text-2xl font-medium mt-4">ChainReaction.</p>
         </motion.div>
       </div>
-      <BarsIcon />
+      <BarsIcon className={showMenu ? "visible" : "invisible"} />
       <div
-        className={`${
-          backgroundColor === "singleColor" ? "bg_primary" : "bg_brown"
+        className={`${backgroundColor === "singleColor" ? "bg_primary" : "bg_brown"} ${
+          showMenu ? "visible" : "invisible"
         } text-white uppercase justify-between flex items-center font-light text-base flex`}
       >
         <div className="space-x-14 ml-16 mr-16">
@@ -58,7 +63,7 @@ const Header = ({ animated = false, backgroundColor = "singleColor" }: HeaderPro
         </div>
         <Button label="Order now" type={ButtonType.PRIMARY} rounded onClick={() => {}} />
         <ShoppingCardIcon />
-        <Avatar className="mr-6" showDropdown />
+        <Avatar className="mr-6" withDropdown />
       </div>
     </div>
   );

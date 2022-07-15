@@ -1,17 +1,30 @@
 import React, { useState } from "react";
 
-import Image from "next/image";
+import { connect } from "react-redux";
 
-interface AvatarProps {
+import Image from "next/image";
+import { useRouter } from "next/router";
+
+import { RootState } from "@store/index";
+
+import { clearAuthenticationToken } from "@utils/local-storage";
+
+interface AvatarProps extends RootState {
   className?: string;
-  showDropdown: boolean;
+  withDropdown: boolean;
 }
 
-const Avatar = ({ className, showDropdown = false }: AvatarProps) => {
+const Avatar = ({ className, withDropdown = false, authentication }: AvatarProps) => {
+  const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
   const toggleMenu = (): void => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const onSignInButtonClick = (): void => {
+    clearAuthenticationToken();
+    router.push("/");
   };
 
   return (
@@ -25,32 +38,26 @@ const Avatar = ({ className, showDropdown = false }: AvatarProps) => {
         alt="User dropdown"
       />
       <div
-        className={`${
-          isMenuOpen ? "visible" : "invisible"
+        className={`${isMenuOpen ? "visible" : "invisible"} ${
+          withDropdown ? "visible" : "invisible"
         } z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600 block absolute top-14 right-0`}
       >
         <div className="py-3 px-4 text-sm text-gray-900 dark:text-white">
-          <div>Test Test</div>
-          <div className="font-medium truncate">test@test.com</div>
+          <div>{authentication.fullname}</div>
+          <div className="font-medium truncate">{authentication.email}</div>
         </div>
         <ul
           className="py-1 text-sm text-gray-700 dark:text-gray-200"
           aria-labelledby="avatarButton"
         >
           <li>
-            <a
-              href="#"
-              className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex justify-between items-center"
-            >
+            <a className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex justify-between items-center cursor-pointer">
               <span> My Orders</span>
               <i className="las la-truck-loading text-lg" />
             </a>
           </li>
           <li>
-            <a
-              href="#"
-              className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex justify-between items-center"
-            >
+            <a className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex justify-between items-center cursor-pointer">
               <span>Settings</span>
               <i className="las la-tools text-lg" />
             </a>
@@ -58,8 +65,8 @@ const Avatar = ({ className, showDropdown = false }: AvatarProps) => {
         </ul>
         <div className="py-1">
           <a
-            href="#"
-            className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white flex justify-between items-center"
+            className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white flex justify-between items-center cursor-pointer"
+            onClick={onSignInButtonClick}
           >
             <span>Sign out</span>
             <i className="las la-sign-out-alt text-lg" />
@@ -70,4 +77,8 @@ const Avatar = ({ className, showDropdown = false }: AvatarProps) => {
   );
 };
 
-export default Avatar;
+const mapStateToProps = ({ authentication }: RootState) => ({
+  authentication,
+});
+
+export default connect(mapStateToProps)(Avatar);

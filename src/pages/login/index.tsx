@@ -102,7 +102,7 @@ const Login: NextPage = () => {
 
   return (
     <div className="h-full">
-      <Header animated />
+      <Header animated showMenu={false} />
       <div className={`${styles.h_full} grid grid-cols-2 gap-4`}>
         {isError && (
           <Toast
