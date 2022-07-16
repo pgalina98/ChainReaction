@@ -7,7 +7,11 @@ import Link from "next/link";
 
 import { BarsIcon, Button, Avatar, ShoppingCardIcon } from "@components";
 
-import { useFadeInOutLeftVariants, useFadeInOutTopVariants } from "@animations";
+import {
+  useFadeInOutLeftVariants,
+  useFadeInOutRightVariants,
+  useFadeInOutTopVariants,
+} from "@animations";
 
 import { ButtonType } from "@enums/button-type";
 import { MenuItem } from "@enums/menu-items";
@@ -61,7 +65,11 @@ const Header = ({
           showMenu ? "visible" : "invisible"
         } text-white uppercase justify-between flex items-center font-light text-base flex`}
       >
-        <div className="space-x-12 ml-16 mr-16">
+        <motion.div
+          {...(animated && { initial: "initial", animate: "animate", exit: "exit" })}
+          variants={useFadeInOutTopVariants({ duration: 0.5 })}
+          className="space-x-12 ml-16 mr-16"
+        >
           <Link href="/">
             <span
               className={`${
@@ -92,10 +100,22 @@ const Header = ({
               Services
             </span>
           </Link>
-        </div>
-        <Button label="Order now" type={ButtonType.PRIMARY} rounded onClick={() => {}} />
-        <ShoppingCardIcon />
-        <Avatar className="mr-6" withDropdown />
+        </motion.div>
+        <motion.div
+          {...(animated && { initial: "initial", animate: "animate", exit: "exit" })}
+          variants={useFadeInOutTopVariants({ duration: 0.5 })}
+          className="flex items-center space-x-10 mr-6"
+        >
+          <Button
+            label="Order now"
+            type={ButtonType.PRIMARY}
+            className="h-10"
+            rounded
+            onClick={() => {}}
+          />
+          <ShoppingCardIcon />
+          <Avatar className="mr-6" withDropdown />
+        </motion.div>
       </div>
     </div>
   );
