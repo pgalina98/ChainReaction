@@ -28,6 +28,14 @@ a {
   background-color: $primary;
 }
 
+.bg_secondary {
+  background-color: $secondary;
+}
+
+.bg_secondary_dark {
+  background-color: $secondary-dark;
+}
+
 .bg_brown {
   background-color: $brown;
 }
@@ -38,4 +46,12 @@ a {
 
 .bg_blue {
   background-color: $blue;
+}
+
+.font_primary {
+  color: $primary;
+}
+
+.font_secondary {
+  color: $secondary;
 }

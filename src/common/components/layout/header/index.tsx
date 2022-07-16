@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { motion } from "framer-motion";
 
@@ -10,6 +10,7 @@ import { BarsIcon, Button, Avatar, ShoppingCardIcon } from "@components";
 import { useFadeInOutLeftVariants, useFadeInOutTopVariants } from "@animations";
 
 import { ButtonType } from "@enums/button-type";
+import { MenuItem } from "@enums/menu-items";
 
 import styles from "./header.module.scss";
 
@@ -24,6 +25,12 @@ const Header = ({
   showMenu = false,
   backgroundColor = "singleColor",
 }: HeaderProps) => {
+  const [activeTab, setActiveTab] = useState<MenuItem>();
+
+  const onMenuItemChange = (menuItem: MenuItem): void => {
+    setActiveTab(menuItem);
+  };
+
   return (
     <div className={`${styles.header} grid grid-cols-2`}>
       <div className="flex items-center bg_primary">
@@ -54,12 +61,37 @@ const Header = ({
           showMenu ? "visible" : "invisible"
         } text-white uppercase justify-between flex items-center font-light text-base flex`}
       >
-        <div className="space-x-14 ml-16 mr-16">
-          <Link className="border-2" href="/">
-            Bikes
+        <div className="space-x-12 ml-16 mr-16">
+          <Link href="/">
+            <span
+              className={`${
+                activeTab === MenuItem.BIKES && "border-b-2"
+              } cursor-pointer hover:border-b-2`}
+              onClick={() => onMenuItemChange(MenuItem.BIKES)}
+            >
+              Bikes
+            </span>
           </Link>
-          <Link href="/">Accessories</Link>
-          <Link href="/">Services</Link>
+          <Link href="/">
+            <span
+              className={`${
+                activeTab === MenuItem.ACCESSORIES && "border-b-2"
+              } cursor-pointer hover:border-b-2`}
+              onClick={() => onMenuItemChange(MenuItem.ACCESSORIES)}
+            >
+              Accessories
+            </span>
+          </Link>
+          <Link href="/">
+            <span
+              className={`${
+                activeTab === MenuItem.SERVICES && "border-b-2"
+              } cursor-pointer hover:border-b-2`}
+              onClick={() => onMenuItemChange(MenuItem.SERVICES)}
+            >
+              Services
+            </span>
+          </Link>
         </div>
         <Button label="Order now" type={ButtonType.PRIMARY} rounded onClick={() => {}} />
         <ShoppingCardIcon />

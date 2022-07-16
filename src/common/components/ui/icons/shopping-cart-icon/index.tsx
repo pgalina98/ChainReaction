@@ -4,7 +4,7 @@ interface ShoppingCardIconProps {
   numberOfItemInCart?: number;
 }
 
-const ShoppingCardIcon = ({ numberOfItemInCart = 0 }: ShoppingCardIconProps) => {
+const ShoppingCardIcon = ({ numberOfItemInCart = 2 }: ShoppingCardIconProps) => {
   return (
     <div className="relative">
       <span

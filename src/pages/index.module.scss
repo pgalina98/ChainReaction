@@ -1,3 +1,28 @@
+@import "common/styles/colors.scss";
+
 .h_full {
-  height: calc(100vh - 64px);
+  height: calc(100vh - 80px);
+}
+
+.image_position {
+  left: -6%;
+}
+
+.mirrored_image_position {
+  left: -40%;
+}
+
+.radial_gradient {
+  background: $primary;
+  background: radial-gradient(
+    at bottom left,
+    $secondary 0%,
+    $secondary 0%,
+    $secondary 0%,
+    $primary 65%
+  );
+}
+
+.box_shadow {
+  box-shadow: $secondary-dark 0px 0px 7px;
 }

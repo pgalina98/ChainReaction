@@ -15,7 +15,7 @@ import jwtDecode from "jwt-decode";
 
 import User from "@models/user.model";
 
-import { LOCAL_STORAGE_KEYS } from "@enums/local-storage-keys";
+import { LoaclStorageKeys } from "@enums/local-storage-keys";
 import { getAuthorityByKey } from "@enums/authority";
 
 import { clearAuthenticationToken, getValueByKey } from "@utils/local-storage";
@@ -32,9 +32,9 @@ const ComponentWrapper = ({ children }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!!getValueByKey(LOCAL_STORAGE_KEYS.AUTHENTICATION_TOKEN)) {
+    if (!!getValueByKey(LoaclStorageKeys.AUTHENTICATION_TOKEN)) {
       try {
-        const jwtClaims: any = jwtDecode(getValueByKey(LOCAL_STORAGE_KEYS.AUTHENTICATION_TOKEN)!);
+        const jwtClaims: any = jwtDecode(getValueByKey(LoaclStorageKeys.AUTHENTICATION_TOKEN)!);
 
         const user: User = mapJwtClaimsToUserObject(jwtClaims);
 

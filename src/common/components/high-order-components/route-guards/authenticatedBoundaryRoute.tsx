@@ -3,14 +3,14 @@ import { useRouter } from "next/router";
 import { isUndefined } from "@utils/common";
 import { getValueByKey } from "@utils/local-storage";
 
-import { LOCAL_STORAGE_KEYS } from "@enums/local-storage-keys";
+import { LoaclStorageKeys } from "@enums/local-storage-keys";
 
 const authenticatedBoundaryRoute = (Component: any) => {
   const AuthenticatedBoundaryRoute = (): any => {
     const router = useRouter();
 
     if (!isUndefined(typeof window)) {
-      const isAuthenitcated = getValueByKey(LOCAL_STORAGE_KEYS.AUTHENTICATION_TOKEN);
+      const isAuthenitcated = getValueByKey(LoaclStorageKeys.AUTHENTICATION_TOKEN);
 
       if (!isAuthenitcated) {
         router.push("/login");
