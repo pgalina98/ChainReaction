@@ -5,6 +5,8 @@ import { connect } from "react-redux";
 import Image from "next/image";
 import { useRouter } from "next/router";
 
+import { Loader } from "@components";
+
 import { RootState } from "@store/index";
 
 import { clearAuthenticationToken } from "@utils/local-storage";
@@ -18,13 +20,20 @@ const Avatar = ({ className, withDropdown = false, authentication }: AvatarProps
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const toggleMenu = (): void => {
     setIsMenuOpen(!isMenuOpen);
   };
 
   const onSignInButtonClick = (): void => {
+    setIsLoading(true);
     clearAuthenticationToken();
-    router.push("/");
+
+    setTimeout(() => {
+      setIsLoading(false);
+      router.push("/");
+    }, 1500);
   };
 
   return (
@@ -40,7 +49,7 @@ const Avatar = ({ className, withDropdown = false, authentication }: AvatarProps
       <div
         className={`${isMenuOpen ? "visible" : "invisible"} ${
           withDropdown ? "visible" : "invisible"
-        } z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600 block absolute top-14 right-0`}
+        } w-56 z-10 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600 block absolute top-14 right-0`}
       >
         <div className="py-3 px-4 text-sm text-gray-900 dark:text-white">
           <div>{authentication.fullname}</div>
@@ -69,7 +78,11 @@ const Avatar = ({ className, withDropdown = false, authentication }: AvatarProps
             onClick={onSignInButtonClick}
           >
             <span>Sign out</span>
-            <i className="las la-sign-out-alt text-lg" />
+            {isLoading ? (
+              <Loader size="small" withLabel={false} />
+            ) : (
+              <i className="las la-sign-out-alt text-lg" />
+            )}
           </a>
         </div>
       </div>

@@ -82,7 +82,7 @@ const Button = ({
       disabled={isDisabled || isLoading}
       onClick={onClick}
     >
-      {!isLoading ? label : <Loader />}
+      {!isLoading ? label : <Loader className="mr-2 ml-3" />}
     </button>
   );
 };

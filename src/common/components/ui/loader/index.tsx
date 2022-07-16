@@ -1,12 +1,31 @@
 import React from "react";
 
-const Loader = () => {
+interface LoaderProps {
+  className?: string;
+  size?: "small" | "base";
+  withLabel?: boolean;
+}
+
+const Loader = ({ className, size = "base", withLabel = true }: LoaderProps) => {
+  const determineIconSize = (): string => {
+    switch (size) {
+      case "small":
+        return "w-5 h-5";
+
+      case "base":
+        return "w-6 h-6";
+
+      default:
+        return "w-6 h-6";
+    }
+  };
+
   return (
     <div className="flex">
-      <p>Processing...</p>
+      {withLabel && <p>Processing...</p>}
       <svg
         role="status"
-        className="w-6 h-6 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600 ml-3"
+        className={`${className} ${determineIconSize()} w-6 h-6 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600`}
         viewBox="0 0 100 101"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
