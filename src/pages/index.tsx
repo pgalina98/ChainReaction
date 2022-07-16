@@ -81,22 +81,24 @@ const Home: NextPage = () => {
           </div>
         </div>
         <div className={`${styles.h_full} bg_brown flex flex-col justify-center overflow-hidden`}>
-          <motion.div
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            variants={useFadeInOutVariants({ duration: 0.5, delay: 0.5 })}
-            className={`${styles.box_shadow} absolute top-32 right-0 mr-8 bg_secondary_dark w-32 h-16 rounded-xl flex flex-col justify-center`}
-          >
-            <div className="flex justify-center text-lg space-x-1">
-              <i className="las la-star" />
-              <i className="las la-star" />
-              <i className="las la-star" />
-              <i className="las la-star" />
-              <i className="las la-star-half-alt" />
-            </div>
-            <div className="flex justify-start text-xs ml-3 mt-1">+1000 reviews</div>
-          </motion.div>
+          <div className="flex justify-end">
+            <motion.div
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              variants={useFadeInOutVariants({ duration: 0.5, delay: 0.5 })}
+              className={`${styles.box_shadow} mr-8 bg_secondary_dark w-32 h-16 rounded-xl flex flex-col justify-center`}
+            >
+              <div className="flex justify-center text-lg space-x-1">
+                <i className="las la-star" />
+                <i className="las la-star" />
+                <i className="las la-star" />
+                <i className="las la-star" />
+                <i className="las la-star-half-alt" />
+              </div>
+              <div className="flex justify-start text-xs ml-3 mt-1">+1000 reviews</div>
+            </motion.div>
+          </div>
           <motion.div
             initial="initial"
             animate="animate"
@@ -117,7 +119,7 @@ const Home: NextPage = () => {
             animate="animate"
             exit="exit"
             variants={useFadeInOutVariants({ duration: 0.5, delay: 0.5 })}
-            className="text-white flex justify-center space-x-20 mt-8"
+            className="text-white flex justify-center space-x-20 mt-8 mb-8"
           >
             <div className="flex flex-col items-start">
               <div className="text-2xl font-light">25 km/h</div>
