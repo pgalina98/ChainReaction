@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { motion } from "framer-motion";
 
 import type { NextPage } from "next";
 import Image from "next/image";
 
-import { Button, Header } from "@components";
+import { Button, ColorPickerIcon, Header } from "@components";
 
 import authenticatedBoundaryRoute from "@components/hoc/route-guards/authenticatedBoundaryRoute";
 
@@ -20,6 +20,12 @@ import {
 import styles from "./index.module.scss";
 
 const Home: NextPage = () => {
+  const [selectedColor, setSelectedColor] = useState<string>("white");
+
+  const onSelectedColorChange = (color: string): void => {
+    setSelectedColor(color);
+  };
+
   return (
     <div className="h-full">
       <Header animated showMenu backgroundColor="split" />
@@ -103,8 +109,36 @@ const Home: NextPage = () => {
             initial="initial"
             animate="animate"
             exit="exit"
+            variants={useFadeInOutRightVariants({ duration: 0.25, delay: 0.75 })}
+            className="absolute right-0 mr-8"
+          >
+            <div className="flex flex-col space-y-6 bg_white p-2 rounded-full">
+              <ColorPickerIcon
+                className="cursor-pointer border-2 border-gray-300"
+                color="white"
+                isSelected={selectedColor === "white"}
+                onClick={onSelectedColorChange}
+              />
+              <ColorPickerIcon
+                className="cursor-pointer border-2 border-gray-300"
+                color="gray-dark"
+                isSelected={selectedColor === "gray-dark"}
+                onClick={onSelectedColorChange}
+              />
+              <ColorPickerIcon
+                className="cursor-pointer border-2 border-gray-300"
+                color="black"
+                isSelected={selectedColor === "black"}
+                onClick={onSelectedColorChange}
+              />
+            </div>
+          </motion.div>
+          <motion.div
+            initial="initial"
+            animate="animate"
+            exit="exit"
             variants={useFadeInOutRightVariants({ duration: 1 })}
-            className={`relative ${styles.mirrored_image_position}`}
+            className={`${styles.mirrored_image_position} relative ${styles.mirrored_image_position} flex`}
           >
             <Image
               src="/assets/e-bikes/cowboy-4/cowboy-4_white_mirrored.png"
