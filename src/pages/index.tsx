@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import type { NextPage } from "next";
 import Image from "next/image";
 
-import { Button, ColorPickerIcon, Header } from "@components";
+import { Button, ColorPickerIcon, Header, Icon } from "@components";
 
 import authenticatedBoundaryRoute from "@components/hoc/route-guards/authenticatedBoundaryRoute";
 
@@ -96,11 +96,11 @@ const Home: NextPage = () => {
               className={`${styles.box_shadow} mr-8 bg_secondary_dark w-32 h-16 rounded-xl flex flex-col justify-center`}
             >
               <div className="flex justify-center text-lg space-x-1">
-                <i className="las la-star" />
-                <i className="las la-star" />
-                <i className="las la-star" />
-                <i className="las la-star" />
-                <i className="las la-star-half-alt" />
+                <Icon className="las la-star" />
+                <Icon className="las la-star" />
+                <Icon className="las la-star" />
+                <Icon className="las la-star" />
+                <Icon className="las la-star-half-alt" />
               </div>
               <div className="flex justify-start text-xs ml-3 mt-1">+1000 reviews</div>
             </motion.div>
