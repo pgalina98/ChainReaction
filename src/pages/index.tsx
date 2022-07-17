@@ -93,7 +93,7 @@ const Home: NextPage = () => {
               animate="animate"
               exit="exit"
               variants={useFadeInOutVariants({ duration: 0.5, delay: 0.5 })}
-              className={`${styles.box_shadow} mr-8 bg_secondary_dark w-32 h-16 rounded-xl flex flex-col justify-center`}
+              className={`${styles.box_shadow_secondary_dark} mr-8 bg_secondary_dark w-32 h-16 rounded-xl flex flex-col justify-center`}
             >
               <div className="flex justify-center text-lg space-x-1">
                 <Icon className="las la-star" />
@@ -112,7 +112,9 @@ const Home: NextPage = () => {
             variants={useFadeInOutRightVariants({ duration: 0.25, delay: 0.75 })}
             className="absolute right-0 mr-8"
           >
-            <div className="flex flex-col space-y-6 bg_white p-2 rounded-full">
+            <div
+              className={`${styles.box_shadow_white} flex flex-col space-y-6 bg_white p-2 rounded-full`}
+            >
               <ColorPickerIcon
                 className="cursor-pointer border-2 border-gray-300"
                 color="white"
