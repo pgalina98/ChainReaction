@@ -1,11 +1,16 @@
-import { Variants } from "framer-motion";
+import { Variant, Variants } from "framer-motion";
 
 interface FadeInOutRightProps {
   duration?: number;
   delay?: number;
+  exit?: Variant;
 }
 
-const useFadeInOutRight = ({ duration = 0.5, delay = 0 }: FadeInOutRightProps): Variants => {
+const useFadeInOutRight = ({
+  duration = 0.5,
+  delay = 0,
+  exit = { translateX: "110%" },
+}: FadeInOutRightProps): Variants => {
   return {
     initial: { opacity: 0, translateX: "110%" },
     animate: {
@@ -14,7 +19,7 @@ const useFadeInOutRight = ({ duration = 0.5, delay = 0 }: FadeInOutRightProps): 
       transition: { duration, delay },
     },
     exit: {
-      translateX: "110%",
+      ...exit,
       transition: { duration },
     },
   };

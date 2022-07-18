@@ -4,6 +4,7 @@ interface ColorPickerIconProps {
   className?: string;
   color: "white" | "gray-light" | "gray-dark" | "black";
   isSelected?: boolean;
+  isAvailable?: boolean;
   onClick: any;
 }
 
@@ -11,6 +12,7 @@ const ColorPickerIcon = ({
   className,
   color,
   isSelected = false,
+  isAvailable = true,
   onClick,
 }: ColorPickerIconProps) => {
   const determineCheckIconColor = (): string => {
@@ -27,10 +29,17 @@ const ColorPickerIcon = ({
         return "black";
     }
   };
+
+  const onIconClick = (): void => {
+    onClick(color);
+  };
+
   return (
     <div
-      className={`${className} h-8 w-8 rounded-full flex justify-center items-center bg_${color}`}
-      onClick={() => onClick(color)}
+      className={`${className} h-8 w-8 rounded-full flex justify-center items-center bg_${color} ${
+        !isAvailable && "cursor-not-allowed"
+      }`}
+      {...(isAvailable && { onClick: onIconClick })}
     >
       {isSelected && <i className={`las la-check text-${determineCheckIconColor()}`} />}
     </div>

@@ -41,7 +41,7 @@ const Home: NextPage = () => {
             >
               <span className="text-6xl max-w-md">Take the streets.</span>
               <span className="text-4xl font-thin font_secondary absolute bottom-0 left-1/2 ml-2">
-                Cowboy 4
+                Cowboy. 4
               </span>
             </motion.div>
             <motion.div
@@ -70,6 +70,7 @@ const Home: NextPage = () => {
               <Button label="Book a test ride" type={ButtonType.LIGHT} rounded onClick={() => {}} />
             </motion.div>
             <motion.div
+              key={selectedColor}
               initial="initial"
               animate="animate"
               exit="exit"
@@ -77,8 +78,8 @@ const Home: NextPage = () => {
               className={`${styles.image_position} absolute -bottom-1`}
             >
               <Image
-                src="/assets/e-bikes/cowboy-4/cowboy-4_white.png"
-                alt="Login illustration"
+                src={`/assets/e-bikes/cowboy-4/cowboy-4-${selectedColor}.png`}
+                alt="Cowboy 4"
                 width={375}
                 height={208}
                 priority
@@ -125,6 +126,7 @@ const Home: NextPage = () => {
                 className="cursor-pointer border-2 border-gray-300"
                 color="gray-dark"
                 isSelected={selectedColor === "gray-dark"}
+                isAvailable={false}
                 onClick={onSelectedColorChange}
               />
               <ColorPickerIcon
@@ -136,6 +138,7 @@ const Home: NextPage = () => {
             </div>
           </motion.div>
           <motion.div
+            key={selectedColor}
             initial="initial"
             animate="animate"
             exit="exit"
@@ -143,8 +146,8 @@ const Home: NextPage = () => {
             className={`${styles.mirrored_image_position} relative ${styles.mirrored_image_position} flex`}
           >
             <Image
-              src="/assets/e-bikes/cowboy-4/cowboy-4_white_mirrored.png"
-              alt="Login illustration"
+              src={`/assets/e-bikes/cowboy-4/cowboy-4-${selectedColor}_mirrored.png`}
+              alt="Cowboy 4"
               width={1920}
               height={1064}
               priority
