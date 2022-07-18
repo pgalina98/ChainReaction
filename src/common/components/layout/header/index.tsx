@@ -63,7 +63,7 @@ const Header = ({
       <div
         className={`${backgroundColor === "singleColor" ? "bg_primary" : "bg_brown"} ${
           showMenu ? "visible" : "invisible"
-        } text-white uppercase justify-between flex items-center font-light text-base flex`}
+        } text-gray-200 uppercase justify-between flex items-center font-light text-base flex`}
       >
         <motion.div
           {...(animated && { initial: "initial", animate: "animate", exit: "exit" })}
@@ -73,7 +73,7 @@ const Header = ({
           <Link href="/">
             <span
               className={`${
-                activeTab === MenuItem.BIKES && "border-b-2"
+                activeTab === MenuItem.BIKES && "border-b-2 text-white"
               } cursor-pointer hover:border-b-2`}
               onClick={() => onMenuItemChange(MenuItem.BIKES)}
             >
@@ -83,7 +83,7 @@ const Header = ({
           <Link href="/">
             <span
               className={`${
-                activeTab === MenuItem.ACCESSORIES && "border-b-2"
+                activeTab === MenuItem.ACCESSORIES && "border-b-2 text-white"
               } cursor-pointer hover:border-b-2`}
               onClick={() => onMenuItemChange(MenuItem.ACCESSORIES)}
             >
@@ -93,7 +93,7 @@ const Header = ({
           <Link href="/">
             <span
               className={`${
-                activeTab === MenuItem.SERVICES && "border-b-2"
+                activeTab === MenuItem.SERVICES && "border-b-2 text-white"
               } cursor-pointer hover:border-b-2`}
               onClick={() => onMenuItemChange(MenuItem.SERVICES)}
             >
