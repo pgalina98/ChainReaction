@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import type { NextPage } from "next";
 import Image from "next/image";
 
-import { Button, ColorPickerIcon, Header, Icon } from "@components";
+import { Button, ColorPickerIcon, Header, Icon, PlayIcon } from "@components";
 
 import authenticatedBoundaryRoute from "@components/hoc/route-guards/authenticatedBoundaryRoute";
 
@@ -86,6 +86,25 @@ const Home: NextPage = () => {
               />
             </motion.div>
           </div>
+          <motion.div
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            variants={useFadeInOutVariants({ duration: 0.5, delay: 0.5 })}
+            className="relative flex justify-end items-center bottom-16 right-8 space-x-6"
+          >
+            <div
+              className={`w-10 h-10 bg_white rounded-full text-black flex items-center justify-center cursor-pointer ${styles.box_shadow_white}`}
+            >
+              <Icon className="las la-angle-left text-2xl" />
+            </div>
+            <div className="text-xl">04</div>
+            <div
+              className={`w-10 h-10 bg_white rounded-full text-black flex items-center justify-center cursor-pointer ${styles.box_shadow_white}`}
+            >
+              <Icon className="las la-angle-right text-2xl" />
+            </div>
+          </motion.div>
         </div>
         <div className={`${styles.h_full} bg_brown flex flex-col justify-center overflow-hidden`}>
           <div className="flex justify-end">
@@ -178,6 +197,7 @@ const Home: NextPage = () => {
             </div>
           </motion.div>
         </div>
+        <PlayIcon className={styles.box_shadow_white} />
       </div>
     </div>
   );
