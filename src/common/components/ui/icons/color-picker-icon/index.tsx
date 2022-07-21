@@ -2,7 +2,7 @@ import React from "react";
 
 interface ColorPickerIconProps {
   className?: string;
-  color: "white" | "gray-light" | "gray-dark" | "black";
+  color: "WHITE" | "GRAY-LIGHT" | "GRAY-DARK" | "BLACK";
   isSelected?: boolean;
   isAvailable?: boolean;
   onClick: any;
@@ -17,12 +17,12 @@ const ColorPickerIcon = ({
 }: ColorPickerIconProps) => {
   const determineCheckIconColor = (): string => {
     switch (color) {
-      case "white":
+      case "WHITE":
         return "black";
 
-      case "gray-light":
-      case "gray-dark":
-      case "black":
+      case "GRAY-LIGHT":
+      case "GRAY-DARK":
+      case "BLACK":
         return "white";
 
       default:
@@ -36,7 +36,7 @@ const ColorPickerIcon = ({
 
   return (
     <div
-      className={`${className} h-8 w-8 rounded-full flex justify-center items-center bg_${color} ${
+      className={`${className} h-8 w-8 rounded-full flex justify-center items-center bg_${color.toLowerCase()} ${
         !isAvailable && "cursor-not-allowed"
       }`}
       {...(isAvailable && { onClick: onIconClick })}

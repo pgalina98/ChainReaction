@@ -29,6 +29,22 @@ export function isEmpty(value: any): boolean {
   return false;
 }
 
+export function isNullOrUndefined(value: any): boolean {
+  if (isNull(value) || isUndefined(value)) {
+    return true;
+  }
+
+  return false;
+}
+
+export function isNull(value: any): boolean {
+  if (value === null || value === "null") {
+    return true;
+  }
+
+  return false;
+}
+
 export function isUndefined(value: any): boolean {
   if (value === undefined || value === "undefined") {
     return true;

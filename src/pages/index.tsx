@@ -1,15 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { motion } from "framer-motion";
 
 import type { NextPage } from "next";
 import Image from "next/image";
 
-import { Button, ColorPickerIcon, Header, Icon, PlayIcon } from "@components";
+import { Button, ColorPickerIcon, Header, Icon, PlayIcon, Toast } from "@components";
+import { useToast } from "@components/hooks/useToast";
 
-import authenticatedBoundaryRoute from "@components/hoc/route-guards/authenticatedBoundaryRoute";
-
+import { ToastType } from "@enums/toast-type";
 import { ButtonType } from "@enums/button-type";
+import { ProductType } from "@enums/product-type";
+import { ProductColor, getProductColorValue } from "@enums/product-color";
+
+import Product from "@models/product.model";
 
 import {
   useFadeInOutLeftVariants,
@@ -17,10 +21,56 @@ import {
   useFadeInOutVariants,
 } from "@animations";
 
+import useFetchProductsByProductType from "@features/product/api/hooks/useFetchProductsByProductType";
+
+import { messages } from "@constants/messages";
+
+import authenticatedBoundaryRoute from "@components/hoc/route-guards/authenticatedBoundaryRoute";
+
 import styles from "./index.module.scss";
 
 const Home: NextPage = () => {
-  const [selectedColor, setSelectedColor] = useState<string>("white");
+  const [isShown, setIsShown] = useToast({ duration: 4000 });
+
+  const [eBikes, setEBikes] = useState<Product[]>();
+  const [selectedBike, setSelectedBike] = useState<Product>();
+  const [selectedColor, setSelectedColor] = useState<string>(
+    getProductColorValue(ProductColor.WHITE)!
+  );
+
+  const { isLoading, isError, isSuccess, data, error } = useFetchProductsByProductType(
+    ProductType.E_BIKE
+  );
+
+  useEffect(() => {
+    if (isSuccess) {
+      setEBikes(data?.data);
+      setSelectedBike(data?.data[0]);
+    }
+  }, [data, isSuccess]);
+
+  useEffect(() => {
+    setIsShown(isError);
+  }, [isError, setIsShown]);
+
+  useEffect(() => {
+    changeSelectedBike(eBikes?.filter((eBike: Product) => eBike.model === selectedBike?.model)!);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedColor]);
+
+  const changeSelectedBike = (eBikes: Product[]): void => {
+    setSelectedBike(eBikes?.find((eBike: Product) => eBike.color?.value === selectedColor));
+  };
+
+  const onLeftArrowIconClick = (): void => {
+    changeSelectedBike(eBikes?.filter((eBike: Product) => eBike.model !== selectedBike?.model)!);
+  };
+
+  const onRightArrowIconClick = (): void => {
+    changeSelectedBike(
+      eBikes?.reverse()?.filter((eBike: Product) => eBike.model !== selectedBike?.model)!
+    );
+  };
 
   const onSelectedColorChange = (color: string): void => {
     setSelectedColor(color);
@@ -30,6 +80,14 @@ const Home: NextPage = () => {
     <div className="h-full">
       <Header animated showMenu backgroundColor="split" />
       <div className="grid grid-cols-2 text-white">
+        {isError && (
+          <Toast
+            type={ToastType.DANGER}
+            message={error.response.data?.message || messages.INTERNAL_SERVER_ERROR}
+            isShown={isShown}
+            hideToast={() => setIsShown(false)}
+          />
+        )}
         <div className={`${styles.h_full} bg_primary`}>
           <div className={`${styles.h_full} ${styles.radial_gradient}`}>
             <motion.div
@@ -96,13 +154,13 @@ const Home: NextPage = () => {
             <div
               className={`w-10 h-10 bg_white rounded-full text-black flex items-center justify-center cursor-pointer hover:scale-105 ${styles.box_shadow_white}`}
             >
-              <Icon className="las la-angle-left text-2xl" />
+              <Icon className="las la-angle-left text-2xl" onClick={onLeftArrowIconClick} />
             </div>
-            <div className="text-xl">04</div>
+            <div className="text-xl">{selectedBike?.model}</div>
             <div
               className={`w-10 h-10 bg_white rounded-full text-black flex items-center justify-center cursor-pointer hover:scale-105 ${styles.box_shadow_white}`}
             >
-              <Icon className="las la-angle-right text-2xl" />
+              <Icon className="las la-angle-right text-2xl" onClick={onRightArrowIconClick} />
             </div>
           </motion.div>
         </div>
@@ -137,21 +195,21 @@ const Home: NextPage = () => {
             >
               <ColorPickerIcon
                 className="cursor-pointer border-2 border-gray-300"
-                color="white"
-                isSelected={selectedColor === "white"}
+                color="WHITE"
+                isSelected={selectedColor === "WHITE"}
                 onClick={onSelectedColorChange}
               />
               <ColorPickerIcon
                 className="cursor-pointer border-2 border-gray-300"
-                color="gray-dark"
-                isSelected={selectedColor === "gray-dark"}
+                color="GRAY-DARK"
+                isSelected={selectedColor === "GRAY-DARK"}
                 isAvailable={false}
                 onClick={onSelectedColorChange}
               />
               <ColorPickerIcon
                 className="cursor-pointer border-2 border-gray-300"
-                color="black"
-                isSelected={selectedColor === "black"}
+                color="BLACK"
+                isSelected={selectedColor === "BLACK"}
                 onClick={onSelectedColorChange}
               />
             </div>
