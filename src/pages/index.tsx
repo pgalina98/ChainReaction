@@ -13,6 +13,8 @@ import { ButtonType } from "@enums/button-type";
 import { ProductType } from "@enums/product-type";
 import { ProductColor, getProductColorValue } from "@enums/product-color";
 
+import { isNullOrUndefined } from "@utils/common";
+
 import Product from "@models/product.model";
 
 import {
@@ -35,19 +37,26 @@ const Home: NextPage = () => {
   const [eBikes, setEBikes] = useState<Product[]>();
   const [selectedBike, setSelectedBike] = useState<Product>();
   const [selectedColor, setSelectedColor] = useState<string>(
-    getProductColorValue(ProductColor.WHITE)!
+    getProductColorValue(ProductColor.BLACK)!
   );
 
-  const { isLoading, isError, isSuccess, data, error } = useFetchProductsByProductType(
+  const { isLoading, isError, isSuccess, data, error, refetch } = useFetchProductsByProductType(
     ProductType.E_BIKE
   );
 
   useEffect(() => {
-    if (isSuccess) {
-      setEBikes(data?.data);
-      setSelectedBike(data?.data[0]);
-    }
-  }, [data, isSuccess]);
+    refetch();
+  }, []);
+
+  useEffect(() => {
+    setEBikes(data?.data);
+    setSelectedBike(
+      data?.data.find(
+        (eBike: Product) =>
+          eBike?.model === data.data[0].model && eBike.color?.value === selectedColor
+      )
+    );
+  }, [data]);
 
   useEffect(() => {
     setIsShown(isError);
@@ -56,6 +65,27 @@ const Home: NextPage = () => {
   useEffect(() => {
     changeSelectedBike(eBikes?.filter((eBike: Product) => eBike.model === selectedBike?.model)!);
   }, [selectedColor]);
+
+  const isProductInSpecificColorAvailable = (color: number): boolean => {
+    const eBike = eBikes?.find(
+      (eBike) => eBike.model === selectedBike?.model && eBike?.color?.idProductColor === color
+    );
+
+    if (isNullOrUndefined(eBike)) return false;
+
+    return eBike?.availableQuantity! > 0 || false;
+  };
+
+  const getMirroredImagePath = (imagePath: string): string => {
+    const imagePathWithoutExtension = imagePath.substring(0, imagePath.lastIndexOf("."));
+    const imageExtension = imagePath.substring(imagePath.lastIndexOf("."), imagePath.length);
+
+    return `${imagePathWithoutExtension}_mirrored${imageExtension}`;
+  };
+
+  const getUniqueKey = (): string => {
+    return `${selectedBike?.model}-${selectedColor}`;
+  };
 
   const changeSelectedBike = (eBikes: Product[]): void => {
     setSelectedBike(eBikes?.find((eBike: Product) => eBike.color?.value === selectedColor));
@@ -75,6 +105,8 @@ const Home: NextPage = () => {
     setSelectedColor(color);
   };
 
+  if (isLoading) return <div>Loading...</div>;
+
   return (
     <div className="h-full">
       <Header animated showMenu backgroundColor="split" />
@@ -90,16 +122,19 @@ const Home: NextPage = () => {
         <div className={`${styles.h_full} bg_primary`}>
           <div className={`${styles.h_full} ${styles.radial_gradient}`}>
             <motion.div
+              key={getUniqueKey()}
               initial="initial"
               animate="animate"
               exit="exit"
               variants={useFadeInOutVariants({ duration: 0.5 })}
               className="flex justify-center relative pt-14"
             >
-              <span className="text-6xl max-w-md">Take the streets.</span>
-              <span className="text-4xl font-thin font_secondary absolute bottom-0 left-1/2 ml-2">
-                Cowboy. 4
-              </span>
+              <div className="text-6xl max-w-lg ml-16">
+                {selectedBike?.description}
+                <span className="text-4xl font-thin font_secondary">
+                  &nbsp;Cowboy. {selectedBike?.model}
+                </span>
+              </div>
             </motion.div>
             <motion.div
               initial="initial"
@@ -127,20 +162,22 @@ const Home: NextPage = () => {
               <Button label="Book a test ride" type={ButtonType.LIGHT} rounded onClick={() => {}} />
             </motion.div>
             <motion.div
-              key={selectedColor}
+              key={selectedBike?.idProduct}
               initial="initial"
               animate="animate"
               exit="exit"
               variants={useFadeInOutLeftVariants({ duration: 1 })}
               className={`${styles.image_position} absolute -bottom-1`}
             >
-              <Image
-                src={`/assets/e-bikes/cowboy-4st/cowboy-4st-dark-gray.png`}
-                alt="Cowboy 4"
-                width={375}
-                height={208}
-                priority
-              />
+              {selectedBike?.imagePath && (
+                <Image
+                  src={selectedBike?.imagePath!}
+                  alt="Cowboy 4"
+                  width={375}
+                  height={208}
+                  priority
+                />
+              )}
             </motion.div>
           </div>
           <motion.div
@@ -196,40 +233,45 @@ const Home: NextPage = () => {
                 className="cursor-pointer border-2 border-gray-300"
                 color="WHITE"
                 isSelected={selectedColor === "WHITE"}
+                isAvailable={isProductInSpecificColorAvailable(ProductColor.WHITE)}
                 onClick={onSelectedColorChange}
               />
               <ColorPickerIcon
                 className="cursor-pointer border-2 border-gray-300"
                 color="GRAY-DARK"
                 isSelected={selectedColor === "GRAY-DARK"}
-                isAvailable={false}
+                isAvailable={isProductInSpecificColorAvailable(ProductColor.GRAY_DARK)}
                 onClick={onSelectedColorChange}
               />
               <ColorPickerIcon
                 className="cursor-pointer border-2 border-gray-300"
                 color="BLACK"
                 isSelected={selectedColor === "BLACK"}
+                isAvailable={isProductInSpecificColorAvailable(ProductColor.BLACK)}
                 onClick={onSelectedColorChange}
               />
             </div>
           </motion.div>
           <motion.div
-            key={selectedColor}
+            key={selectedBike?.idProduct}
             initial="initial"
             animate="animate"
             exit="exit"
             variants={useFadeInOutRightVariants({ duration: 1 })}
             className={`${styles.mirrored_image_position} relative ${styles.mirrored_image_position} flex`}
           >
-            <Image
-              src="/assets/e-bikes/cowboy-4st/cowboy-4st-dark-gray_mirrored.png"
-              alt="Cowboy 4"
-              width={1920}
-              height={1064}
-              priority
-            />
+            {selectedBike?.imagePath && (
+              <Image
+                src={getMirroredImagePath(selectedBike?.imagePath!)}
+                alt="Cowboy 4"
+                width={1920}
+                height={1064}
+                priority
+              />
+            )}
           </motion.div>
           <motion.div
+            key={getUniqueKey()}
             initial="initial"
             animate="animate"
             exit="exit"
@@ -237,19 +279,19 @@ const Home: NextPage = () => {
             className="text-white flex justify-center space-x-20 mt-8 mb-8"
           >
             <div className="flex flex-col items-start">
-              <div className="text-2xl font-light">25 km/h</div>
+              <div className="text-2xl font-light">{selectedBike?.assistSpeed} km/h</div>
               <div className="text-gray-300 text-sm font-thin">Assist Speed</div>
             </div>
             <div className="flex flex-col items-start">
-              <div className="text-2xl font-light">70 km</div>
+              <div className="text-2xl font-light">{selectedBike?.batteryRange} km</div>
               <div className="text-gray-300 text-sm font-thin">Battery Range</div>
             </div>
             <div className="flex flex-col items-start">
-              <div className="text-2xl font-light">3.5 h</div>
+              <div className="text-2xl font-light">{selectedBike?.chargingTime} h</div>
               <div className="text-gray-300 text-sm font-thin">Charging Time</div>
             </div>
             <div className="flex flex-col items-start">
-              <div className="text-2xl font-light">16.9 kg</div>
+              <div className="text-2xl font-light">{selectedBike?.weight} kg</div>
               <div className="text-gray-300 text-sm font-thin">Weight</div>
             </div>
           </motion.div>

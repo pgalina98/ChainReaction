@@ -1,4 +1,4 @@
 export default interface ProductColor {
-  idProductColor: string;
+  idProductColor: number;
   value: string;
 }

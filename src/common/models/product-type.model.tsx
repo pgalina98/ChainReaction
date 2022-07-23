@@ -1,4 +1,4 @@
 export default interface ProductType {
-  idProductType: string;
+  idProductType: number;
   value: string;
 }

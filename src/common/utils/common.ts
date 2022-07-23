@@ -46,6 +46,10 @@ export function isString(value: unknown): value is string {
   return typeof value === "string";
 }
 
+export function toString(value: any): string {
+  return value?.toString();
+}
+
 export function isArray<T>(value: unknown): value is T[] {
   return value instanceof Array;
 }

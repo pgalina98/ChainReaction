@@ -1,6 +1,6 @@
 export enum ProductColor {
   WHITE = 1,
-  DARK_GRAY = 2,
+  GRAY_DARK = 2,
   BLACK = 3,
 }
 

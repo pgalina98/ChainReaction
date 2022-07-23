@@ -2,16 +2,17 @@ import ProductColor from "@models/product-color.model";
 import ProductType from "@models/product-type.model";
 
 export default interface Product {
-  name?: string;
+  idProduct: number;
+  name: string;
   description?: string;
   model?: string;
   assistSpeed?: number;
   batteryRange?: number;
   chargingTime?: number;
   weight?: number;
-  price?: number;
+  price: number;
   color?: ProductColor;
-  availableQuantity?: number;
+  availableQuantity: number;
   imagePath: string;
   type?: ProductType;
 }

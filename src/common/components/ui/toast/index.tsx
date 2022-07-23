@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import { motion } from "framer-motion";
 
 import { ToastType } from "@enums/toast-type";
+
+import { toString } from "@utils/common";
 
 import { useFadeInOutRightVariants } from "@animations";
 
@@ -156,7 +158,7 @@ const Toast = ({
 
   return (
     <motion.div
-      key={isShown.toString()}
+      key={toString(isShown)}
       initial="initial"
       animate={isShown && "animate"}
       variants={useFadeInOutRightVariants({ duration: 0.2 })}
