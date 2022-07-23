@@ -5,7 +5,15 @@ import { motion } from "framer-motion";
 import type { NextPage } from "next";
 import Image from "next/image";
 
-import { Button, ColorPickerIcon, Header, Icon, PlayIcon, Toast } from "@components";
+import {
+  Button,
+  ColorPickerIcon,
+  Header,
+  Icon,
+  LoadingOverlay,
+  PlayIcon,
+  Toast,
+} from "@components";
 import { useToast } from "@components/hooks/useToast";
 
 import { ToastType } from "@enums/toast-type";
@@ -105,7 +113,7 @@ const Home: NextPage = () => {
     setSelectedColor(color);
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <LoadingOverlay />;
 
   return (
     <div className="h-full">

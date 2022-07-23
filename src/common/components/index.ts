@@ -9,3 +9,4 @@ export { default as Loader } from "common/components/ui/loader";
 export { default as Tooltip } from "common/components/ui/tooltip";
 export { default as Toast } from "common/components/ui/toast";
 export { default as Avatar } from "common/components/ui/avatar";
+export { default as LoadingOverlay } from "common/components/ui/loading-overlay";
