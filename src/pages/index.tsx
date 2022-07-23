@@ -192,7 +192,9 @@ const Home: NextPage = () => {
             >
               <Icon className="las la-angle-left text-2xl" onClick={onLeftArrowIconClick} />
             </div>
-            <div className="text-xl">{selectedBike?.model}</div>
+            <div className={`text-xl flex justify-center ${styles.min_w_40}`}>
+              {selectedBike?.model}
+            </div>
             <div
               className={`w-10 h-10 bg_white rounded-full text-black flex items-center justify-center cursor-pointer hover:scale-105 ${styles.box_shadow_white}`}
             >
