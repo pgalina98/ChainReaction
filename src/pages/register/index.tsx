@@ -60,11 +60,11 @@ const Register: NextPage = () => {
         router.push("/login");
       }, 4000);
     }
-  }, [isSuccess, router]);
+  }, [isSuccess]);
 
   useEffect(() => {
     setIsShown(isError || isSuccess);
-  }, [isError, isSuccess, setIsShown]);
+  }, [isError, isSuccess]);
 
   const onTogglePasswordVisibilityClick = (): void => {
     setIsPasswordVisible(!isPasswordVisible);

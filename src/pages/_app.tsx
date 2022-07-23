@@ -43,7 +43,7 @@ const ComponentWrapper = ({ children }) => {
         clearAuthenticationToken();
       }
     }
-  }, [dispatch]);
+  }, []);
 
   return <React.Fragment>{children}</React.Fragment>;
 };

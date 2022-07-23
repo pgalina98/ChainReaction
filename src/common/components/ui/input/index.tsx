@@ -52,7 +52,7 @@ const Input = ({
     if (!!onValidationStateChange) {
       onValidationStateChange(isInvalid);
     }
-  }, [isInvalid, onValidationStateChange]);
+  }, [isInvalid]);
 
   const onInputFieldChange = (value: string): void => {
     if (validate) {

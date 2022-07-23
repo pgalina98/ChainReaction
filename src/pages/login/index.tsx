@@ -71,11 +71,11 @@ const Login: NextPage = () => {
 
       router.push("/");
     }
-  }, [data, isSuccess, dispatch, router]);
+  }, [data, isSuccess]);
 
   useEffect(() => {
     setIsShown(isError);
-  }, [isError, setIsShown]);
+  }, [isError]);
 
   const onTogglePasswordVisibilityButtonClick = (): void => {
     setIsPasswordVisible(!isPasswordVisible);

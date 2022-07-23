@@ -1,5 +1,5 @@
 import ProductColor from "@models/product-color.model";
-import ProductType from "@models/product-tyoe.model";
+import ProductType from "@models/product-type.model";
 
 export default interface Product {
   name?: string;

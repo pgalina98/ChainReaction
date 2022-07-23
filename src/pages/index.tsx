@@ -51,11 +51,10 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     setIsShown(isError);
-  }, [isError, setIsShown]);
+  }, [isError]);
 
   useEffect(() => {
     changeSelectedBike(eBikes?.filter((eBike: Product) => eBike.model === selectedBike?.model)!);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedColor]);
 
   const changeSelectedBike = (eBikes: Product[]): void => {
