@@ -6,6 +6,8 @@ import { ValidationResult } from "common/types/validation-result.type";
 
 import { InptType } from "@enums/input-type";
 
+import { declassify, isNullOrUndefined } from "@utils/common";
+
 import styles from "./input.module.scss";
 
 interface InputProps {
@@ -99,11 +101,12 @@ const Input = ({
         <input
           id={`inputField_${id}`}
           type={type === InptType.PASSWORD && !appendIconActive ? "password" : "text"}
-          className={`focus:ring-gray-500 focus:border-gray-500 block w-full ${
-            prependIcon && "pl-10"
-          } pr-12 sm:text-sm border-gray-300 rounded-md ${styles.input} ${
-            isInvalid && styles.invalid_input
-          }`}
+          className={declassify(
+            `focus:ring-gray-500 focus:border-gray-500 block w-full pr-12 sm:text-sm border-gray-300 rounded-md ${
+              styles.input
+            } ${isInvalid && styles.invalid_input}`,
+            { "pl-10": !isNullOrUndefined(prependIcon) }
+          )}
           placeholder={placeholder || ""}
           onChange={({ target: { value } }) => onInputFieldChange(value)}
           disabled={isDisabled}
@@ -123,9 +126,11 @@ const Input = ({
           )}
           {appendIcon && (
             <div
-              className={`flex items-center mt-1 ml-2 ${
-                appendIconClicable ? "cursor-pointer" : "pointer-events-none"
-              } ${styles.input}`}
+              className={declassify(
+                `flex items-center mt-1 ml-2 ${styles.input}`,
+                { "cursor-pointer": appendIconClicable },
+                { "pointer-events-none": !appendIconClicable }
+              )}
             >
               <span className="text-gray-500" onClick={onAppendIconClick}>
                 <i className={appendIcon} style={{ fontSize: "1.3rem" }} />

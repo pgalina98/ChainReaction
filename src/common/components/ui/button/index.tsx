@@ -4,6 +4,8 @@ import { Loader } from "@components";
 
 import { ButtonType } from "@enums/button-type";
 
+import { declassify } from "@utils/common";
+
 interface ButtonProps {
   className?: string;
   label?: string;
@@ -74,11 +76,12 @@ const Button = ({
   return (
     <button
       type="button"
-      className={`${className} border ${
-        rounded ? "rounded-full" : "rounded-md"
-      } px-4 py-2 rounded-full focus:outline-none focus:shadow-outline ${determineClassNames()} ${
-        isButtonDisabled() && "cursor-not-allowed flex justify-center"
-      }`}
+      className={declassify(
+        `${className} border px-4 py-2 rounded-full focus:outline-none focus:shadow-outline ${determineClassNames()}`,
+        { "rounded-full": rounded },
+        { "rounded-md": !rounded },
+        { "cursor-not-allowed flex justify-center": isButtonDisabled() }
+      )}
       disabled={isDisabled || isLoading}
       onClick={onClick}
     >

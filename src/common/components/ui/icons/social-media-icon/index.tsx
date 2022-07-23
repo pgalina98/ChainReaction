@@ -2,6 +2,8 @@ import React from "react";
 
 import { IconColor } from "@enums/icon-color";
 
+import { declassify } from "@utils/common";
+
 import styles from "./social-media-icon.module.scss";
 
 interface SocialMediaIconProps {
@@ -30,9 +32,12 @@ const SocialMediaIcon = ({ className, icon, color, hoverable = false }: SocialMe
 
   return (
     <div
-      className={`${className} ml-4 mr-4 mt-2 mb-2 h-8 w-8 rounded-lg flex justify-center items-center ${
-        styles[determineIconColor()]
-      } ${hoverable && "cursor-pointer"} ${hoverable && `${styles.icon_container}`}`}
+      className={declassify(
+        `${className} ml-4 mr-4 mt-2 mb-2 h-8 w-8 rounded-lg flex justify-center items-center ${
+          styles[determineIconColor()]
+        } ${hoverable && styles.icon_container}`,
+        { "cursor-pointer": hoverable }
+      )}
     >
       <i className={`${icon} text-xl`} />
     </div>

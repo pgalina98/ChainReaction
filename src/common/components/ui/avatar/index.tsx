@@ -10,6 +10,7 @@ import { Loader } from "@components";
 import { RootState } from "@store/index";
 
 import { clearAuthenticationToken } from "@utils/local-storage";
+import { declassify } from "@utils/common";
 
 interface AvatarProps extends RootState {
   className?: string;
@@ -47,9 +48,11 @@ const Avatar = ({ className, withDropdown = false, authentication }: AvatarProps
         alt="User dropdown"
       />
       <div
-        className={`${isMenuOpen ? "visible" : "invisible"} ${
-          withDropdown ? "visible" : "invisible"
-        } w-56 z-10 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600 block absolute top-14 right-0`}
+        className={declassify(
+          "w-56 z-10 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600 block absolute top-14 right-0",
+          { visible: withDropdown && isMenuOpen },
+          { invisible: !withDropdown || !isMenuOpen }
+        )}
       >
         <div className="py-3 px-4 text-sm text-gray-900 dark:text-white">
           <div>{authentication.fullname}</div>

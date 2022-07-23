@@ -7,14 +7,12 @@ import Link from "next/link";
 
 import { BarsIcon, Button, Avatar, ShoppingCardIcon } from "@components";
 
-import {
-  useFadeInOutLeftVariants,
-  useFadeInOutRightVariants,
-  useFadeInOutTopVariants,
-} from "@animations";
+import { useFadeInOutLeftVariants, useFadeInOutTopVariants } from "@animations";
 
 import { ButtonType } from "@enums/button-type";
 import { MenuItem } from "@enums/menu-items";
+
+import { declassify } from "@utils/common";
 
 import styles from "./header.module.scss";
 
@@ -59,11 +57,15 @@ const Header = ({
           <p className="text-2xl font-medium mt-4">ChainReaction.</p>
         </motion.div>
       </div>
-      <BarsIcon className={showMenu ? "visible" : "invisible"} />
+      <BarsIcon className={declassify({ visible: showMenu }, { invisible: !showMenu })} />
       <div
-        className={`${backgroundColor === "singleColor" ? "bg_primary" : "bg_brown"} ${
-          showMenu ? "visible" : "invisible"
-        } text-gray-200 uppercase justify-between flex items-center font-light text-base flex`}
+        className={declassify(
+          "text-gray-200 uppercase justify-between flex items-center font-light text-base flex",
+          { bg_primary: backgroundColor === "singleColor" },
+          { bg_brown: backgroundColor !== "singleColor" },
+          { visible: showMenu },
+          { invisible: !showMenu }
+        )}
       >
         <motion.div
           {...(animated && { initial: "initial", animate: "animate", exit: "exit" })}
@@ -72,9 +74,9 @@ const Header = ({
         >
           <Link href="/">
             <span
-              className={`${
-                activeTab === MenuItem.BIKES && "border-b-2 text-white"
-              } cursor-pointer hover:border-b-2`}
+              className={declassify("cursor-pointer hover:border-b-2", {
+                "border-b-2 text-white": activeTab === MenuItem.BIKES,
+              })}
               onClick={() => onMenuItemChange(MenuItem.BIKES)}
             >
               Bikes
@@ -82,9 +84,9 @@ const Header = ({
           </Link>
           <Link href="/">
             <span
-              className={`${
-                activeTab === MenuItem.ACCESSORIES && "border-b-2 text-white"
-              } cursor-pointer hover:border-b-2`}
+              className={declassify("cursor-pointer hover:border-b-2", {
+                "border-b-2 text-white": activeTab === MenuItem.ACCESSORIES,
+              })}
               onClick={() => onMenuItemChange(MenuItem.ACCESSORIES)}
             >
               Accessories
@@ -92,9 +94,9 @@ const Header = ({
           </Link>
           <Link href="/">
             <span
-              className={`${
-                activeTab === MenuItem.SERVICES && "border-b-2 text-white"
-              } cursor-pointer hover:border-b-2`}
+              className={declassify("cursor-pointer hover:border-b-2", {
+                "border-b-2 text-white": activeTab === MenuItem.SERVICES,
+              })}
               onClick={() => onMenuItemChange(MenuItem.SERVICES)}
             >
               Services

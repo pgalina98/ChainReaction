@@ -1,5 +1,7 @@
 import React from "react";
 
+import { declassify } from "@utils/common";
+
 interface ColorPickerIconProps {
   className?: string;
   color: "WHITE" | "GRAY-LIGHT" | "GRAY-DARK" | "BLACK";
@@ -36,9 +38,10 @@ const ColorPickerIcon = ({
 
   return (
     <div
-      className={`${className} h-8 w-8 rounded-full flex justify-center items-center bg_${color.toLowerCase()} ${
-        !isAvailable && "cursor-not-allowed"
-      }`}
+      className={declassify(
+        `${className} h-8 w-8 rounded-full flex justify-center items-center bg_${color.toLowerCase()}`,
+        { "cursor-not-allowed": !isAvailable }
+      )}
       {...(isAvailable && { onClick: onIconClick })}
     >
       {isSelected && <i className={`las la-check text-${determineCheckIconColor()}`} />}

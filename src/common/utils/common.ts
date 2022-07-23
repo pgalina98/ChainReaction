@@ -1,5 +1,47 @@
 import { valuesIn } from "lodash";
 
+export interface ClassesAsProps {
+  [name: string]: boolean;
+}
+
+export type ClassesAsArray = string[];
+
+export type Classifiable = string | ClassesAsProps | ClassesAsArray;
+
+export function classify(...classes: Classifiable[]): ClassesAsArray {
+  const result = classes
+    .map((value) => {
+      if (isString(value)) {
+        return value.split(" ");
+      } else if (isArray(value)) {
+        return value.map((className) => classify(className)).reduce(arrayReducer, []);
+      }
+      return Object.keys(value)
+        .map((key) => (value[key] ? classify(key) : []))
+        .filter((value) => value.length > 0)
+        .reduce(arrayReducer, []);
+    })
+    .reduce(arrayReducer, []);
+
+  return noDupes(noEmpty(result));
+
+  function arrayReducer(array: string[], item: string[]) {
+    return [...array, ...item];
+  }
+}
+
+export function declassify(...classes: Classifiable[]): string {
+  return classify(...classes).join(" ");
+}
+
+export function noDupes<T = any>(inArray: T[]): T[] {
+  return [...new Set(inArray)];
+}
+
+export function noEmpty<T = any>(inArray: T[]): T[] {
+  return inArray.filter((value) => !isEmpty(value));
+}
+
 export function isString(value: unknown): value is string {
   return typeof value === "string";
 }
@@ -53,18 +95,18 @@ export function isUndefined(value: any): boolean {
   return false;
 }
 
-export function isEqual(value: string, valueForComparation: string): boolean {
+export function isEqual(value: string, valueForComparison: string): boolean {
   if (undefined === value || value === "" || value === null || value === undefined) {
     return false;
   }
   if (
-    undefined === valueForComparation ||
-    valueForComparation === "" ||
-    valueForComparation === null ||
-    valueForComparation === undefined
+    undefined === valueForComparison ||
+    valueForComparison === "" ||
+    valueForComparison === null ||
+    valueForComparison === undefined
   ) {
     return false;
   }
 
-  return value === valueForComparation;
+  return value === valueForComparison;
 }
