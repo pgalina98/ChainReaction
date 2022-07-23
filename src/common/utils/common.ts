@@ -114,3 +114,11 @@ export function isEqual(value: string, valueForComparison: string): boolean {
 
   return value === valueForComparison;
 }
+
+export function toBoolean(value: any): boolean {
+  if (value === "true") {
+    return true;
+  } else {
+    return false;
+  }
+}

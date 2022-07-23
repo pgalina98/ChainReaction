@@ -70,6 +70,10 @@ const Register: NextPage = () => {
     setIsPasswordVisible(!isPasswordVisible);
   };
 
+  const navigateToLoginPage = () => {
+    router.push({ pathname: "/login", query: { showLoadingOverlay: false } });
+  };
+
   const onToggleConfirmationPasswordVisibilityClick = (): void => {
     setIsConfirmPasswordVisible(!isConfirmPasswordVisible);
   };
@@ -242,17 +246,16 @@ const Register: NextPage = () => {
           variants={useFadeInOutRightVariants({ duration: 0.5 })}
           className={`${styles.div_rounded_tr_bl_0_50_32} ${styles.right_content} p-8 relative`}
         >
-          <Link href="/login">
-            <motion.div
-              animate="animate"
-              exit="exit"
-              whileHover={useBounce({ repeat: Infinity })}
-              variants={useRotateAndScaleVariants()}
-              className={`absolute left-0 -ml-5 p-2 text-4xl rounded-full flex justify-center content-center ${styles.icon_arrow}`}
-            >
-              <i className="las la-chevron-circle-right" />
-            </motion.div>
-          </Link>
+          <motion.div
+            animate="animate"
+            exit="exit"
+            whileHover={useBounce({ repeat: Infinity })}
+            variants={useRotateAndScaleVariants()}
+            className={`absolute left-0 -ml-5 p-2 text-4xl rounded-full flex justify-center content-center ${styles.icon_arrow}`}
+            onClick={navigateToLoginPage}
+          >
+            <i className="las la-chevron-circle-right" />
+          </motion.div>
           <motion.div className="flex justify-center" exit="exit" variants={useDisplayNoneOnExit()}>
             <p className="font-light text-5xl">Sign Up</p>
           </motion.div>

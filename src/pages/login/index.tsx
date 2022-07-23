@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 
 import jwtDecode from "jwt-decode";
 
-import { Button, Card, Header, SocialMediaIcon, Input, Toast } from "@components";
+import { Button, Card, Header, SocialMediaIcon, Input, Toast, LoadingOverlay } from "@components";
 import { useToast } from "@components/hooks/useToast";
 
 import { InptType } from "@enums/input-type";
@@ -35,7 +35,7 @@ import JwtToken from "@models/jwt-token.model";
 
 import { useValidatePassword, useValidateUsername } from "@features/authentication/validators";
 
-import { isEmpty } from "@utils/common";
+import { isEmpty, isNullOrUndefined, toBoolean } from "@utils/common";
 import { setValue } from "@utils/local-storage";
 
 import useAuthenticateUser from "@features/authentication/api/hooks/useAuthenticateUser";
@@ -47,16 +47,30 @@ import notAuthenticatedBoundaryRoute from "@components/hoc/route-guards/notAuthe
 
 import styles from "./login.module.scss";
 
-const Login: NextPage = () => {
+const Login: NextPage = (props) => {
   const dispatch = useDispatch();
   const router = useRouter();
   const [isShown, setIsShown] = useToast({ duration: 4000 });
+
+  const [isLoadingOverlayShown, setIsLoadingOverlayShown] = useState<boolean>();
 
   const [user, setUser] = useState<User>(createEmptyUserObject());
 
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
 
   const { isLoading, isError, isSuccess, data, error, mutate } = useAuthenticateUser(user);
+
+  useEffect(() => {
+    if (isNullOrUndefined(router.query.showLoadingOverlay)) {
+      setIsLoadingOverlayShown(!toBoolean(router.query.showLoadingOverlay));
+
+      setTimeout(() => {
+        setIsLoadingOverlayShown(false);
+      }, 2500);
+    } else if (!toBoolean(router.query.showLoadingOverlay)) {
+      router.push("login");
+    }
+  }, []);
 
   useEffect(() => {
     if (isSuccess) {
@@ -96,6 +110,8 @@ const Login: NextPage = () => {
   const onSignInButtonClick = (): void => {
     mutate();
   };
+
+  if (isLoadingOverlayShown) return <LoadingOverlay />;
 
   return (
     <div className="h-full">
