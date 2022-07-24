@@ -1,6 +1,8 @@
 import { AxiosInstance } from "axios";
 
-import { getValueByKey } from "@utils/local-storage";
+import HttpStatusCode from "@enums/http-status-code";
+
+import { getValueByKey, clearAuthenticationToken } from "@utils/local-storage";
 
 const setupAxiosInterceptors = (instance: AxiosInstance): AxiosInstance => {
   const onRequestSuccess = (config) => {
@@ -10,12 +12,18 @@ const setupAxiosInterceptors = (instance: AxiosInstance): AxiosInstance => {
     }
     return config;
   };
+  const onRequestError = (error) => {
+    if (error.response.status === HttpStatusCode.UNAUTHORIZED) {
+      clearAuthenticationToken();
+    }
+    return Promise.reject(error);
+  };
   const onResponseSuccess = (response) => response;
   const onResponseError = (error) => {
     return Promise.reject(error);
   };
 
-  instance.interceptors.request.use(onRequestSuccess);
+  instance.interceptors.request.use(onRequestSuccess, onRequestError);
   instance.interceptors.response.use(onResponseSuccess, onResponseError);
 
   return instance;
