@@ -97,7 +97,7 @@ const RentEBike = () => {
         <div className={`${styles.h_full} bg_brown`}>
           <Stepper className="pt-8" currentStep={currentStep!} />
           <div className="px-12 py-8">
-            <div className="mt-6">
+            <div className="mt-4">
               <p className="font-medium text-2xl">Select a helmet</p>
               <div className="mt-4 flex justify-start space-x-8">
                 <Card
