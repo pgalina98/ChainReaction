@@ -261,7 +261,7 @@ const Register: NextPage = () => {
           </motion.div>
           <motion.div className="absolute bottom-10" exit="exit" variants={useDisplayNoneOnExit()}>
             <Image
-              src="/assets/register.svg"
+              src="/assets/shared/register.svg"
               alt="Register illustration"
               width={550}
               height={550}

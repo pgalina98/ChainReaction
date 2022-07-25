@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 
 import type { NextPage } from "next";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 import {
   Button,
@@ -40,6 +41,7 @@ import authenticatedBoundaryRoute from "@components/hoc/route-guards/authenticat
 import styles from "./index.module.scss";
 
 const Home: NextPage = () => {
+  const router = useRouter();
   const [isShown, setIsShown] = useToast({ duration: 4000 });
 
   const [eBikes, setEBikes] = useState<Product[]>();
@@ -113,6 +115,10 @@ const Home: NextPage = () => {
     setSelectedColor(color);
   };
 
+  const navigateToRentABikePage = (): void => {
+    router.push(`/rent-e-bike/${selectedBike?.idProduct}`);
+  };
+
   if (isLoading) return <LoadingOverlay />;
 
   return (
@@ -167,7 +173,12 @@ const Home: NextPage = () => {
               variants={useFadeInOutVariants({ duration: 0.5, delay: 0.5 })}
               className="flex justify-center mt-10"
             >
-              <Button label="Book a test ride" type={ButtonType.LIGHT} rounded onClick={() => {}} />
+              <Button
+                label="Book a test ride"
+                type={ButtonType.LIGHT}
+                rounded
+                onClick={navigateToRentABikePage}
+              />
             </motion.div>
             <motion.div
               key={selectedBike?.idProduct}

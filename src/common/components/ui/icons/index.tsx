@@ -4,3 +4,4 @@ export { default as ShoppingCardIcon } from "common/components/ui/icons/shopping
 export { default as ColorPickerIcon } from "common/components/ui/icons/color-picker-icon";
 export { default as Icon } from "common/components/ui/icons/icon";
 export { default as PlayIcon } from "common/components/ui/icons/play-icon";
+export { default as BackIcon } from "common/components/ui/icons/back-icon";

@@ -148,7 +148,7 @@ const Login: NextPage = (props) => {
           </motion.div>
           <motion.div className="absolute bottom-10" exit="exit" variants={useDisplayNoneOnExit()}>
             <Image
-              src="/assets/login.svg"
+              src="/assets/shared/login.svg"
               alt="Login illustration"
               width={550}
               height={550}

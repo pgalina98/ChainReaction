@@ -11,9 +11,12 @@ interface ButtonProps {
   label?: string;
   type?: ButtonType;
   rounded?: boolean;
-  onClick: any;
+  prependIcon?: string;
+  appendIcon?: string;
   isLoading?: boolean;
   isDisabled?: boolean;
+  isHidden?: boolean;
+  onClick: any;
 }
 
 const Button = ({
@@ -21,9 +24,12 @@ const Button = ({
   label,
   type = ButtonType.PRIMARY,
   rounded = false,
-  onClick,
+  prependIcon,
+  appendIcon,
   isLoading = false,
   isDisabled = false,
+  isHidden = false,
+  onClick,
 }: ButtonProps) => {
   const isButtonDisabled = (): boolean => {
     return isDisabled || isLoading;
@@ -83,9 +89,22 @@ const Button = ({
         { "cursor-not-allowed flex justify-center": isButtonDisabled() }
       )}
       disabled={isDisabled || isLoading}
+      hidden={isHidden}
       onClick={onClick}
     >
-      {!isLoading ? label : <Loader className="mr-2 ml-3" />}
+      {!isLoading ? (
+        !appendIcon && !prependIcon ? (
+          <span>{label}</span>
+        ) : (
+          <span className="flex items-center justify-between">
+            {prependIcon && <span className={`${prependIcon} text-lg`}></span>}
+            <span>{label}</span>
+            {appendIcon && <span className={`${appendIcon} text-lg`}></span>}
+          </span>
+        )
+      ) : (
+        <Loader className="mr-2 ml-3" />
+      )}
     </button>
   );
 };

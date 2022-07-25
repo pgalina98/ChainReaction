@@ -15,6 +15,7 @@ import { MenuItem } from "@enums/menu-items";
 import { declassify } from "@utils/common";
 
 import styles from "./header.module.scss";
+import { useRouter } from "next/router";
 
 interface HeaderProps {
   animated?: boolean;
@@ -27,10 +28,16 @@ const Header = ({
   showMenu = false,
   backgroundColor = "singleColor",
 }: HeaderProps) => {
+  const router = useRouter();
+
   const [activeTab, setActiveTab] = useState<MenuItem>();
 
   const onMenuItemChange = (menuItem: MenuItem): void => {
     setActiveTab(menuItem);
+  };
+
+  const navigateToBikesPage = (): void => {
+    router.push("/bikes");
   };
 
   return (
@@ -42,7 +49,7 @@ const Header = ({
           className={`${styles.logo_img_container} flex rounded-tr-xl rounded-br-xl`}
         >
           <Image
-            src="/assets/chain-reaction_logo.png"
+            src="/assets/shared/chain-reaction_logo.png"
             alt="ChainReaction Logo"
             width={45}
             height={40}
@@ -57,7 +64,13 @@ const Header = ({
           <p className="text-2xl font-medium mt-4">ChainReaction.</p>
         </motion.div>
       </div>
-      <BarsIcon className={declassify({ visible: showMenu }, { invisible: !showMenu })} />
+      <BarsIcon
+        className={declassify(
+          " absolute left-1/2 top-14 transform -translate-x-1/2",
+          { visible: showMenu },
+          { invisible: !showMenu }
+        )}
+      />
       <div
         className={declassify(
           "text-gray-200 uppercase justify-between flex items-center font-light text-base flex",
@@ -113,7 +126,7 @@ const Header = ({
             type={ButtonType.PRIMARY}
             className="h-10"
             rounded
-            onClick={() => {}}
+            onClick={navigateToBikesPage}
           />
           <ShoppingCardIcon />
           <Avatar className="mr-6" withDropdown />
