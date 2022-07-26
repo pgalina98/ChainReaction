@@ -18,7 +18,7 @@ import { useToast } from "@components/hooks/useToast";
 import { messages } from "@constants/messages";
 
 import { ProductSize } from "@enums/product-size";
-import { RentABikeStep, RentABikeSteps } from "@enums/rent-a-bike-step";
+import { determineNextStep, determinePreviousStep, RentABikeStep } from "@enums/rent-a-bike-step";
 import { ProductType } from "@enums/product-type";
 import { ToastType } from "@enums/toast-type";
 
@@ -161,11 +161,11 @@ const RentEBike = () => {
   };
 
   const onNextButtonClick = (): void => {
-    setCurrentStep(RentABikeSteps[currentStep + 1]);
+    setCurrentStep(determineNextStep(currentStep));
   };
 
   const onPreviousButtonClick = (): void => {
-    setCurrentStep(RentABikeSteps[currentStep - 1]);
+    setCurrentStep(determinePreviousStep(currentStep));
   };
 
   const iseNextButtonDisabled = (): boolean => {
@@ -173,7 +173,7 @@ const RentEBike = () => {
   };
 
   const isPreviousButtonHidden = (): boolean => {
-    return currentStep === RentABikeStep.SELECT_GEAR || currentStep === RentABikeStep.FINISHED;
+    return currentStep === RentABikeStep.SELECT_GEAR;
   };
 
   if (isLoading) return <LoadingOverlay />;
@@ -230,12 +230,15 @@ const RentEBike = () => {
         <div className={`${styles.h_full} bg_brown`}>
           <Stepper className="pt-8" currentStep={currentStep!} />
           <div className="px-12 py-8">
-            <SelectGear
-              selectedHelmet={selectedHelmet}
-              onSelectedHelmetChange={onSelectedHelmetChange}
-              selectedSize={selectedSize}
-              onSelectedSizeChange={onSelectedSizeChange}
-            />
+            {currentStep === RentABikeStep.SELECT_GEAR && (
+              <SelectGear
+                selectedHelmet={selectedHelmet}
+                onSelectedHelmetChange={onSelectedHelmetChange}
+                selectedSize={selectedSize}
+                onSelectedSizeChange={onSelectedSizeChange}
+              />
+            )}
+            {currentStep === RentABikeStep.CHOOSE_LOCATION && <div>testiranje</div>}
           </div>
           <Button
             label="Previous"

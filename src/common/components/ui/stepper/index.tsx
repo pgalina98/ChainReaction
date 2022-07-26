@@ -45,8 +45,14 @@ const Stepper = ({ className, currentStep = RentABikeStep.SELECT_GEAR }: Stepper
               </div>
             </div>
 
-            <div className="w-10 h-10 mx-auto bg-green-500 rounded-full text-lg text-white flex items-center">
-              <span className="text-center text-white w-full">
+            <div
+              className={`w-10 h-10 mx-auto ${
+                currentStep >= RentABikeStep.CHOOSE_LOCATION
+                  ? "bg-green-500 text-white"
+                  : "bg-white border-2 border-gray-200 text-gray-600"
+              } rounded-full text-lg flex items-center`}
+            >
+              <span className="text-center w-full">
                 <i className="las la-map-marked-alt text-2xl" />
               </span>
             </div>
@@ -77,8 +83,14 @@ const Stepper = ({ className, currentStep = RentABikeStep.SELECT_GEAR }: Stepper
               </div>
             </div>
 
-            <div className="w-10 h-10 mx-auto bg-white border-2 border-gray-200 rounded-full text-lg text-white flex items-center">
-              <span className="text-center text-gray-600 w-full">
+            <div
+              className={`w-10 h-10 mx-auto ${
+                currentStep >= RentABikeStep.PICKUP_DATE
+                  ? "bg-green-500 text-white"
+                  : "bg-white border-2 border-gray-200 text-gray-600"
+              } rounded-full text-lg flex items-center`}
+            >
+              <span className="text-center w-full">
                 <i className="las la-calendar-day text-2xl" />
               </span>
             </div>
@@ -110,7 +122,13 @@ const Stepper = ({ className, currentStep = RentABikeStep.SELECT_GEAR }: Stepper
               </div>
             </div>
 
-            <div className="w-10 h-10 mx-auto bg-white border-2 border-gray-200 rounded-full text-lg text-white flex items-center">
+            <div
+              className={`w-10 h-10 mx-auto ${
+                currentStep >= RentABikeStep.FINISHED
+                  ? "bg-green-500 text-white"
+                  : "bg-white border-2 border-gray-200 text-gray-600"
+              } rounded-full text-lg flex items-center`}
+            >
               <span className="text-center text-gray-600 w-full">
                 <i className="las la-check text-xl" />
               </span>
