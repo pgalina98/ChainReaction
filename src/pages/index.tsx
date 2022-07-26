@@ -17,12 +17,14 @@ import {
 } from "@components";
 import { useToast } from "@components/hooks/useToast";
 
+import { messages } from "@constants/messages";
+
 import { ToastType } from "@enums/toast-type";
 import { ButtonType } from "@enums/button-type";
 import { ProductType } from "@enums/product-type";
 import { ProductColor, getProductColorValue } from "@enums/product-color";
 
-import { isNullOrUndefined } from "@utils/common";
+import { getMirroredImagePath, isNullOrUndefined } from "@utils/common";
 
 import Product from "@models/product.model";
 
@@ -33,8 +35,6 @@ import {
 } from "@animations";
 
 import useFetchProductsByProductType from "@features/product/api/hooks/useFetchProductsByProductType";
-
-import { messages } from "@constants/messages";
 
 import authenticatedBoundaryRoute from "@components/hoc/route-guards/authenticatedBoundaryRoute";
 
@@ -84,13 +84,6 @@ const Home: NextPage = () => {
     if (isNullOrUndefined(eBike)) return false;
 
     return eBike?.availableQuantity! > 0 || false;
-  };
-
-  const getMirroredImagePath = (imagePath: string): string => {
-    const imagePathWithoutExtension = imagePath.substring(0, imagePath.lastIndexOf("."));
-    const imageExtension = imagePath.substring(imagePath.lastIndexOf("."), imagePath.length);
-
-    return `${imagePathWithoutExtension}_mirrored${imageExtension}`;
   };
 
   const getUniqueKey = (): string => {

@@ -49,7 +49,7 @@ const Avatar = ({ className, withDropdown = false, authentication }: AvatarProps
       />
       <div
         className={declassify(
-          "w-56 z-10 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600 block absolute top-14 right-0",
+          "w-56 bg-white rounded divide-y divide-gray-10 shadow dark:bg-gray-700 dark:divide-gray-600 block absolute top-14 right-0",
           { visible: withDropdown && isMenuOpen },
           { invisible: !withDropdown || !isMenuOpen }
         )}

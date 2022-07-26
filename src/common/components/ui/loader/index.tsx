@@ -21,7 +21,7 @@ const Loader = ({ className, size = "base", withLabel = true }: LoaderProps) => 
   };
 
   return (
-    <div className="flex">
+    <div className="flex justify-center">
       {withLabel && <p>Processing...</p>}
       <svg
         role="status"

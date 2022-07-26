@@ -86,7 +86,7 @@ const Button = ({
         `${className} border px-4 py-2 rounded-full focus:outline-none focus:shadow-outline ${determineClassNames()}`,
         { "rounded-full": rounded },
         { "rounded-md": !rounded },
-        { "cursor-not-allowed flex justify-center": isButtonDisabled() }
+        { "cursor-not-allowed": isButtonDisabled() }
       )}
       disabled={isDisabled || isLoading}
       hidden={isHidden}
