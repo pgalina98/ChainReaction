@@ -23,7 +23,7 @@ export const Animation = () => {
         renderer: "svg",
         loop: true,
         autoplay: true,
-        path: "animations/loading-cart.json",
+        path: "/animations/loading-cart.json",
       });
 
       return () => animation.destroy();

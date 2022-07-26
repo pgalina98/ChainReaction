@@ -131,10 +131,10 @@ const RentEBike = () => {
   );
 
   useEffect(() => {
-    if (router.isReady) {
+    if (router?.isReady) {
       refetch();
     }
-  }, []);
+  }, [router.isReady]);
 
   useEffect(() => {
     setSelectedBike(data?.data);
@@ -148,8 +148,8 @@ const RentEBike = () => {
     setIsShown(isError);
   }, [isError]);
 
-  const calcluateProgressBarValue = (value: number, comparatievValue: number): number => {
-    return Math.round((value / comparatievValue) * 100);
+  const calcluateProgressBarValue = (value: number, comparativeValue: number): number => {
+    return Math.round((value / comparativeValue) * 100);
   };
 
   const onSelectedHelmetChange = (helmet: Product): void => {
@@ -195,10 +195,10 @@ const RentEBike = () => {
           <div className="ml-12 max-w-xl">
             <p className=" text-6xl font_secondary">{`${selectedBike?.name}. ${selectedBike?.model}`}</p>
             <p className="text-4xl mt-2">{selectedBike?.description}</p>
-            <p className="mt-6 flex">
+            <span className="mt-6 flex">
               <p className="text-3xl font_secondary">$5</p>
               <p className="self-end mb-1 ml-1">/ hour</p>
-            </p>
+            </span>
             <Card className="p-4 pl-6 pr-6 mt-6 w-48 h-32 text-black ">
               <p className="text-xl font-light">{`${selectedBike?.assistSpeed} km/h`}</p>
               <p className="text-gray text-sm font-thin">Assist Speed</p>
