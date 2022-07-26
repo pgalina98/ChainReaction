@@ -1,7 +1,7 @@
 export enum ProductType {
   E_BIKE = 1,
   BIKE = 2,
-  BLACK = 3,
+  HELMET = 3,
 }
 
 export const getProductTypeValue = (idProductType: number): string | null => {
@@ -13,7 +13,7 @@ export const getProductTypeValue = (idProductType: number): string | null => {
       return "BIKE";
 
     case 3:
-      return "ACCESSORIES";
+      return "HELMET";
 
     default:
       return null;
