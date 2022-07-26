@@ -129,7 +129,7 @@ const Stepper = ({ className, currentStep = RentABikeStep.SELECT_GEAR }: Stepper
                   : "bg-white border-2 border-gray-200 text-gray-600"
               } rounded-full text-lg flex items-center`}
             >
-              <span className="text-center text-gray-600 w-full">
+              <span className="text-center w-full">
                 <i className="las la-check text-xl" />
               </span>
             </div>
