@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 
+import { motion } from "framer-motion";
+
 import Image from "next/image";
 import { useRouter } from "next/router";
 
@@ -18,7 +20,11 @@ import { useToast } from "@components/hooks/useToast";
 import { messages } from "@constants/messages";
 
 import { ProductSize } from "@enums/product-size";
-import { determineNextStep, determinePreviousStep, RentABikeStep } from "@enums/rent-a-bike-step";
+import {
+  determineNextStep,
+  determinePreviousStep,
+  RentABikeStep,
+} from "@enums/rent-a-bike-step";
 import { ProductType } from "@enums/product-type";
 import { ToastType } from "@enums/toast-type";
 
@@ -30,6 +36,12 @@ import useFetchProductsByProductType from "@features/product/api/hooks/useFetchP
 import useFetchProductById from "@features/product/api/hooks/useFetchProductById";
 
 import styles from "./rent-a-bike.module.scss";
+import {
+  useFadeInOutLeftVariants,
+  useFadeInOutRightVariants,
+  useFadeInOutTopVariants,
+  useFadeInOutVariants,
+} from "@animations";
 
 const SelectGear = ({
   selectedHelmet,
@@ -39,9 +51,7 @@ const SelectGear = ({
 }) => {
   const [helmets, setHelmets] = useState<Product[]>();
 
-  const { isLoading, isError, isSuccess, data, error, refetch } = useFetchProductsByProductType(
-    ProductType.HELMET
-  );
+  const { data, refetch } = useFetchProductsByProductType(ProductType.HELMET);
 
   useEffect(() => {
     refetch();
@@ -124,9 +134,11 @@ const RentEBike = () => {
   const [selectedBike, setSelectedBike] = useState<Product>();
   const [selectedHelmet, setSelectedHelmet] = useState<Product>();
   const [selectedSize, setSelectedSize] = useState<ProductSize>();
-  const [currentStep, setCurrentStep] = useState<RentABikeStep>(RentABikeStep.SELECT_GEAR);
+  const [currentStep, setCurrentStep] = useState<RentABikeStep>(
+    RentABikeStep.SELECT_GEAR
+  );
 
-  const { isLoading, isError, isSuccess, data, error, refetch } = useFetchProductById(
+  const { isLoading, isError, data, error, refetch } = useFetchProductById(
     idProduct as string
   );
 
@@ -148,7 +160,10 @@ const RentEBike = () => {
     setIsShown(isError);
   }, [isError]);
 
-  const calcluateProgressBarValue = (value: number, comparativeValue: number): number => {
+  const calcluateProgressBarValue = (
+    value: number,
+    comparativeValue: number
+  ): number => {
     return Math.round((value / comparativeValue) * 100);
   };
 
@@ -185,37 +200,73 @@ const RentEBike = () => {
         {isError && (
           <Toast
             type={ToastType.DANGER}
-            message={error.response.data?.message || messages.INTERNAL_SERVER_ERROR}
+            message={
+              error.response.data?.message || messages.INTERNAL_SERVER_ERROR
+            }
             isShown={isShown}
             hideToast={() => setIsShown(false)}
           />
         )}
         <div className={`${styles.h_full} bg_primary overflow-hidden`}>
-          <BackIcon className="flex justify-end mt-4 mr-12" onClick={navigateToPreviousPage} />
-          <div className="ml-12 max-w-xl">
+          <BackIcon
+            className="flex justify-end mt-4 mr-12"
+            onClick={navigateToPreviousPage}
+          />
+          <motion.div
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            variants={useFadeInOutVariants({ duration: 0.5 })}
+            className="ml-12 max-w-xl"
+          >
             <p className=" text-6xl font_secondary">{`${selectedBike?.name}. ${selectedBike?.model}`}</p>
             <p className="text-4xl mt-2">{selectedBike?.description}</p>
-            <span className="mt-6 flex">
-              <p className="text-3xl font_secondary">$5</p>
-              <p className="self-end mb-1 ml-1">/ hour</p>
-            </span>
-            <Card className="p-4 pl-6 pr-6 mt-6 w-48 h-32 text-black ">
-              <p className="text-xl font-light">{`${selectedBike?.assistSpeed} km/h`}</p>
-              <p className="text-gray text-sm font-thin">Assist Speed</p>
-              <ProgressBar value={calcluateProgressBarValue(selectedBike?.assistSpeed!, 35)} />
-            </Card>
-            <Card className="p-4 pl-6 pr-6 mt-6 w-48 h-32 text-black ">
-              <p className="text-xl font-light">{`${selectedBike?.batteryRange} km`}</p>
-              <p className="text-gray text-sm font-thin">Battery Range</p>
-              <ProgressBar value={calcluateProgressBarValue(selectedBike?.batteryRange!, 100)} />
-            </Card>
-            <Card className="p-4 pl-6 pr-6 mt-6 w-48 h-32 text-black ">
-              <p className="text-xl font-light">{`${selectedBike?.weight} kg`}</p>
-              <p className="text-gray text-sm font-thin">Weight</p>
-              <ProgressBar value={calcluateProgressBarValue(selectedBike?.weight!, 22.4)} />
-            </Card>
-          </div>
-          <div className={`relative ${styles.mirrored_image_position}`}>
+            <motion.div
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              variants={useFadeInOutLeftVariants({ duration: 0.5, delay: 0.5 })}
+            >
+              <span className="mt-6 flex">
+                <p className="text-3xl font_secondary">$5</p>
+                <p className="self-end mb-1 ml-1">/ hour</p>
+              </span>
+              <Card className="p-4 pl-6 pr-6 mt-6 w-48 h-32 text-black ">
+                <p className="text-xl font-light">{`${selectedBike?.assistSpeed} km/h`}</p>
+                <p className="text-gray text-sm font-thin">Assist Speed</p>
+                <ProgressBar
+                  value={calcluateProgressBarValue(
+                    selectedBike?.assistSpeed!,
+                    35
+                  )}
+                />
+              </Card>
+              <Card className="p-4 pl-6 pr-6 mt-6 w-48 h-32 text-black ">
+                <p className="text-xl font-light">{`${selectedBike?.batteryRange} km`}</p>
+                <p className="text-gray text-sm font-thin">Battery Range</p>
+                <ProgressBar
+                  value={calcluateProgressBarValue(
+                    selectedBike?.batteryRange!,
+                    100
+                  )}
+                />
+              </Card>
+              <Card className="p-4 pl-6 pr-6 mt-6 w-48 h-32 text-black ">
+                <p className="text-xl font-light">{`${selectedBike?.weight} kg`}</p>
+                <p className="text-gray text-sm font-thin">Weight</p>
+                <ProgressBar
+                  value={calcluateProgressBarValue(selectedBike?.weight!, 22.4)}
+                />
+              </Card>
+            </motion.div>
+          </motion.div>
+          <motion.div
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            variants={useFadeInOutRightVariants({ duration: 0.5, delay: 0.5 })}
+            className={`relative ${styles.mirrored_image_position}`}
+          >
             {selectedBike?.imagePath && (
               <Image
                 src={getMirroredImagePath(selectedBike?.imagePath!)}
@@ -225,11 +276,24 @@ const RentEBike = () => {
                 priority
               />
             )}
-          </div>
+          </motion.div>
         </div>
         <div className={`${styles.h_full} bg_brown`}>
-          <Stepper className="pt-8" currentStep={currentStep!} />
-          <div className="px-12 py-8">
+          <motion.div
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            variants={useFadeInOutTopVariants({ duration: 0.5, delay: 0.5 })}
+          >
+            <Stepper className="pt-8" currentStep={currentStep!} />
+          </motion.div>
+          <motion.div
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            variants={useFadeInOutRightVariants({ duration: 0.5, delay: 0.5 })}
+            className="px-12 py-8"
+          >
             {currentStep === RentABikeStep.SELECT_GEAR && (
               <SelectGear
                 selectedHelmet={selectedHelmet}
@@ -238,8 +302,10 @@ const RentEBike = () => {
                 onSelectedSizeChange={onSelectedSizeChange}
               />
             )}
-            {currentStep === RentABikeStep.CHOOSE_LOCATION && <div>testiranje</div>}
-          </div>
+            {currentStep === RentABikeStep.CHOOSE_LOCATION && (
+              <div>testiranje</div>
+            )}
+          </motion.div>
           <Button
             label="Previous"
             prependIcon="las la-arrow-left"
