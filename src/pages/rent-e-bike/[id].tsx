@@ -10,6 +10,7 @@ import {
   Button,
   Card,
   Header,
+  Icon,
   LoadingOverlay,
   ProgressBar,
   Stepper,
@@ -27,21 +28,27 @@ import {
 } from "@enums/rent-a-bike-step";
 import { ProductType } from "@enums/product-type";
 import { ToastType } from "@enums/toast-type";
+import { Location } from "@enums/location";
 
 import Product from "@models/product.model";
 
-import { getMirroredImagePath, isNullOrUndefined } from "@utils/common";
+import {
+  declassify,
+  getMirroredImagePath,
+  isNullOrUndefined,
+} from "@utils/common";
 
-import useFetchProductsByProductType from "@features/product/api/hooks/useFetchProductsByProductType";
-import useFetchProductById from "@features/product/api/hooks/useFetchProductById";
-
-import styles from "./rent-a-bike.module.scss";
 import {
   useFadeInOutLeftVariants,
   useFadeInOutRightVariants,
   useFadeInOutTopVariants,
   useFadeInOutVariants,
 } from "@animations";
+
+import useFetchProductsByProductType from "@features/product/api/hooks/useFetchProductsByProductType";
+import useFetchProductById from "@features/product/api/hooks/useFetchProductById";
+
+import styles from "./rent-a-bike.module.scss";
 
 const SelectGear = ({
   selectedHelmet,
@@ -125,6 +132,184 @@ const SelectGear = ({
   );
 };
 
+const ChooseLocation = ({ selectedLocation, setSelectedLocation }) => {
+  return (
+    <div className="mt-4">
+      <p className="font-medium text-2xl">Choose location</p>
+      <div
+        className={`${styles.locations_container} mt-4 pr-8 space-y-4 w-4/5 overflow-y-scroll overflow-x-hidden`}
+      >
+        <Card
+          className="pt-3 pl-5 pb-3 flex items-center hover:cursor-pointer"
+          isSelected={selectedLocation === Location.AUSTIN}
+          onClick={() => setSelectedLocation(Location.AUSTIN)}
+        >
+          <div className="w-6 h-6 p-5 rounded-2xl bg_primary flex items-center justify-center">
+            <Icon className="text-white text-2xl las la-map-pin" />
+          </div>
+          <div className="text-black ml-4 flex-col">
+            <p className="font-semibold text-lg leading-6">Austin</p>
+            <p className="font-thin leading-5">
+              35 miles from current location
+            </p>
+          </div>
+          <div
+            className={declassify(
+              `w-4 h-4 p-5 rounded-full bg_primary flex items-center justify-center ml-auto mr-5`,
+              { visible: selectedLocation === Location.AUSTIN },
+              { invisible: selectedLocation !== Location.AUSTIN }
+            )}
+          >
+            <Icon className="text-white text-lg las la-check" />
+          </div>
+        </Card>
+        <Card
+          className="pt-3 pl-5 pb-3 flex items-center hover:cursor-pointer"
+          isSelected={selectedLocation === Location.BOSTON}
+          onClick={() => setSelectedLocation(Location.BOSTON)}
+        >
+          <div className="w-6 h-6 p-5 rounded-2xl bg_primary flex items-center justify-center">
+            <Icon className="text-white text-2xl las la-map-pin" />
+          </div>
+          <div className="text-black ml-4 flex-col">
+            <p className="font-semibold text-lg leading-6">Boston</p>
+            <p className="font-thin leading-5">
+              47 miles from current location
+            </p>
+          </div>
+          <div
+            className={declassify(
+              `w-4 h-4 p-5 rounded-full bg_primary flex items-center justify-center ml-auto mr-5`,
+              { visible: selectedLocation === Location.BOSTON },
+              { invisible: selectedLocation !== Location.BOSTON }
+            )}
+          >
+            <Icon className="text-white text-lg las la-check" />
+          </div>
+        </Card>
+        <Card
+          className="pt-3 pl-5 pb-3 flex items-center hover:cursor-pointer"
+          isSelected={selectedLocation === Location.NEW_YORK}
+          onClick={() => setSelectedLocation(Location.NEW_YORK)}
+        >
+          <div className="w-6 h-6 p-5 rounded-2xl bg_primary flex items-center justify-center">
+            <Icon className="text-white text-2xl las la-map-pin" />
+          </div>
+          <div className="text-black ml-4 flex-col">
+            <p className="font-semibold text-lg leading-6">New York</p>
+            <p className="font-thin leading-5">4 miles from current location</p>
+          </div>
+          <div
+            className={declassify(
+              `w-4 h-4 p-5 rounded-full bg_primary flex items-center justify-center ml-auto mr-5`,
+              { visible: selectedLocation === Location.NEW_YORK },
+              { invisible: selectedLocation !== Location.NEW_YORK }
+            )}
+          >
+            <Icon className="text-white text-lg las la-check" />
+          </div>
+        </Card>
+        <Card
+          className="pt-3 pl-5 pb-3 flex items-center hover:cursor-pointer"
+          isSelected={selectedLocation === Location.TAOS}
+          onClick={() => setSelectedLocation(Location.TAOS)}
+        >
+          <div className="w-6 h-6 p-5 rounded-2xl bg_primary flex items-center justify-center">
+            <Icon className="text-white text-2xl las la-map-pin" />
+          </div>
+          <div className="text-black ml-4 flex-col">
+            <p className="font-semibold text-lg leading-6">Taos</p>
+            <p className="font-thin leading-5">
+              14 miles from current location
+            </p>
+          </div>
+          <div
+            className={declassify(
+              `w-4 h-4 p-5 rounded-full bg_primary flex items-center justify-center ml-auto mr-5`,
+              { visible: selectedLocation === Location.TAOS },
+              { invisible: selectedLocation !== Location.TAOS }
+            )}
+          >
+            <Icon className="text-white text-lg las la-check" />
+          </div>
+        </Card>
+        <Card
+          className="pt-3 pl-5 pb-3 flex items-center hover:cursor-pointer"
+          isSelected={selectedLocation === Location.MADISON}
+          onClick={() => setSelectedLocation(Location.MADISON)}
+        >
+          <div className="w-6 h-6 p-5 rounded-2xl bg_primary flex items-center justify-center">
+            <Icon className="text-white text-2xl las la-map-pin" />
+          </div>
+          <div className="text-black ml-4 flex-col">
+            <p className="font-semibold text-lg leading-6">Madison</p>
+            <p className="font-thin leading-5">
+              12 miles from current location
+            </p>
+          </div>
+          <div
+            className={declassify(
+              `w-4 h-4 p-5 rounded-full bg_primary flex items-center justify-center ml-auto mr-5`,
+              { visible: selectedLocation === Location.MADISON },
+              { invisible: selectedLocation !== Location.MADISON }
+            )}
+          >
+            <Icon className="text-white text-lg las la-check" />
+          </div>
+        </Card>
+        <Card
+          className="pt-3 pl-5 pb-3 flex items-center hover:cursor-pointer"
+          isSelected={selectedLocation === Location.SAVANNAH}
+          onClick={() => setSelectedLocation(Location.SAVANNAH)}
+        >
+          <div className="w-6 h-6 p-5 rounded-2xl bg_primary flex items-center justify-center">
+            <Icon className="text-white text-2xl las la-map-pin" />
+          </div>
+          <div className="text-black ml-4 flex-col">
+            <p className="font-semibold text-lg leading-6">Savannah</p>
+            <p className="font-thin leading-5">
+              56 miles from current location
+            </p>
+          </div>
+          <div
+            className={declassify(
+              `w-4 h-4 p-5 rounded-full bg_primary flex items-center justify-center ml-auto mr-5`,
+              { visible: selectedLocation === Location.SAVANNAH },
+              { invisible: selectedLocation !== Location.SAVANNAH }
+            )}
+          >
+            <Icon className="text-white text-lg las la-check" />
+          </div>
+        </Card>
+        <Card
+          className="pt-3 pl-5 pb-3 flex items-center hover:cursor-pointer"
+          isSelected={selectedLocation === Location.NASHVILLE}
+          onClick={() => setSelectedLocation(Location.NASHVILLE)}
+        >
+          <div className="w-6 h-6 p-5 rounded-2xl bg_primary flex items-center justify-center">
+            <Icon className="text-white text-2xl las la-map-pin" />
+          </div>
+          <div className="text-black ml-4 flex-col">
+            <p className="font-semibold text-lg leading-6">Nashville</p>
+            <p className="font-thin leading-5">
+              19 miles from current location
+            </p>
+          </div>
+          <div
+            className={declassify(
+              `w-4 h-4 p-5 rounded-full bg_primary flex items-center justify-center ml-auto mr-5`,
+              { visible: selectedLocation === Location.NASHVILLE },
+              { invisible: selectedLocation !== Location.NASHVILLE }
+            )}
+          >
+            <Icon className="text-white text-lg las la-check" />
+          </div>
+        </Card>
+      </div>
+    </div>
+  );
+};
+
 const RentEBike = () => {
   const router = useRouter();
   const [isShown, setIsShown] = useToast({ duration: 4000 });
@@ -133,6 +318,7 @@ const RentEBike = () => {
 
   const [selectedBike, setSelectedBike] = useState<Product>();
   const [selectedHelmet, setSelectedHelmet] = useState<Product>();
+  const [selectedLocation, setSelectedLocation] = useState<Location>();
   const [selectedSize, setSelectedSize] = useState<ProductSize>();
   const [currentStep, setCurrentStep] = useState<RentABikeStep>(
     RentABikeStep.SELECT_GEAR
@@ -175,6 +361,10 @@ const RentEBike = () => {
     setSelectedSize(size);
   };
 
+  const onLocationChange = (location: Location): void => {
+    setSelectedLocation(location);
+  };
+
   const onNextButtonClick = (): void => {
     setCurrentStep(determineNextStep(currentStep));
   };
@@ -208,10 +398,17 @@ const RentEBike = () => {
           />
         )}
         <div className={`${styles.h_full} bg_primary overflow-hidden`}>
-          <BackIcon
-            className="flex justify-end mt-4 mr-12"
-            onClick={navigateToPreviousPage}
-          />
+          <motion.div
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            variants={useFadeInOutVariants({ duration: 0.5 })}
+          >
+            <BackIcon
+              className="flex justify-end mt-4 mr-12"
+              onClick={navigateToPreviousPage}
+            />
+          </motion.div>
           <motion.div
             initial="initial"
             animate="animate"
@@ -288,6 +485,7 @@ const RentEBike = () => {
             <Stepper className="pt-8" currentStep={currentStep!} />
           </motion.div>
           <motion.div
+            key={currentStep}
             initial="initial"
             animate="animate"
             exit="exit"
@@ -303,7 +501,10 @@ const RentEBike = () => {
               />
             )}
             {currentStep === RentABikeStep.CHOOSE_LOCATION && (
-              <div>testiranje</div>
+              <ChooseLocation
+                selectedLocation={selectedLocation}
+                setSelectedLocation={onLocationChange}
+              />
             )}
           </motion.div>
           <Button
