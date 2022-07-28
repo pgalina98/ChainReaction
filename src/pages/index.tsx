@@ -50,9 +50,8 @@ const Home: NextPage = () => {
     getProductColorValue(ProductColor.BLACK)!
   );
 
-  const { isLoading, isError, isSuccess, data, error, refetch } = useFetchProductsByProductType(
-    ProductType.E_BIKE
-  );
+  const { isLoading, isError, isSuccess, data, error, refetch } =
+    useFetchProductsByProductType(ProductType.E_BIKE);
 
   useEffect(() => {
     refetch();
@@ -63,7 +62,8 @@ const Home: NextPage = () => {
     setSelectedBike(
       data?.data.find(
         (eBike: Product) =>
-          eBike?.model === data.data[0].model && eBike.color?.value === selectedColor
+          eBike?.model === data.data[0].model &&
+          eBike.color?.value === selectedColor
       )
     );
   }, [data]);
@@ -73,12 +73,16 @@ const Home: NextPage = () => {
   }, [isError]);
 
   useEffect(() => {
-    changeSelectedBike(eBikes?.filter((eBike: Product) => eBike.model === selectedBike?.model)!);
+    changeSelectedBike(
+      eBikes?.filter((eBike: Product) => eBike.model === selectedBike?.model)!
+    );
   }, [selectedColor]);
 
   const isProductInSpecificColorAvailable = (color: number): boolean => {
     const eBike = eBikes?.find(
-      (eBike) => eBike.model === selectedBike?.model && eBike?.color?.idProductColor === color
+      (eBike) =>
+        eBike.model === selectedBike?.model &&
+        eBike?.color?.idProductColor === color
     );
 
     if (isNullOrUndefined(eBike)) return false;
@@ -87,20 +91,26 @@ const Home: NextPage = () => {
   };
 
   const getUniqueKey = (): string => {
-    return `${selectedBike?.model}-${selectedColor}`;
+    return `${selectedBike?.model}`;
   };
 
   const changeSelectedBike = (eBikes: Product[]): void => {
-    setSelectedBike(eBikes?.find((eBike: Product) => eBike.color?.value === selectedColor));
+    setSelectedBike(
+      eBikes?.find((eBike: Product) => eBike.color?.value === selectedColor)
+    );
   };
 
   const onLeftArrowIconClick = (): void => {
-    changeSelectedBike(eBikes?.filter((eBike: Product) => eBike.model !== selectedBike?.model)!);
+    changeSelectedBike(
+      eBikes?.filter((eBike: Product) => eBike.model !== selectedBike?.model)!
+    );
   };
 
   const onRightArrowIconClick = (): void => {
     changeSelectedBike(
-      eBikes?.reverse()?.filter((eBike: Product) => eBike.model !== selectedBike?.model)!
+      eBikes
+        ?.reverse()
+        ?.filter((eBike: Product) => eBike.model !== selectedBike?.model)!
     );
   };
 
@@ -121,7 +131,9 @@ const Home: NextPage = () => {
         {isError && (
           <Toast
             type={ToastType.DANGER}
-            message={error.response.data?.message || messages.INTERNAL_SERVER_ERROR}
+            message={
+              error.response.data?.message || messages.INTERNAL_SERVER_ERROR
+            }
             isShown={isShown}
             hideToast={() => setIsShown(false)}
           />
@@ -151,11 +163,14 @@ const Home: NextPage = () => {
               className="flex justify-center mt-4 text-base"
             >
               <span className="max-w-md text-base">
-                <span className="font-semibold">Shift your ride, not gears.</span>
+                <span className="font-semibold">
+                  Shift your ride, not gears.
+                </span>
                 <span className="text-gray-200 font-thin">
                   {" "}
-                  Ease your path toward the fastest way to move in the city. Free your mind as the
-                  bike adapts intuitively to power the speed you need.
+                  Ease your path toward the fastest way to move in the city.
+                  Free your mind as the bike adapts intuitively to power the
+                  speed you need.
                 </span>
               </span>
             </motion.div>
@@ -202,7 +217,10 @@ const Home: NextPage = () => {
             <div
               className={`w-10 h-10 bg_white rounded-full text-black flex items-center justify-center cursor-pointer hover:scale-105 ${styles.box_shadow_white}`}
             >
-              <Icon className="las la-angle-left text-2xl" onClick={onLeftArrowIconClick} />
+              <Icon
+                className="las la-angle-left text-2xl"
+                onClick={onLeftArrowIconClick}
+              />
             </div>
             <div className={`text-xl flex justify-center ${styles.min_w_40}`}>
               {selectedBike?.model}
@@ -210,11 +228,16 @@ const Home: NextPage = () => {
             <div
               className={`w-10 h-10 bg_white rounded-full text-black flex items-center justify-center cursor-pointer hover:scale-105 ${styles.box_shadow_white}`}
             >
-              <Icon className="las la-angle-right text-2xl" onClick={onRightArrowIconClick} />
+              <Icon
+                className="las la-angle-right text-2xl"
+                onClick={onRightArrowIconClick}
+              />
             </div>
           </motion.div>
         </div>
-        <div className={`${styles.h_full} bg_brown flex flex-col justify-center overflow-hidden`}>
+        <div
+          className={`${styles.h_full} bg_brown flex flex-col justify-center overflow-hidden`}
+        >
           <div className="flex justify-end">
             <motion.div
               initial="initial"
@@ -230,14 +253,19 @@ const Home: NextPage = () => {
                 <Icon className="las la-star" />
                 <Icon className="las la-star-half-alt" />
               </div>
-              <div className="flex justify-start text-xs ml-3 mt-1">+1000 reviews</div>
+              <div className="flex justify-start text-xs ml-3 mt-1">
+                +1000 reviews
+              </div>
             </motion.div>
           </div>
           <motion.div
             initial="initial"
             animate="animate"
             exit="exit"
-            variants={useFadeInOutRightVariants({ duration: 0.25, delay: 0.75 })}
+            variants={useFadeInOutRightVariants({
+              duration: 0.25,
+              delay: 0.75,
+            })}
             className="absolute right-0 mr-8"
           >
             <div
@@ -247,21 +275,27 @@ const Home: NextPage = () => {
                 className="cursor-pointer border-2 border-gray-300"
                 color="WHITE"
                 isSelected={selectedColor === "WHITE"}
-                isAvailable={isProductInSpecificColorAvailable(ProductColor.WHITE)}
+                isAvailable={isProductInSpecificColorAvailable(
+                  ProductColor.WHITE
+                )}
                 onClick={onSelectedColorChange}
               />
               <ColorPickerIcon
                 className="cursor-pointer border-2 border-gray-300"
                 color="GRAY-DARK"
                 isSelected={selectedColor === "GRAY-DARK"}
-                isAvailable={isProductInSpecificColorAvailable(ProductColor.GRAY_DARK)}
+                isAvailable={isProductInSpecificColorAvailable(
+                  ProductColor.GRAY_DARK
+                )}
                 onClick={onSelectedColorChange}
               />
               <ColorPickerIcon
                 className="cursor-pointer border-2 border-gray-300"
                 color="BLACK"
                 isSelected={selectedColor === "BLACK"}
-                isAvailable={isProductInSpecificColorAvailable(ProductColor.BLACK)}
+                isAvailable={isProductInSpecificColorAvailable(
+                  ProductColor.BLACK
+                )}
                 onClick={onSelectedColorChange}
               />
             </div>
@@ -293,19 +327,33 @@ const Home: NextPage = () => {
             className="text-white flex justify-center space-x-20 mt-8 mb-8"
           >
             <div className="flex flex-col items-start">
-              <div className="text-2xl font-light">{selectedBike?.assistSpeed} km/h</div>
-              <div className="text-gray-300 text-sm font-thin">Assist Speed</div>
+              <div className="text-2xl font-light">
+                {selectedBike?.assistSpeed} km/h
+              </div>
+              <div className="text-gray-300 text-sm font-thin">
+                Assist Speed
+              </div>
             </div>
             <div className="flex flex-col items-start">
-              <div className="text-2xl font-light">{selectedBike?.batteryRange} km</div>
-              <div className="text-gray-300 text-sm font-thin">Battery Range</div>
+              <div className="text-2xl font-light">
+                {selectedBike?.batteryRange} km
+              </div>
+              <div className="text-gray-300 text-sm font-thin">
+                Battery Range
+              </div>
             </div>
             <div className="flex flex-col items-start">
-              <div className="text-2xl font-light">{selectedBike?.chargingTime} h</div>
-              <div className="text-gray-300 text-sm font-thin">Charging Time</div>
+              <div className="text-2xl font-light">
+                {selectedBike?.chargingTime} h
+              </div>
+              <div className="text-gray-300 text-sm font-thin">
+                Charging Time
+              </div>
             </div>
             <div className="flex flex-col items-start">
-              <div className="text-2xl font-light">{selectedBike?.weight} kg</div>
+              <div className="text-2xl font-light">
+                {selectedBike?.weight} kg
+              </div>
               <div className="text-gray-300 text-sm font-thin">Weight</div>
             </div>
           </motion.div>
