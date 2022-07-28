@@ -9,7 +9,10 @@ interface StepperProps {
   currentStep: RentABikeStep;
 }
 
-const Stepper = ({ className, currentStep = RentABikeStep.SELECT_GEAR }: StepperProps) => {
+const Stepper = ({
+  className,
+  currentStep = RentABikeStep.SELECT_GEAR,
+}: StepperProps) => {
   return (
     <div className={`${className} w-full`}>
       <div className="flex">
@@ -58,7 +61,9 @@ const Stepper = ({ className, currentStep = RentABikeStep.SELECT_GEAR }: Stepper
             </div>
           </div>
 
-          <div className="text-xs text-center md:text-base">Choose Location</div>
+          <div className="text-xs text-center md:text-base">
+            Choose Location
+          </div>
         </div>
 
         <div className="w-1/4">
@@ -135,7 +140,7 @@ const Stepper = ({ className, currentStep = RentABikeStep.SELECT_GEAR }: Stepper
             </div>
           </div>
 
-          <div className="text-xs text-center md:text-base">Finished</div>
+          <div className="text-xs text-center md:text-base">Confirm</div>
         </div>
       </div>
     </div>

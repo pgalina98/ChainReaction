@@ -11,7 +11,15 @@ import { useRouter } from "next/router";
 
 import jwtDecode from "jwt-decode";
 
-import { Button, Card, Header, SocialMediaIcon, Input, Toast, LoadingOverlay } from "@components";
+import {
+  Button,
+  Card,
+  Header,
+  SocialMediaIcon,
+  Input,
+  Toast,
+  LoadingOverlay,
+} from "@components";
 import { useToast } from "@components/hooks/useToast";
 
 import { InptType } from "@enums/input-type";
@@ -33,7 +41,10 @@ import {
 import User, { createEmptyUserObject } from "@models/user.model";
 import JwtToken from "@models/jwt-token.model";
 
-import { useValidatePassword, useValidateUsername } from "@features/authentication/validators";
+import {
+  useValidatePassword,
+  useValidateUsername,
+} from "@features/authentication/validators";
 
 import { isEmpty, isNullOrUndefined, toBoolean } from "@utils/common";
 import { setValue } from "@utils/local-storage";
@@ -58,7 +69,8 @@ const Login: NextPage = (props) => {
 
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
 
-  const { isLoading, isError, isSuccess, data, error, mutate } = useAuthenticateUser(user);
+  const { isLoading, isError, isSuccess, data, error, mutate } =
+    useAuthenticateUser(user);
 
   useEffect(() => {
     if (isNullOrUndefined(router.query.showLoadingOverlay)) {
@@ -74,14 +86,27 @@ const Login: NextPage = (props) => {
 
   useEffect(() => {
     if (isSuccess) {
-      setValue(LoaclStorageKeys.AUTHENTICATION_TOKEN, (data.data as JwtToken).authenticationToken);
-      setValue(LoaclStorageKeys.REFRESH_TOKEN, (data.data as JwtToken).refreshToken);
+      setValue(
+        LoaclStorageKeys.AUTHENTICATION_TOKEN,
+        (data.data as JwtToken).authenticationToken
+      );
+      setValue(
+        LoaclStorageKeys.REFRESH_TOKEN,
+        (data.data as JwtToken).refreshToken
+      );
 
-      const jwtClaims: any = jwtDecode((data.data as JwtToken).authenticationToken);
+      const jwtClaims: any = jwtDecode(
+        (data.data as JwtToken).authenticationToken
+      );
 
       const user: User = mapJwtClaimsToUserObject(jwtClaims);
 
-      dispatch(login({ ...user, authority: getAuthorityByKey(jwtClaims["authorities"]) }));
+      dispatch(
+        login({
+          ...user,
+          authority: getAuthorityByKey(jwtClaims["authorities"]),
+        })
+      );
 
       router.push("/");
     }
@@ -120,7 +145,9 @@ const Login: NextPage = (props) => {
         {isError && (
           <Toast
             type={ToastType.DANGER}
-            message={error.response.data?.message || messages.INTERNAL_SERVER_ERROR}
+            message={
+              error.response.data?.message || messages.INTERNAL_SERVER_ERROR
+            }
             isShown={isShown}
             hideToast={() => setIsShown(false)}
           />
@@ -143,10 +170,18 @@ const Login: NextPage = (props) => {
               <i className="las la-chevron-circle-right" />
             </motion.div>
           </Link>
-          <motion.div className="flex justify-center" exit="exit" variants={useDisplayNoneOnExit()}>
+          <motion.div
+            className="flex justify-center"
+            exit="exit"
+            variants={useDisplayNoneOnExit()}
+          >
             <p className="font-light text-5xl">Sign In</p>
           </motion.div>
-          <motion.div className="absolute bottom-10" exit="exit" variants={useDisplayNoneOnExit()}>
+          <motion.div
+            className="absolute bottom-10"
+            exit="exit"
+            variants={useDisplayNoneOnExit()}
+          >
             <Image
               src="/assets/shared/login.svg"
               alt="Login illustration"
@@ -217,21 +252,33 @@ const Login: NextPage = (props) => {
                 animate="animate"
                 variants={useFadeInOutVariants({ duration: 0.15, delay: 1 })}
               >
-                <SocialMediaIcon icon="lab la-facebook-f" color="facebook" hoverable />
+                <SocialMediaIcon
+                  icon="lab la-facebook-f"
+                  color="facebook"
+                  hoverable
+                />
               </motion.div>
               <motion.div
                 initial="initial"
                 animate="animate"
                 variants={useFadeInOutVariants({ duration: 0.15, delay: 1.25 })}
               >
-                <SocialMediaIcon icon="lab la-google-plus-g" color="google" hoverable />
+                <SocialMediaIcon
+                  icon="lab la-google-plus-g"
+                  color="google"
+                  hoverable
+                />
               </motion.div>
               <motion.div
                 initial="initial"
                 animate="animate"
                 variants={useFadeInOutVariants({ duration: 0.15, delay: 1.5 })}
               >
-                <SocialMediaIcon icon="lab la-instagram" color="instagram" hoverable />
+                <SocialMediaIcon
+                  icon="lab la-instagram"
+                  color="instagram"
+                  hoverable
+                />
               </motion.div>
             </div>
           </Card>

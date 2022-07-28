@@ -9,6 +9,7 @@ import {
   BackIcon,
   Button,
   Card,
+  DateTimeCard,
   Header,
   Icon,
   LoadingOverlay,
@@ -310,6 +311,17 @@ const ChooseLocation = ({ selectedLocation, setSelectedLocation }) => {
   );
 };
 
+const PickupDate = () => {
+  return (
+    <div className="mt-4">
+      <p className="font-medium text-2xl">Pickup date and time</p>
+      <div className="mt-4">
+        <DateTimeCard />
+      </div>
+    </div>
+  );
+};
+
 const RentEBike = () => {
   const router = useRouter();
   const [isShown, setIsShown] = useToast({ duration: 4000 });
@@ -506,6 +518,7 @@ const RentEBike = () => {
                 setSelectedLocation={onLocationChange}
               />
             )}
+            {currentStep === RentABikeStep.PICKUP_DATE && <PickupDate />}
           </motion.div>
           <Button
             label="Previous"

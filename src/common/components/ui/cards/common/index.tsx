@@ -1,5 +1,6 @@
-import { declassify } from "@utils/common";
 import React from "react";
+
+import { declassify } from "@utils/common";
 
 import styles from "./card.module.scss";
 
@@ -10,7 +11,12 @@ interface CardProps {
   onClick?: any;
 }
 
-const Card = ({ className, children, isSelected = false, onClick }: CardProps) => {
+const Card = ({
+  className,
+  children,
+  isSelected = false,
+  onClick,
+}: CardProps) => {
   return (
     <div
       className={declassify(

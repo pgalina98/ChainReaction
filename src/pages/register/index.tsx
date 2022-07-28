@@ -50,9 +50,11 @@ const Register: NextPage = () => {
   const [isFormInvalid, setIsFormInvalid] = useState<boolean>(false);
 
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
-  const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState<boolean>(false);
+  const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
+    useState<boolean>(false);
 
-  const { isLoading, isError, isSuccess, error, mutate } = useRegisterUser(user);
+  const { isLoading, isError, isSuccess, error, mutate } =
+    useRegisterUser(user);
 
   useEffect(() => {
     if (isSuccess) {
@@ -125,7 +127,9 @@ const Register: NextPage = () => {
         {isError && (
           <Toast
             type={ToastType.DANGER}
-            message={error.response.data?.message || messages.INTERNAL_SERVER_ERROR}
+            message={
+              error.response.data?.message || messages.INTERNAL_SERVER_ERROR
+            }
             isShown={isShown}
             hideToast={() => setIsShown(false)}
           />
@@ -142,7 +146,11 @@ const Register: NextPage = () => {
           initial="initial"
           animate="animate"
           exit="exit"
-          variants={useFadeInOutVariants({ duration: 0.5, delay: 0.6, exit: { opacity: 0 } })}
+          variants={useFadeInOutVariants({
+            duration: 0.5,
+            delay: 0.6,
+            exit: { opacity: 0 },
+          })}
           className={`${styles.h_full} w-full flex flex-col justify-center items-center`}
         >
           <Card className={`${styles.w_60_percentage} p-6`}>
@@ -209,9 +217,13 @@ const Register: NextPage = () => {
               type={InptType.PASSWORD}
               className="mt-4"
               prependIcon="las la-unlock-alt"
-              appendIcon={isConfirmPasswordVisible ? "lar la-eye" : "lar la-eye-slash"}
+              appendIcon={
+                isConfirmPasswordVisible ? "lar la-eye" : "lar la-eye-slash"
+              }
               appendIconClicable
-              onAppendIconClick={() => onToggleConfirmationPasswordVisibilityClick()}
+              onAppendIconClick={() =>
+                onToggleConfirmationPasswordVisibilityClick()
+              }
               appendIconActive={isConfirmPasswordVisible}
               onChange={onConfirmationPasswordChange}
               validate
@@ -256,10 +268,18 @@ const Register: NextPage = () => {
           >
             <i className="las la-chevron-circle-right" />
           </motion.div>
-          <motion.div className="flex justify-center" exit="exit" variants={useDisplayNoneOnExit()}>
+          <motion.div
+            className="flex justify-center"
+            exit="exit"
+            variants={useDisplayNoneOnExit()}
+          >
             <p className="font-light text-5xl">Sign Up</p>
           </motion.div>
-          <motion.div className="absolute bottom-10" exit="exit" variants={useDisplayNoneOnExit()}>
+          <motion.div
+            className="absolute bottom-10"
+            exit="exit"
+            variants={useDisplayNoneOnExit()}
+          >
             <Image
               src="/assets/shared/register.svg"
               alt="Register illustration"
