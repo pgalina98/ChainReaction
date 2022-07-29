@@ -13,6 +13,8 @@ export default interface Product {
   price: number;
   color?: ProductColor;
   availableQuantity: number;
+  forRent: boolean;
+  rentPricePerHour?: number;
   imagePath: string;
   type?: ProductType;
 }

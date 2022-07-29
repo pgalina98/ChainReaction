@@ -395,6 +395,8 @@ const RentEBike = () => {
 
   if (isLoading) return <LoadingOverlay />;
 
+  console.log("SELECTED BIKE: ", selectedBike);
+
   return (
     <div className="h-full">
       <Header animated showMenu backgroundColor="split" />
@@ -437,7 +439,9 @@ const RentEBike = () => {
               variants={useFadeInOutLeftVariants({ duration: 0.5, delay: 0.5 })}
             >
               <span className="mt-6 flex">
-                <p className="text-3xl font_secondary">$5</p>
+                <p className="text-3xl font_secondary">
+                  ${selectedBike?.rentPricePerHour}
+                </p>
                 <p className="self-end mb-1 ml-1">/ hour</p>
               </span>
               <Card className="p-4 pl-6 pr-6 mt-6 w-48 h-32 text-black ">
