@@ -1,3 +1,5 @@
+import { Dayjs } from "dayjs";
+
 import dayjs from "@utils/dayjs";
 
 import { APP_LOCAL_DATE_FORMAT } from "@constants/datetime";
@@ -30,6 +32,14 @@ export const getShortNameOfMonth = (month: number) => {
   return dayjs().localeData().monthsShort()[month];
 };
 
+export const getLongNameOfMonth = (month: number) => {
+  return dayjs().localeData().months()[month];
+};
+
 export const getCurrentYear = () => {
   return dayjs().year();
+};
+
+export const formatTime = (date: Dayjs, format: string) => {
+  return date.format(format);
 };

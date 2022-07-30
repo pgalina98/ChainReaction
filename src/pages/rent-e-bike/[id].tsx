@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 
 import { motion } from "framer-motion";
 
-import dayjs, { Dayjs } from "dayjs";
+import { Dayjs } from "dayjs";
+
+import dayjs from "@utils/dayjs";
 
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -15,6 +17,7 @@ import {
   DateTimeCard,
   Header,
   Icon,
+  Loader,
   LoadingOverlay,
   ProgressBar,
   Stepper,
@@ -49,8 +52,9 @@ import {
   useFadeInOutVariants,
 } from "@animations";
 
-import useFetchProductsByProductType from "@features/product/api/hooks/useFetchProductsByProductType";
-import useFetchProductById from "@features/product/api/hooks/useFetchProductById";
+import useFetchProductsByProductType from "@features/order/api/hooks/useFetchProductsByProductType";
+import useFetchProductById from "@features/order/api/hooks/useFetchProductById";
+import useFetchAvailableTimeslots from "@features/rent/api/hooks/useFetchAvailableTimeslots";
 
 import styles from "./rent-a-bike.module.scss";
 
@@ -62,7 +66,9 @@ const SelectGear = ({
 }) => {
   const [helmets, setHelmets] = useState<Product[]>();
 
-  const { data, refetch } = useFetchProductsByProductType(ProductType.HELMET);
+  const { isLoading, data, refetch } = useFetchProductsByProductType(
+    ProductType.HELMET
+  );
 
   useEffect(() => {
     refetch();
@@ -71,6 +77,8 @@ const SelectGear = ({
   useEffect(() => {
     setHelmets(data?.data);
   }, [data]);
+
+  if (isLoading) return <Loader />;
 
   return (
     <div>
@@ -314,7 +322,30 @@ const ChooseLocation = ({ selectedLocation, setSelectedLocation }) => {
   );
 };
 
-const PickupDate = ({ selectedDate, setSelectedDate }) => {
+const PickupDate = ({
+  idProduct,
+  selectedLocation,
+  selectedDate,
+  setSelectedDate,
+}) => {
+  const [availableTimeslots, setAvailableTimeslots] = useState<string[]>();
+
+  const { isLoading, data, refetch } = useFetchAvailableTimeslots(
+    idProduct,
+    selectedLocation,
+    selectedDate
+  );
+
+  useEffect(() => {
+    refetch();
+  }, [selectedDate]);
+
+  useEffect(() => {
+    setAvailableTimeslots(data?.data);
+  }, [data]);
+
+  if (isLoading) return <Loader withLabel={false} />;
+
   return (
     <div className="mt-4">
       <p className="font-medium text-2xl">Pickup date and time</p>
@@ -323,6 +354,16 @@ const PickupDate = ({ selectedDate, setSelectedDate }) => {
           selectedDate={selectedDate}
           setSelectedDate={setSelectedDate}
         />
+        <div className="flex mt-12 space-x-8 overflow-x-scroll pb-4">
+          {availableTimeslots?.map((timeslot, index) => (
+            <DateTimeCard
+              key={index}
+              className="cursor-pointer"
+              date={selectedDate}
+              timeslot={dayjs(timeslot)}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -529,6 +570,8 @@ const RentEBike = () => {
             )}
             {currentStep === RentABikeStep.PICKUP_DATE && (
               <PickupDate
+                idProduct={idProduct}
+                selectedLocation={selectedLocation}
                 selectedDate={selectedDate}
                 setSelectedDate={setSelectedDate}
               />
