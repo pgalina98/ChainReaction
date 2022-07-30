@@ -13,3 +13,4 @@ export { default as LoadingOverlay } from "common/components/ui/loading-overlay"
 export { default as ProgressBar } from "common/components/ui/progress-bar";
 export { default as Stepper } from "common/components/ui/stepper";
 export { default as DateTimeCard } from "common/components/ui/cards/date-time";
+export { default as DatePickerStripe } from "common/components/ui/date-picker-stripe";

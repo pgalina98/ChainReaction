@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 
 import { motion } from "framer-motion";
 
+import dayjs, { Dayjs } from "dayjs";
+
 import Image from "next/image";
 import { useRouter } from "next/router";
 
@@ -9,6 +11,7 @@ import {
   BackIcon,
   Button,
   Card,
+  DatePickerStripe,
   DateTimeCard,
   Header,
   Icon,
@@ -311,12 +314,15 @@ const ChooseLocation = ({ selectedLocation, setSelectedLocation }) => {
   );
 };
 
-const PickupDate = () => {
+const PickupDate = ({ selectedDate, setSelectedDate }) => {
   return (
     <div className="mt-4">
       <p className="font-medium text-2xl">Pickup date and time</p>
       <div className="mt-4">
-        <DateTimeCard />
+        <DatePickerStripe
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
+        />
       </div>
     </div>
   );
@@ -330,8 +336,9 @@ const RentEBike = () => {
 
   const [selectedBike, setSelectedBike] = useState<Product>();
   const [selectedHelmet, setSelectedHelmet] = useState<Product>();
-  const [selectedLocation, setSelectedLocation] = useState<Location>();
   const [selectedSize, setSelectedSize] = useState<ProductSize>();
+  const [selectedLocation, setSelectedLocation] = useState<Location>();
+  const [selectedDate, setSelectedDate] = useState<Dayjs>(dayjs());
   const [currentStep, setCurrentStep] = useState<RentABikeStep>(
     RentABikeStep.SELECT_GEAR
   );
@@ -394,8 +401,6 @@ const RentEBike = () => {
   };
 
   if (isLoading) return <LoadingOverlay />;
-
-  console.log("SELECTED BIKE: ", selectedBike);
 
   return (
     <div className="h-full">
@@ -522,7 +527,12 @@ const RentEBike = () => {
                 setSelectedLocation={onLocationChange}
               />
             )}
-            {currentStep === RentABikeStep.PICKUP_DATE && <PickupDate />}
+            {currentStep === RentABikeStep.PICKUP_DATE && (
+              <PickupDate
+                selectedDate={selectedDate}
+                setSelectedDate={setSelectedDate}
+              />
+            )}
           </motion.div>
           <Button
             label="Previous"
