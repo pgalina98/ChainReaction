@@ -3,15 +3,23 @@ import React from "react";
 import { declassify } from "@utils/common";
 
 interface IconProps {
-  className: string;
+  className?: string;
+  icon: string;
   isDisabled?: boolean;
   onClick?: any;
 }
 
-export const Icon = ({ className, isDisabled = false, onClick }: IconProps) => {
+export const Icon = ({
+  className,
+  icon,
+  isDisabled = false,
+  onClick,
+}: IconProps) => {
   return (
     <i
-      className={declassify(className, { "cursor-not-allowed": isDisabled })}
+      className={declassify(`${className} ${icon}`, {
+        "cursor-not-allowed": isDisabled,
+      })}
       {...(onClick && !isDisabled && { onClick: onClick })}
     />
   );

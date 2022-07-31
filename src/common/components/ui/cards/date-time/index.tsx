@@ -35,7 +35,7 @@ const DateTimeCard = ({
           invisible: !isSelected,
         })}
       >
-        <Icon className="las la-check bg_primary rounded-full p-1" />
+        <Icon className="bg_primary rounded-full p-1" icon="las la-check" />
       </span>
       <div className="block rounded-t overflow-hidden text-center">
         <div className="bg_blue text-white py-1">

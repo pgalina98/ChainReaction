@@ -5,11 +5,10 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 
-import { BarsIcon, Button, Avatar, ShoppingCardIcon } from "@components";
+import { BarsIcon, Avatar, IconWIthBadge } from "@components";
 
 import { useFadeInOutLeftVariants, useFadeInOutTopVariants } from "@animations";
 
-import { ButtonType } from "@enums/button-type";
 import { MenuItem } from "@enums/menu-items";
 
 import { declassify } from "@utils/common";
@@ -36,16 +35,19 @@ const Header = ({
     setActiveTab(menuItem);
   };
 
-  const navigateToBikesPage = (): void => {
-    router.push("/bikes");
-  };
-
   return (
     <div className={`${styles.header} grid grid-cols-2`}>
       <div className="flex items-center bg_primary">
         <motion.div
-          {...(animated && { initial: "initial", animate: "animate", exit: "exit" })}
-          variants={useFadeInOutLeftVariants({ duration: 0.5, exit: { translateX: "-110%" } })}
+          {...(animated && {
+            initial: "initial",
+            animate: "animate",
+            exit: "exit",
+          })}
+          variants={useFadeInOutLeftVariants({
+            duration: 0.5,
+            exit: { translateX: "-110%" },
+          })}
           className={`${styles.logo_img_container} flex rounded-tr-xl rounded-br-xl`}
         >
           <Image
@@ -57,7 +59,11 @@ const Header = ({
           />
         </motion.div>
         <motion.div
-          {...(animated && { initial: "initial", animate: "animate", exit: "exit" })}
+          {...(animated && {
+            initial: "initial",
+            animate: "animate",
+            exit: "exit",
+          })}
           variants={useFadeInOutTopVariants({ duration: 0.5 })}
           className={`${styles.logo_text_container} flex items-center text-white ml-4 mb-4 rounded-bl-xl rounded-br-xl`}
         >
@@ -81,7 +87,11 @@ const Header = ({
         )}
       >
         <motion.div
-          {...(animated && { initial: "initial", animate: "animate", exit: "exit" })}
+          {...(animated && {
+            initial: "initial",
+            animate: "animate",
+            exit: "exit",
+          })}
           variants={useFadeInOutTopVariants({ duration: 0.5 })}
           className="space-x-12 ml-16 mr-16"
         >
@@ -117,18 +127,16 @@ const Header = ({
           </Link>
         </motion.div>
         <motion.div
-          {...(animated && { initial: "initial", animate: "animate", exit: "exit" })}
+          {...(animated && {
+            initial: "initial",
+            animate: "animate",
+            exit: "exit",
+          })}
           variants={useFadeInOutTopVariants({ duration: 0.5 })}
           className="flex items-center space-x-10 mr-6"
         >
-          <Button
-            label="Order now"
-            type={ButtonType.PRIMARY}
-            className="h-10"
-            rounded
-            onClick={navigateToBikesPage}
-          />
-          <ShoppingCardIcon />
+          <IconWIthBadge icon="las la-bell" />
+          <IconWIthBadge icon="las la-shopping-bag" />
           <Avatar className="mr-6" withDropdown />
         </motion.div>
       </div>

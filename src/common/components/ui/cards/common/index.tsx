@@ -32,7 +32,7 @@ const Card = ({
           invisible: !isSelected || !withCheckIcon,
         })}
       >
-        <Icon className="las la-check bg_primary rounded-full p-1" />
+        <Icon className="bg_primary rounded-full p-1" icon="las la-check" />
       </span>
       {children}
     </div>

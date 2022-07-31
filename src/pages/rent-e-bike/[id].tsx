@@ -159,7 +159,7 @@ const ChooseLocation = ({ selectedLocation, setSelectedLocation }) => {
           onClick={() => setSelectedLocation(Location.AUSTIN)}
         >
           <div className="w-6 h-6 p-5 rounded-2xl bg_primary flex items-center justify-center">
-            <Icon className="text-white text-2xl las la-map-pin" />
+            <Icon className="text-white text-2xl" icon="las la-map-pin" />
           </div>
           <div className="text-black ml-4 flex-col">
             <p className="font-semibold text-lg leading-6">Austin</p>
@@ -174,7 +174,7 @@ const ChooseLocation = ({ selectedLocation, setSelectedLocation }) => {
               { invisible: selectedLocation !== Location.AUSTIN }
             )}
           >
-            <Icon className="text-white text-lg las la-check" />
+            <Icon className="text-white text-lg" icon="las la-check" />
           </div>
         </Card>
         <Card
@@ -184,7 +184,7 @@ const ChooseLocation = ({ selectedLocation, setSelectedLocation }) => {
           onClick={() => setSelectedLocation(Location.BOSTON)}
         >
           <div className="w-6 h-6 p-5 rounded-2xl bg_primary flex items-center justify-center">
-            <Icon className="text-white text-2xl las la-map-pin" />
+            <Icon className="text-white text-2xl" icon="las la-map-pin" />
           </div>
           <div className="text-black ml-4 flex-col">
             <p className="font-semibold text-lg leading-6">Boston</p>
@@ -199,7 +199,7 @@ const ChooseLocation = ({ selectedLocation, setSelectedLocation }) => {
               { invisible: selectedLocation !== Location.BOSTON }
             )}
           >
-            <Icon className="text-white text-lg las la-check" />
+            <Icon className="text-white text-lg" icon="las la-check" />
           </div>
         </Card>
         <Card
@@ -209,7 +209,7 @@ const ChooseLocation = ({ selectedLocation, setSelectedLocation }) => {
           onClick={() => setSelectedLocation(Location.NEW_YORK)}
         >
           <div className="w-6 h-6 p-5 rounded-2xl bg_primary flex items-center justify-center">
-            <Icon className="text-white text-2xl las la-map-pin" />
+            <Icon className="text-white text-2xl" icon="las la-map-pin" />
           </div>
           <div className="text-black ml-4 flex-col">
             <p className="font-semibold text-lg leading-6">New York</p>
@@ -222,7 +222,7 @@ const ChooseLocation = ({ selectedLocation, setSelectedLocation }) => {
               { invisible: selectedLocation !== Location.NEW_YORK }
             )}
           >
-            <Icon className="text-white text-lg las la-check" />
+            <Icon className="text-white text-lg" icon="las la-check" />
           </div>
         </Card>
         <Card
@@ -232,7 +232,7 @@ const ChooseLocation = ({ selectedLocation, setSelectedLocation }) => {
           onClick={() => setSelectedLocation(Location.TAOS)}
         >
           <div className="w-6 h-6 p-5 rounded-2xl bg_primary flex items-center justify-center">
-            <Icon className="text-white text-2xl las la-map-pin" />
+            <Icon className="text-white text-2xl" icon="las la-map-pin" />
           </div>
           <div className="text-black ml-4 flex-col">
             <p className="font-semibold text-lg leading-6">Taos</p>
@@ -247,7 +247,7 @@ const ChooseLocation = ({ selectedLocation, setSelectedLocation }) => {
               { invisible: selectedLocation !== Location.TAOS }
             )}
           >
-            <Icon className="text-white text-lg las la-check" />
+            <Icon className="text-white text-lg" icon="las la-check" />
           </div>
         </Card>
         <Card
@@ -257,7 +257,7 @@ const ChooseLocation = ({ selectedLocation, setSelectedLocation }) => {
           onClick={() => setSelectedLocation(Location.MADISON)}
         >
           <div className="w-6 h-6 p-5 rounded-2xl bg_primary flex items-center justify-center">
-            <Icon className="text-white text-2xl las la-map-pin" />
+            <Icon className="text-white text-2xl" icon="las la-map-pin" />
           </div>
           <div className="text-black ml-4 flex-col">
             <p className="font-semibold text-lg leading-6">Madison</p>
@@ -272,7 +272,7 @@ const ChooseLocation = ({ selectedLocation, setSelectedLocation }) => {
               { invisible: selectedLocation !== Location.MADISON }
             )}
           >
-            <Icon className="text-white text-lg las la-check" />
+            <Icon className="text-white text-lg" icon="las la-check" />
           </div>
         </Card>
         <Card
@@ -282,7 +282,7 @@ const ChooseLocation = ({ selectedLocation, setSelectedLocation }) => {
           onClick={() => setSelectedLocation(Location.SAVANNAH)}
         >
           <div className="w-6 h-6 p-5 rounded-2xl bg_primary flex items-center justify-center">
-            <Icon className="text-white text-2xl las la-map-pin" />
+            <Icon className="text-white text-2xl" icon="las la-map-pin" />
           </div>
           <div className="text-black ml-4 flex-col">
             <p className="font-semibold text-lg leading-6">Savannah</p>
@@ -297,7 +297,7 @@ const ChooseLocation = ({ selectedLocation, setSelectedLocation }) => {
               { invisible: selectedLocation !== Location.SAVANNAH }
             )}
           >
-            <Icon className="text-white text-lg las la-check" />
+            <Icon className="text-white text-lg" icon="las la-check" />
           </div>
         </Card>
         <Card
@@ -307,7 +307,7 @@ const ChooseLocation = ({ selectedLocation, setSelectedLocation }) => {
           onClick={() => setSelectedLocation(Location.NASHVILLE)}
         >
           <div className="w-6 h-6 p-5 rounded-2xl bg_primary flex items-center justify-center">
-            <Icon className="text-white text-2xl las la-map-pin" />
+            <Icon className="text-white text-2xl" icon="las la-map-pin" />
           </div>
           <div className="text-black ml-4 flex-col">
             <p className="font-semibold text-lg leading-6">Nashville</p>
@@ -322,7 +322,7 @@ const ChooseLocation = ({ selectedLocation, setSelectedLocation }) => {
               { invisible: selectedLocation !== Location.NASHVILLE }
             )}
           >
-            <Icon className="text-white text-lg las la-check" />
+            <Icon className="text-white text-lg" icon="las la-check" />
           </div>
         </Card>
       </div>

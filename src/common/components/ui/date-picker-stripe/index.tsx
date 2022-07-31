@@ -43,7 +43,8 @@ const DatePickerStripe = ({
         className={`${className} flex bg-white shadow-md justify-center items-center rounded-lg overflow-x-hidden py-4 px-2`}
       >
         <Icon
-          className="las la-angle-left text-white bg_primary p-2 mr-4 ml-4 rounded-full cursor-pointer hover:scale-105"
+          className="text-white bg_primary p-2 mr-4 ml-4 rounded-full cursor-pointer hover:scale-105"
+          icon="las la-angle-left"
           isDisabled={isPreviousButtonDisabled()}
           onClick={() => changeRange(initialDate.subtract(1, "days"))}
         />
@@ -56,7 +57,8 @@ const DatePickerStripe = ({
           />
         ))}
         <Icon
-          className="las la-angle-right text-white bg_primary p-2 mr-4 ml-4 rounded-full cursor-pointer hover:scale-105"
+          className="text-white bg_primary p-2 mr-4 ml-4 rounded-full cursor-pointer hover:scale-105"
+          icon="las la-angle-right"
           onClick={() => changeRange(initialDate.add(1, "days"))}
         />
       </div>

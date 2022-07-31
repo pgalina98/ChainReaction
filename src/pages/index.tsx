@@ -218,7 +218,8 @@ const Home: NextPage = () => {
               className={`w-10 h-10 bg_white rounded-full text-black flex items-center justify-center cursor-pointer hover:scale-105 ${styles.box_shadow_white}`}
             >
               <Icon
-                className="las la-angle-left text-2xl"
+                className="text-2xl"
+                icon="las la-angle-left"
                 onClick={onLeftArrowIconClick}
               />
             </div>
@@ -229,7 +230,8 @@ const Home: NextPage = () => {
               className={`w-10 h-10 bg_white rounded-full text-black flex items-center justify-center cursor-pointer hover:scale-105 ${styles.box_shadow_white}`}
             >
               <Icon
-                className="las la-angle-right text-2xl"
+                className="text-2xl"
+                icon="las la-angle-right"
                 onClick={onRightArrowIconClick}
               />
             </div>
@@ -247,11 +249,11 @@ const Home: NextPage = () => {
               className={`${styles.box_shadow_secondary_dark} mr-8 bg_secondary_dark w-32 h-16 rounded-xl flex flex-col justify-center`}
             >
               <div className="flex justify-center text-lg space-x-1">
-                <Icon className="las la-star" />
-                <Icon className="las la-star" />
-                <Icon className="las la-star" />
-                <Icon className="las la-star" />
-                <Icon className="las la-star-half-alt" />
+                <Icon icon="las la-star" />
+                <Icon icon="las la-star" />
+                <Icon icon="las la-star" />
+                <Icon icon="las la-star" />
+                <Icon icon="las la-star-half-alt" />
               </div>
               <div className="flex justify-start text-xs ml-3 mt-1">
                 +1000 reviews

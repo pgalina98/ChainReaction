@@ -34,7 +34,7 @@ const DatePickerItem = ({
           invisible: !isSelected,
         })}
       >
-        <Icon className="las la-check bg_primary rounded-full p-1" />
+        <Icon className="bg_primary rounded-full p-1" icon="las la-check" />
       </span>
       <div className="flex items-center px-4 py-4">
         <div className="text-center">
