@@ -2,9 +2,12 @@ import React from "react";
 
 import { Dayjs } from "dayjs";
 
+import { Icon } from "@components";
+
 import { APP_SHORT_TIME_FORMAT } from "@constants/datetime";
 
 import { formatTime, getLongNameOfMonth } from "@utils/datetime";
+import { declassify } from "@utils/common";
 
 interface DateTimeCardProps {
   className?: string;
@@ -23,8 +26,17 @@ const DateTimeCard = ({
 }: DateTimeCardProps) => {
   return (
     <div
-      className={`${className} w-32 flex-none rounded-t lg:rounded-t-none lg:rounded-l text-center font-medium shadow-lg`}
+      className={`${className} w-32 flex-none rounded-t lg:rounded-t-none lg:rounded-l text-center font-medium shadow-lg relative`}
+      {...(onClick && { onClick: () => onClick(timeslot) })}
     >
+      <span
+        className={declassify(`absolute right-1 top-9`, {
+          visible: isSelected,
+          invisible: !isSelected,
+        })}
+      >
+        <Icon className="las la-check bg_primary rounded-full p-1" />
+      </span>
       <div className="block rounded-t overflow-hidden text-center">
         <div className="bg_blue text-white py-1">
           {getLongNameOfMonth(date.month())}

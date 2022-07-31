@@ -78,7 +78,7 @@ const SelectGear = ({
     setHelmets(data?.data);
   }, [data]);
 
-  if (isLoading) return <Loader />;
+  if (isLoading) return <Loader withLabel={false} />;
 
   return (
     <div>
@@ -327,6 +327,8 @@ const PickupDate = ({
   selectedLocation,
   selectedDate,
   setSelectedDate,
+  selectedTimeslots,
+  setSelectedTimeslots,
 }) => {
   const [availableTimeslots, setAvailableTimeslots] = useState<string[]>();
 
@@ -343,6 +345,30 @@ const PickupDate = ({
   useEffect(() => {
     setAvailableTimeslots(data?.data);
   }, [data]);
+
+  const isTimeslotSelected = (timeslot: Dayjs): boolean => {
+    return (
+      selectedTimeslots.filter(
+        (selectedTimeslot: Dayjs) =>
+          selectedTimeslot.isSame(timeslot, "dates") &&
+          selectedTimeslot.isSame(timeslot, "hour")
+      ).length > 0
+    );
+  };
+
+  const onSelectedTimeslotChange = (timeslot: Dayjs): void => {
+    if (isTimeslotSelected(timeslot)) {
+      setSelectedTimeslots(
+        selectedTimeslots.filter(
+          (selectedTimeslot: Dayjs) =>
+            selectedTimeslot.isSame(timeslot, "dates") &&
+            !selectedTimeslot.isSame(timeslot, "hour")
+        )
+      );
+    } else {
+      setSelectedTimeslots([...selectedTimeslots, timeslot]);
+    }
+  };
 
   if (isLoading) return <Loader withLabel={false} />;
 
@@ -361,6 +387,8 @@ const PickupDate = ({
               className="cursor-pointer"
               date={selectedDate}
               timeslot={dayjs(timeslot)}
+              isSelected={isTimeslotSelected(dayjs(timeslot))}
+              onClick={onSelectedTimeslotChange}
             />
           ))}
         </div>
@@ -380,6 +408,7 @@ const RentEBike = () => {
   const [selectedSize, setSelectedSize] = useState<ProductSize>();
   const [selectedLocation, setSelectedLocation] = useState<Location>();
   const [selectedDate, setSelectedDate] = useState<Dayjs>(dayjs());
+  const [selectedTimeslots, setSelectedTimeslots] = useState<Dayjs[]>([]);
   const [currentStep, setCurrentStep] = useState<RentABikeStep>(
     RentABikeStep.SELECT_GEAR
   );
@@ -574,6 +603,8 @@ const RentEBike = () => {
                 selectedLocation={selectedLocation}
                 selectedDate={selectedDate}
                 setSelectedDate={setSelectedDate}
+                selectedTimeslots={selectedTimeslots}
+                setSelectedTimeslots={setSelectedTimeslots}
               />
             )}
           </motion.div>
