@@ -129,7 +129,7 @@ const Stepper = ({
 
             <div
               className={`w-10 h-10 mx-auto ${
-                currentStep >= RentABikeStep.FINISHED
+                currentStep >= RentABikeStep.CONFIRM_RENT
                   ? "bg-green-500 text-white"
                   : "bg-white border-2 border-gray-200 text-gray-600"
               } rounded-full text-lg flex items-center`}
