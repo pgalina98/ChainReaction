@@ -2,17 +2,19 @@ export enum RentABikeStep {
   SELECT_GEAR = 1,
   CHOOSE_LOCATION = 2,
   PICKUP_DATE = 3,
-  FINISHED = 4,
+  CONFIRM_RENT = 4,
 }
 
 export const RentABikeSteps = [
   RentABikeStep.SELECT_GEAR,
   RentABikeStep.CHOOSE_LOCATION,
   RentABikeStep.PICKUP_DATE,
-  RentABikeStep.FINISHED,
+  RentABikeStep.CONFIRM_RENT,
 ];
 
-export const determineNextStep = (currentStep: RentABikeStep): RentABikeStep => {
+export const determineNextStep = (
+  currentStep: RentABikeStep
+): RentABikeStep => {
   switch (currentStep) {
     case RentABikeStep.SELECT_GEAR:
       return RentABikeStep.CHOOSE_LOCATION;
@@ -21,16 +23,18 @@ export const determineNextStep = (currentStep: RentABikeStep): RentABikeStep => 
       return RentABikeStep.PICKUP_DATE;
 
     case RentABikeStep.PICKUP_DATE:
-      return RentABikeStep.FINISHED;
+      return RentABikeStep.CONFIRM_RENT;
 
     default:
       return RentABikeStep.SELECT_GEAR;
   }
 };
 
-export const determinePreviousStep = (currentStep: RentABikeStep): RentABikeStep => {
+export const determinePreviousStep = (
+  currentStep: RentABikeStep
+): RentABikeStep => {
   switch (currentStep) {
-    case RentABikeStep.FINISHED:
+    case RentABikeStep.CONFIRM_RENT:
       return RentABikeStep.PICKUP_DATE;
 
     case RentABikeStep.PICKUP_DATE:

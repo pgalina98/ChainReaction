@@ -38,6 +38,7 @@ import { ToastType } from "@enums/toast-type";
 import { Location } from "@enums/location";
 
 import Product from "@models/product.model";
+import Rent, { createEmptyRentObject } from "@models/rent.model";
 
 import {
   declassify,
@@ -404,6 +405,14 @@ const PickupDate = ({
   );
 };
 
+const ConfirmRent = () => {
+  return (
+    <div className="mt-4">
+      <p className="font-medium text-2xl">Confirm rent</p>
+    </div>
+  );
+};
+
 const RentEBike = () => {
   const router = useRouter();
   const [isShown, setIsShown] = useToast({ duration: 4000 });
@@ -411,11 +420,7 @@ const RentEBike = () => {
   const { id: idProduct } = router?.query;
 
   const [selectedBike, setSelectedBike] = useState<Product>();
-  const [selectedHelmet, setSelectedHelmet] = useState<Product>();
-  const [selectedSize, setSelectedSize] = useState<ProductSize>();
-  const [selectedLocation, setSelectedLocation] = useState<Location>();
-  const [selectedDate, setSelectedDate] = useState<Dayjs>(dayjs());
-  const [selectedTimeslots, setSelectedTimeslots] = useState<Dayjs[]>([]);
+  const [rent, setRent] = useState<Rent>(createEmptyRentObject());
   const [currentStep, setCurrentStep] = useState<RentABikeStep>(
     RentABikeStep.SELECT_GEAR
   );
@@ -449,16 +454,24 @@ const RentEBike = () => {
     return Math.round((value / comparativeValue) * 100);
   };
 
-  const onSelectedHelmetChange = (helmet: Product): void => {
-    setSelectedHelmet(helmet);
+  const onHelmetChange = (helmet: Product): void => {
+    setRent({ ...rent, helmet });
   };
 
-  const onSelectedSizeChange = (size: ProductSize): void => {
-    setSelectedSize(size);
+  const onSizeChange = (helmetSize: ProductSize): void => {
+    setRent({ ...rent, helmetSize });
   };
 
   const onLocationChange = (location: Location): void => {
-    setSelectedLocation(location);
+    setRent({ ...rent, location });
+  };
+
+  const onDateChange = (date: Dayjs): void => {
+    setRent({ ...rent, date });
+  };
+
+  const onTimeslotsChange = (timeslots: Dayjs[]): void => {
+    setRent({ ...rent, timeslots });
   };
 
   const onNextButtonClick = (): void => {
@@ -470,11 +483,25 @@ const RentEBike = () => {
   };
 
   const iseNextButtonDisabled = (): boolean => {
-    return isNullOrUndefined(selectedHelmet) || isNullOrUndefined(selectedSize);
+    return (
+      ((isNullOrUndefined(rent?.helmet) ||
+        isNullOrUndefined(rent?.helmetSize)) &&
+        currentStep === RentABikeStep.SELECT_GEAR) ||
+      (isNullOrUndefined(rent?.location) &&
+        currentStep === RentABikeStep.CHOOSE_LOCATION)
+    );
   };
 
   const isPreviousButtonHidden = (): boolean => {
     return currentStep === RentABikeStep.SELECT_GEAR;
+  };
+
+  const isNextButtonHidden = (): boolean => {
+    return currentStep === RentABikeStep.CONFIRM_RENT;
+  };
+
+  const isConfirmButtonHidden = (): boolean => {
+    return currentStep !== RentABikeStep.CONFIRM_RENT;
   };
 
   if (isLoading) return <LoadingOverlay />;
@@ -592,28 +619,29 @@ const RentEBike = () => {
           >
             {currentStep === RentABikeStep.SELECT_GEAR && (
               <SelectGear
-                selectedHelmet={selectedHelmet}
-                onSelectedHelmetChange={onSelectedHelmetChange}
-                selectedSize={selectedSize}
-                onSelectedSizeChange={onSelectedSizeChange}
+                selectedHelmet={rent?.helmet}
+                onSelectedHelmetChange={onHelmetChange}
+                selectedSize={rent?.helmetSize}
+                onSelectedSizeChange={onSizeChange}
               />
             )}
             {currentStep === RentABikeStep.CHOOSE_LOCATION && (
               <ChooseLocation
-                selectedLocation={selectedLocation}
+                selectedLocation={rent?.location}
                 setSelectedLocation={onLocationChange}
               />
             )}
             {currentStep === RentABikeStep.PICKUP_DATE && (
               <PickupDate
                 idProduct={idProduct}
-                selectedLocation={selectedLocation}
-                selectedDate={selectedDate}
-                setSelectedDate={setSelectedDate}
-                selectedTimeslots={selectedTimeslots}
-                setSelectedTimeslots={setSelectedTimeslots}
+                selectedLocation={rent?.location}
+                selectedDate={rent?.date}
+                setSelectedDate={onDateChange}
+                selectedTimeslots={rent?.timeslots}
+                setSelectedTimeslots={onTimeslotsChange}
               />
             )}
+            {currentStep === RentABikeStep.CONFIRM_RENT && <ConfirmRent />}
           </motion.div>
           <Button
             label="Previous"
@@ -627,7 +655,15 @@ const RentEBike = () => {
             appendIcon="las la-arrow-right"
             className={`absolute w-32 mb-6 mr-12 ${styles.next_button}`}
             isDisabled={iseNextButtonDisabled()}
+            isHidden={isNextButtonHidden()}
             onClick={() => onNextButtonClick()}
+          />
+          <Button
+            label="Confirm"
+            appendIcon="las la-check"
+            className={`absolute w-32 mb-6 mr-12 ${styles.next_button}`}
+            isHidden={isConfirmButtonHidden()}
+            onClick={() => {}}
           />
         </div>
       </div>

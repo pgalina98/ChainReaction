@@ -34,11 +34,18 @@ const ComponentWrapper = ({ children }) => {
   useEffect(() => {
     if (!!getValueByKey(LoaclStorageKeys.AUTHENTICATION_TOKEN)) {
       try {
-        const jwtClaims: any = jwtDecode(getValueByKey(LoaclStorageKeys.AUTHENTICATION_TOKEN)!);
+        const jwtClaims: any = jwtDecode(
+          getValueByKey(LoaclStorageKeys.AUTHENTICATION_TOKEN)!
+        );
 
         const user: User = mapJwtClaimsToUserObject(jwtClaims);
 
-        dispatch(login({ ...user, authority: getAuthorityByKey(jwtClaims["authorities"]) }));
+        dispatch(
+          login({
+            ...user,
+            authority: getAuthorityByKey(jwtClaims["authorities"]),
+          })
+        );
       } catch (error) {
         clearAuthenticationToken();
       }
