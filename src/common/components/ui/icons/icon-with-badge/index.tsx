@@ -3,9 +3,14 @@ import React from "react";
 interface ShoppingCardIconProps {
   icon: string;
   badgeNumber?: number;
+  onClick?: any;
 }
 
-const IconWIthBadge = ({ icon, badgeNumber = 0 }: ShoppingCardIconProps) => {
+const IconWIthBadge = ({
+  icon,
+  badgeNumber = 0,
+  onClick,
+}: ShoppingCardIconProps) => {
   return (
     <div className="relative">
       {badgeNumber !== 0 && (
@@ -13,7 +18,10 @@ const IconWIthBadge = ({ icon, badgeNumber = 0 }: ShoppingCardIconProps) => {
           {badgeNumber}
         </span>
       )}
-      <i className={`${icon} text-3xl cursor-pointer`} />
+      <i
+        className={`${icon} text-3xl cursor-pointer`}
+        {...(onClick && { onClick: onClick })}
+      />
     </div>
   );
 };

@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 
-import { BarsIcon, Avatar, IconWIthBadge } from "@components";
+import { BarsIcon, Avatar, IconWIthBadge, NotificationBox } from "@components";
 
 import { useFadeInOutLeftVariants, useFadeInOutTopVariants } from "@animations";
 
@@ -30,6 +30,8 @@ const Header = ({
   const router = useRouter();
 
   const [activeTab, setActiveTab] = useState<MenuItem>();
+  const [isNotificationBoxShown, setIsNotificationBoxShown] =
+    useState<boolean>(true);
 
   const onMenuItemChange = (menuItem: MenuItem): void => {
     setActiveTab(menuItem);
@@ -135,10 +137,17 @@ const Header = ({
           variants={useFadeInOutTopVariants({ duration: 0.5 })}
           className="flex items-center space-x-10 mr-6"
         >
-          <IconWIthBadge icon="las la-bell" />
+          <IconWIthBadge
+            icon="las la-bell"
+            onClick={() => setIsNotificationBoxShown(true)}
+          />
           <IconWIthBadge icon="las la-shopping-bag" />
           <Avatar className="mr-6" withDropdown />
         </motion.div>
+        <NotificationBox
+          isShown={isNotificationBoxShown}
+          setIsShown={setIsNotificationBoxShown}
+        />
       </div>
     </div>
   );
