@@ -179,7 +179,7 @@ const Home: NextPage = () => {
               animate="animate"
               exit="exit"
               variants={useFadeInOutVariants({ duration: 0.5, delay: 0.5 })}
-              className="flex justify-center mt-10"
+              className="flex justify-center items-center mt-10"
             >
               <Button
                 label="Book a test ride"
@@ -187,6 +187,12 @@ const Home: NextPage = () => {
                 rounded
                 onClick={navigateToRentABikePage}
               />
+              <span className="flex ml-6">
+                <p className="text-3xl font_secondary">
+                  ${selectedBike?.rentPricePerHour}
+                </p>
+                <p className="self-end mb-1 ml-1">/ hour</p>
+              </span>
             </motion.div>
             <motion.div
               key={selectedBike?.idProduct}
