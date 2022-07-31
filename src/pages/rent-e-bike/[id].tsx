@@ -27,7 +27,7 @@ import { useToast } from "@components/hooks/useToast";
 
 import { messages } from "@constants/messages";
 
-import { ProductSize } from "@enums/product-size";
+import { getProductSizeValue, ProductSize } from "@enums/product-size";
 import {
   determineNextStep,
   determinePreviousStep,
@@ -36,6 +36,7 @@ import {
 import { ProductType } from "@enums/product-type";
 import { ToastType } from "@enums/toast-type";
 import { Location } from "@enums/location";
+import { getProductColorValue } from "@enums/product-color";
 
 import Product from "@models/product.model";
 import Rent, { createEmptyRentObject } from "@models/rent.model";
@@ -405,10 +406,85 @@ const PickupDate = ({
   );
 };
 
-const ConfirmRent = () => {
+const ConfirmRent = ({ rent }) => {
+  const calculateSubtotal = (): number => {
+    return rent.product.rentPricePerHour * rent.timeslots.length;
+  };
+
+  const calculateTotal = (): number => {
+    return rent.product.rentPricePerHour * rent.timeslots.length;
+  };
+
   return (
     <div className="mt-4">
       <p className="font-medium text-2xl">Confirm rent</p>
+      <div className="mt-4">
+        <div className="flex flex-col bg_white rounded-2xl shadow-xl h-auto pl-8 pr-8 pt-6 pb-6">
+          <div className="flex">
+            <div className="w-24">
+              <Image
+                src={getMirroredImagePath(rent.product?.imagePath!)}
+                alt="Cowboy 4"
+                width={90}
+                height={50}
+                priority
+              />
+            </div>
+            <div className="text-black ml-6 self-center">
+              <div className="flex items-center">
+                <div className="text-lg font-medium">{`${rent.product.name} ${rent.product.model}`}</div>
+                <div className="text-lg font-thin">
+                  {`, ${rent.product.description}`}
+                </div>
+              </div>
+              <div className="text-base font-thin">
+                {rent.product.color.value}
+              </div>
+            </div>
+            <div className="text-black text-xl font-medium ml-auto self-center">{`${rent.timeslots.length} x ${rent.product.rentPricePerHour}$`}</div>
+          </div>
+          <div className="flex mt-8">
+            <div className="w-24">
+              <Image
+                src={rent.helmet?.imagePath!}
+                alt="Cowboy 4"
+                width={65}
+                height={65}
+                priority
+              />
+            </div>
+            <div className="text-black ml-6 self-center">
+              <div className="flex items-center">
+                <div className="text-lg font-medium">{`${rent.helmet.name} ${rent.helmet.model}`}</div>
+                <div className="text-lg font-thin">
+                  {`, ${getProductSizeValue(rent.helmetSize)}`}
+                </div>
+              </div>
+              <div className="text-lg font-thin">{rent.helmet.color.value}</div>
+            </div>
+            <div className="text-black text-xl font-medium ml-auto self-center">
+              0$
+            </div>
+          </div>
+          <hr className="mt-4 mb-4" />
+          <div className="flex">
+            <div className="text-gray-600 text-lg">Subtotal</div>
+            <div className="text-black text-xl font-medium ml-auto self-center">
+              {`${calculateSubtotal()}$`}
+            </div>
+          </div>
+          <hr className="mt-4 mb-4" />
+          <div className="flex">
+            <div className="text-black text-lg font-medium">Total</div>
+            <div className="ml-auto self-center flex items-center">
+              <div className="text-gray-500 font-thin text-sm mr-2">USD</div>
+              <div className="text-black text-xl font-medium">
+                {`${calculateTotal()}$`}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
@@ -437,6 +513,7 @@ const RentEBike = () => {
 
   useEffect(() => {
     setSelectedBike(data?.data);
+    setRent({ ...rent, product: data?.data });
   }, [data]);
 
   const navigateToPreviousPage = () => {
@@ -641,7 +718,9 @@ const RentEBike = () => {
                 setSelectedTimeslots={onTimeslotsChange}
               />
             )}
-            {currentStep === RentABikeStep.CONFIRM_RENT && <ConfirmRent />}
+            {currentStep === RentABikeStep.CONFIRM_RENT && (
+              <ConfirmRent rent={rent} />
+            )}
           </motion.div>
           <Button
             label="Previous"

@@ -5,7 +5,7 @@ export enum ProductSize {
   XL = 4,
 }
 
-export const getProductsIZEValue = (idProductSize: number): string | null => {
+export const getProductSizeValue = (idProductSize: number): string | null => {
   switch (idProductSize) {
     case 1:
       return "SMALL";

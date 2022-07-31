@@ -31,7 +31,7 @@ const Header = ({
 
   const [activeTab, setActiveTab] = useState<MenuItem>();
   const [isNotificationBoxShown, setIsNotificationBoxShown] =
-    useState<boolean>(true);
+    useState<boolean>(false);
 
   const onMenuItemChange = (menuItem: MenuItem): void => {
     setActiveTab(menuItem);
