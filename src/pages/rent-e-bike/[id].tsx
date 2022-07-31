@@ -153,6 +153,7 @@ const ChooseLocation = ({ selectedLocation, setSelectedLocation }) => {
       >
         <Card
           className="pt-3 pl-5 pb-3 flex items-center hover:cursor-pointer"
+          withCheckIcon={false}
           isSelected={selectedLocation === Location.AUSTIN}
           onClick={() => setSelectedLocation(Location.AUSTIN)}
         >
@@ -177,6 +178,7 @@ const ChooseLocation = ({ selectedLocation, setSelectedLocation }) => {
         </Card>
         <Card
           className="pt-3 pl-5 pb-3 flex items-center hover:cursor-pointer"
+          withCheckIcon={false}
           isSelected={selectedLocation === Location.BOSTON}
           onClick={() => setSelectedLocation(Location.BOSTON)}
         >
@@ -201,6 +203,7 @@ const ChooseLocation = ({ selectedLocation, setSelectedLocation }) => {
         </Card>
         <Card
           className="pt-3 pl-5 pb-3 flex items-center hover:cursor-pointer"
+          withCheckIcon={false}
           isSelected={selectedLocation === Location.NEW_YORK}
           onClick={() => setSelectedLocation(Location.NEW_YORK)}
         >
@@ -223,6 +226,7 @@ const ChooseLocation = ({ selectedLocation, setSelectedLocation }) => {
         </Card>
         <Card
           className="pt-3 pl-5 pb-3 flex items-center hover:cursor-pointer"
+          withCheckIcon={false}
           isSelected={selectedLocation === Location.TAOS}
           onClick={() => setSelectedLocation(Location.TAOS)}
         >
@@ -247,6 +251,7 @@ const ChooseLocation = ({ selectedLocation, setSelectedLocation }) => {
         </Card>
         <Card
           className="pt-3 pl-5 pb-3 flex items-center hover:cursor-pointer"
+          withCheckIcon={false}
           isSelected={selectedLocation === Location.MADISON}
           onClick={() => setSelectedLocation(Location.MADISON)}
         >
@@ -271,6 +276,7 @@ const ChooseLocation = ({ selectedLocation, setSelectedLocation }) => {
         </Card>
         <Card
           className="pt-3 pl-5 pb-3 flex items-center hover:cursor-pointer"
+          withCheckIcon={false}
           isSelected={selectedLocation === Location.SAVANNAH}
           onClick={() => setSelectedLocation(Location.SAVANNAH)}
         >
@@ -295,6 +301,7 @@ const ChooseLocation = ({ selectedLocation, setSelectedLocation }) => {
         </Card>
         <Card
           className="pt-3 pl-5 pb-3 flex items-center hover:cursor-pointer"
+          withCheckIcon={false}
           isSelected={selectedLocation === Location.NASHVILLE}
           onClick={() => setSelectedLocation(Location.NASHVILLE)}
         >
