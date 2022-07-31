@@ -31,7 +31,7 @@ const DateTimeCard = ({
         </div>
         <div className="pt-1 border-l border-r border-white bg_white">
           <span className="text-5xl font-bold leading-tight text-black">
-            {date.date()}
+            {date.date() < 10 ? `0${date.date()}` : date.date()}
           </span>
         </div>
         <div className="border-l border-r border-b rounded-b-lg text-center border-white bg_white -pt-2 -mb-1">
