@@ -151,7 +151,7 @@ const ChooseLocation = ({ selectedLocation, setSelectedLocation }) => {
     <div className="mt-4">
       <p className="font-medium text-2xl">Choose location</p>
       <div
-        className={`${styles.locations_container} mt-4 pr-8 space-y-4 w-4/5 overflow-y-scroll overflow-x-hidden`}
+        className={`${styles.locations_container} mt-4 pr-8 space-y-4 w-full overflow-y-scroll overflow-x-hidden`}
       >
         <Card
           className="pt-3 pl-5 pb-3 flex items-center hover:cursor-pointer"
@@ -441,7 +441,7 @@ const ConfirmRent = ({ rent }) => {
                 {rent.product.color.value}
               </div>
             </div>
-            <div className="text-black text-xl font-medium ml-auto self-center">{`${rent.timeslots.length} x ${rent.product.rentPricePerHour}$`}</div>
+            <div className="text-black text-xl font-medium ml-auto self-center">{`${rent.timeslots.length}h x ${rent.product.rentPricePerHour}$`}</div>
           </div>
           <div className="flex mt-8">
             <div className="w-24">
