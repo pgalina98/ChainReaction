@@ -27,9 +27,9 @@ export const NotificationBox = ({
       initial="initial"
       animate="animate"
       exit="exit"
-      variants={useFadeInOutRightVariants({ duration: 0.5 })}
+      variants={useFadeInOutRightVariants({ duration: 0.3 })}
       className={declassify(
-        `${className} ${styles.notification_container} w-3/12 bg_primary z-10 right-0 top-0`,
+        `${className} ${styles.notification_container} w-1/2 bg_primary z-10 right-0 top-0`,
         { visible: isShown },
         { invisible: !isShown }
       )}
