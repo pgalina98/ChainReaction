@@ -179,7 +179,7 @@ const Home: NextPage = () => {
               animate="animate"
               exit="exit"
               variants={useFadeInOutVariants({ duration: 0.5, delay: 0.5 })}
-              className="flex justify-center items-center mt-10"
+              className="flex justify-between items-center mt-10 ml-40 mr-48"
             >
               <Button
                 label="Book a test ride"
@@ -263,6 +263,27 @@ const Home: NextPage = () => {
               </div>
               <div className="flex justify-start text-xs ml-3 mt-1">
                 +1000 reviews
+              </div>
+            </motion.div>
+            <motion.div
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              variants={useFadeInOutVariants({ duration: 0.5, delay: 0.5 })}
+              className="absolute flex items-center justify-center top-0 right-0 mt-48 mr-2"
+            >
+              <Image
+                src="/assets/shared/splash_white.png"
+                alt="Splash white"
+                width={180}
+                height={100}
+                priority
+              />
+              <div className="flex absolute mb-2 text-black">
+                <div className="text-xl">$</div>
+                <div className="text-4xl font-medium">
+                  {selectedBike?.price}
+                </div>
               </div>
             </motion.div>
           </div>

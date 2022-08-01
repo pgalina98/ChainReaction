@@ -17,7 +17,11 @@ interface AvatarProps extends RootState {
   withDropdown: boolean;
 }
 
-const Avatar = ({ className, withDropdown = false, authentication }: AvatarProps) => {
+const Avatar = ({
+  className,
+  withDropdown = false,
+  authentication,
+}: AvatarProps) => {
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 

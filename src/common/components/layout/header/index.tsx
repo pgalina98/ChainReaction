@@ -55,6 +55,7 @@ const Header = ({
           <Image
             src="/assets/shared/chain-reaction_logo.png"
             alt="ChainReaction Logo"
+            style={{ position: "absolute", zIndex: 0 }}
             width={45}
             height={40}
             priority
@@ -74,14 +75,14 @@ const Header = ({
       </div>
       <BarsIcon
         className={declassify(
-          " absolute left-1/2 top-14 transform -translate-x-1/2",
+          " absolute left-1/2 top-14 transform -translate-x-1/2 z-20",
           { visible: showMenu },
           { invisible: !showMenu }
         )}
       />
       <div
         className={declassify(
-          "text-gray-200 uppercase justify-between flex items-center font-light text-base flex",
+          "text-gray-200 uppercase justify-between flex items-center font-light text-base absolute right-0 w-1/2 h-20 z-10",
           { bg_primary: backgroundColor === "singleColor" },
           { bg_brown: backgroundColor !== "singleColor" },
           { visible: showMenu },
