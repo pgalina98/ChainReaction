@@ -25,9 +25,7 @@ export default interface RentForm {
   timeslots: Dayjs[];
 }
 
-export const createEmptyRentObject = (): RentForm => {
-  const token = getValueByKey(LoaclStorageKeys.AUTHENTICATION_TOKEN);
-
+export const createEmptyRentFormObject = (): RentForm => {
   const jwtClaims: any = jwtDecode(
     getValueByKey(LoaclStorageKeys.AUTHENTICATION_TOKEN)!
   );

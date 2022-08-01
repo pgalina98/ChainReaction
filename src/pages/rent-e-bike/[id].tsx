@@ -36,10 +36,9 @@ import {
 import { ProductType } from "@enums/product-type";
 import { ToastType } from "@enums/toast-type";
 import { Location } from "@enums/location";
-import { getProductColorValue } from "@enums/product-color";
 
 import Product from "@models/product.model";
-import Rent, { createEmptyRentObject } from "@models/rent.model";
+import Rent, { createEmptyRentFormObject } from "@models/rent.model";
 
 import {
   declassify,
@@ -57,6 +56,7 @@ import {
 import useFetchProductsByProductType from "@features/order/api/hooks/useFetchProductsByProductType";
 import useFetchProductById from "@features/order/api/hooks/useFetchProductById";
 import useFetchAvailableTimeslots from "@features/rent/api/hooks/useFetchAvailableTimeslots";
+import useSaveRent from "@features/rent/api/hooks/useSaveRent";
 
 import styles from "./rent-a-bike.module.scss";
 
@@ -406,13 +406,13 @@ const PickupDate = ({
   );
 };
 
-const ConfirmRent = ({ rent }) => {
+const RentSummary = ({ rentForm }) => {
   const calculateSubtotal = (): number => {
-    return rent.product.rentPricePerHour * rent.timeslots.length;
+    return rentForm.product.rentPricePerHour * rentForm.timeslots.length;
   };
 
   const calculateTotal = (): number => {
-    return rent.product.rentPricePerHour * rent.timeslots.length;
+    return rentForm.product.rentPricePerHour * rentForm.timeslots.length;
   };
 
   return (
@@ -423,7 +423,7 @@ const ConfirmRent = ({ rent }) => {
           <div className="flex">
             <div className="w-24">
               <Image
-                src={getMirroredImagePath(rent.product?.imagePath!)}
+                src={getMirroredImagePath(rentForm.product?.imagePath!)}
                 alt="Cowboy 4"
                 width={90}
                 height={50}
@@ -432,21 +432,21 @@ const ConfirmRent = ({ rent }) => {
             </div>
             <div className="text-black ml-6 self-center">
               <div className="flex items-center">
-                <div className="text-lg font-medium">{`${rent.product.name} ${rent.product.model}`}</div>
+                <div className="text-lg font-medium">{`${rentForm.product.name} ${rentForm.product.model}`}</div>
                 <div className="text-lg font-thin">
-                  {`, ${rent.product.description}`}
+                  {`, ${rentForm.product.description}`}
                 </div>
               </div>
               <div className="text-base font-thin">
-                {rent.product.color.value}
+                {rentForm.product.color.value}
               </div>
             </div>
-            <div className="text-black text-xl font-medium ml-auto self-center">{`${rent.timeslots.length}h x ${rent.product.rentPricePerHour}$`}</div>
+            <div className="text-black text-xl font-medium ml-auto self-center">{`${rentForm.timeslots.length}h x ${rentForm.product.rentPricePerHour}$`}</div>
           </div>
           <div className="flex mt-8">
             <div className="w-24">
               <Image
-                src={rent.helmet?.imagePath!}
+                src={rentForm.helmet?.imagePath!}
                 alt="Cowboy 4"
                 width={65}
                 height={65}
@@ -455,12 +455,14 @@ const ConfirmRent = ({ rent }) => {
             </div>
             <div className="text-black ml-6 self-center">
               <div className="flex items-center">
-                <div className="text-lg font-medium">{`${rent.helmet.name} ${rent.helmet.model}`}</div>
+                <div className="text-lg font-medium">{`${rentForm.helmet.name} ${rentForm.helmet.model}`}</div>
                 <div className="text-lg font-thin">
-                  {`, ${getProductSizeValue(rent.helmetSize)}`}
+                  {`, ${getProductSizeValue(rentForm.helmetSize)}`}
                 </div>
               </div>
-              <div className="text-lg font-thin">{rent.helmet.color.value}</div>
+              <div className="text-lg font-thin">
+                {rentForm.helmet.color.value}
+              </div>
             </div>
             <div className="text-black text-xl font-medium ml-auto self-center">
               0$
@@ -496,7 +498,7 @@ const RentEBike = () => {
   const { id: idProduct } = router?.query;
 
   const [selectedBike, setSelectedBike] = useState<Product>();
-  const [rent, setRent] = useState<Rent>(createEmptyRentObject());
+  const [rentForm, setRentForm] = useState<Rent>(createEmptyRentFormObject());
   const [currentStep, setCurrentStep] = useState<RentABikeStep>(
     RentABikeStep.SELECT_GEAR
   );
@@ -504,6 +506,13 @@ const RentEBike = () => {
   const { isLoading, isError, data, error, refetch } = useFetchProductById(
     idProduct as string
   );
+  const {
+    isLoading: isSaving,
+    isError: isSavingError,
+    isSuccess: isSavingSuccess,
+    error: savingError,
+    mutate,
+  } = useSaveRent(rentForm);
 
   useEffect(() => {
     if (router?.isReady) {
@@ -513,7 +522,7 @@ const RentEBike = () => {
 
   useEffect(() => {
     setSelectedBike(data?.data);
-    setRent({ ...rent, product: data?.data });
+    setRentForm({ ...rentForm, product: data?.data });
   }, [data]);
 
   const navigateToPreviousPage = () => {
@@ -532,23 +541,23 @@ const RentEBike = () => {
   };
 
   const onHelmetChange = (helmet: Product): void => {
-    setRent({ ...rent, helmet });
+    setRentForm({ ...rentForm, helmet });
   };
 
   const onSizeChange = (helmetSize: ProductSize): void => {
-    setRent({ ...rent, helmetSize });
+    setRentForm({ ...rentForm, helmetSize });
   };
 
   const onLocationChange = (location: Location): void => {
-    setRent({ ...rent, location });
+    setRentForm({ ...rentForm, location });
   };
 
   const onDateChange = (date: Dayjs): void => {
-    setRent({ ...rent, date });
+    setRentForm({ ...rentForm, date, timeslots: [] });
   };
 
   const onTimeslotsChange = (timeslots: Dayjs[]): void => {
-    setRent({ ...rent, timeslots });
+    setRentForm({ ...rentForm, timeslots });
   };
 
   const onNextButtonClick = (): void => {
@@ -559,12 +568,16 @@ const RentEBike = () => {
     setCurrentStep(determinePreviousStep(currentStep));
   };
 
+  const onConfirmButtonClick = (): void => {
+    mutate();
+  };
+
   const iseNextButtonDisabled = (): boolean => {
     return (
-      ((isNullOrUndefined(rent?.helmet) ||
-        isNullOrUndefined(rent?.helmetSize)) &&
+      ((isNullOrUndefined(rentForm?.helmet) ||
+        isNullOrUndefined(rentForm?.helmetSize)) &&
         currentStep === RentABikeStep.SELECT_GEAR) ||
-      (isNullOrUndefined(rent?.location) &&
+      (isNullOrUndefined(rentForm?.location) &&
         currentStep === RentABikeStep.CHOOSE_LOCATION)
     );
   };
@@ -574,11 +587,11 @@ const RentEBike = () => {
   };
 
   const isNextButtonHidden = (): boolean => {
-    return currentStep === RentABikeStep.CONFIRM_RENT;
+    return currentStep === RentABikeStep.RENT_SUMMARY;
   };
 
   const isConfirmButtonHidden = (): boolean => {
-    return currentStep !== RentABikeStep.CONFIRM_RENT;
+    return currentStep !== RentABikeStep.RENT_SUMMARY;
   };
 
   if (isLoading) return <LoadingOverlay />;
@@ -696,30 +709,30 @@ const RentEBike = () => {
           >
             {currentStep === RentABikeStep.SELECT_GEAR && (
               <SelectGear
-                selectedHelmet={rent?.helmet}
+                selectedHelmet={rentForm?.helmet}
                 onSelectedHelmetChange={onHelmetChange}
-                selectedSize={rent?.helmetSize}
+                selectedSize={rentForm?.helmetSize}
                 onSelectedSizeChange={onSizeChange}
               />
             )}
             {currentStep === RentABikeStep.CHOOSE_LOCATION && (
               <ChooseLocation
-                selectedLocation={rent?.location}
+                selectedLocation={rentForm?.location}
                 setSelectedLocation={onLocationChange}
               />
             )}
             {currentStep === RentABikeStep.PICKUP_DATE && (
               <PickupDate
                 idProduct={idProduct}
-                selectedLocation={rent?.location}
-                selectedDate={rent?.date}
+                selectedLocation={rentForm?.location}
+                selectedDate={rentForm?.date}
                 setSelectedDate={onDateChange}
-                selectedTimeslots={rent?.timeslots}
+                selectedTimeslots={rentForm?.timeslots}
                 setSelectedTimeslots={onTimeslotsChange}
               />
             )}
-            {currentStep === RentABikeStep.CONFIRM_RENT && (
-              <ConfirmRent rent={rent} />
+            {currentStep === RentABikeStep.RENT_SUMMARY && (
+              <RentSummary rentForm={rentForm} />
             )}
           </motion.div>
           <Button
@@ -742,7 +755,7 @@ const RentEBike = () => {
             appendIcon="las la-check"
             className={`absolute w-32 mb-6 mr-12 ${styles.next_button}`}
             isHidden={isConfirmButtonHidden()}
-            onClick={() => {}}
+            onClick={onConfirmButtonClick}
           />
         </div>
       </div>
