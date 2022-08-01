@@ -537,7 +537,7 @@ const RentEBike = () => {
     if (isSavingSuccess) {
       setTimeout(() => {
         router.push("/");
-      }, 4000);
+      }, 2000);
     }
   }, [isSavingSuccess]);
 
