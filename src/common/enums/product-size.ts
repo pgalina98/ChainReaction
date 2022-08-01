@@ -7,16 +7,16 @@ export enum ProductSize {
 
 export const getProductSizeValue = (idProductSize: number): string | null => {
   switch (idProductSize) {
-    case 1:
+    case ProductSize.S:
       return "SMALL";
 
-    case 2:
+    case ProductSize.M:
       return "NEDIUM";
 
-    case 3:
+    case ProductSize.L:
       return "LARGE";
 
-    case 4:
+    case ProductSize.XL:
       return "EXTRA-LARGE";
 
     default:

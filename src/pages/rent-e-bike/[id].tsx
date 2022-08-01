@@ -35,7 +35,7 @@ import {
 } from "@enums/rent-a-bike-step";
 import { ProductType } from "@enums/product-type";
 import { ToastType } from "@enums/toast-type";
-import { Location } from "@enums/location";
+import { getLocation, Location } from "@enums/location";
 
 import Product from "@models/product.model";
 import Rent, { createEmptyRentFormObject } from "@models/rent.model";
@@ -156,7 +156,7 @@ const ChooseLocation = ({ selectedLocation, setSelectedLocation }) => {
         <Card
           className="pt-3 pl-5 pb-3 flex items-center hover:cursor-pointer"
           withCheckIcon={false}
-          isSelected={selectedLocation === Location.AUSTIN}
+          isSelected={selectedLocation?.idLocation === Location.AUSTIN}
           onClick={() => setSelectedLocation(Location.AUSTIN)}
         >
           <div className="w-6 h-6 p-5 rounded-2xl bg_primary flex items-center justify-center">
@@ -171,8 +171,8 @@ const ChooseLocation = ({ selectedLocation, setSelectedLocation }) => {
           <div
             className={declassify(
               `w-4 h-4 p-5 rounded-full bg_primary flex items-center justify-center ml-auto mr-5`,
-              { visible: selectedLocation === Location.AUSTIN },
-              { invisible: selectedLocation !== Location.AUSTIN }
+              { visible: selectedLocation?.idLocation === Location.AUSTIN },
+              { invisible: selectedLocation?.idLocation !== Location.AUSTIN }
             )}
           >
             <Icon className="text-white text-lg" icon="las la-check" />
@@ -181,7 +181,7 @@ const ChooseLocation = ({ selectedLocation, setSelectedLocation }) => {
         <Card
           className="pt-3 pl-5 pb-3 flex items-center hover:cursor-pointer"
           withCheckIcon={false}
-          isSelected={selectedLocation === Location.BOSTON}
+          isSelected={selectedLocation?.idLocation === Location.BOSTON}
           onClick={() => setSelectedLocation(Location.BOSTON)}
         >
           <div className="w-6 h-6 p-5 rounded-2xl bg_primary flex items-center justify-center">
@@ -196,8 +196,8 @@ const ChooseLocation = ({ selectedLocation, setSelectedLocation }) => {
           <div
             className={declassify(
               `w-4 h-4 p-5 rounded-full bg_primary flex items-center justify-center ml-auto mr-5`,
-              { visible: selectedLocation === Location.BOSTON },
-              { invisible: selectedLocation !== Location.BOSTON }
+              { visible: selectedLocation?.idLocation === Location.BOSTON },
+              { invisible: selectedLocation?.idLocation !== Location.BOSTON }
             )}
           >
             <Icon className="text-white text-lg" icon="las la-check" />
@@ -206,7 +206,7 @@ const ChooseLocation = ({ selectedLocation, setSelectedLocation }) => {
         <Card
           className="pt-3 pl-5 pb-3 flex items-center hover:cursor-pointer"
           withCheckIcon={false}
-          isSelected={selectedLocation === Location.NEW_YORK}
+          isSelected={selectedLocation?.idLocation === Location.NEW_YORK}
           onClick={() => setSelectedLocation(Location.NEW_YORK)}
         >
           <div className="w-6 h-6 p-5 rounded-2xl bg_primary flex items-center justify-center">
@@ -219,8 +219,8 @@ const ChooseLocation = ({ selectedLocation, setSelectedLocation }) => {
           <div
             className={declassify(
               `w-4 h-4 p-5 rounded-full bg_primary flex items-center justify-center ml-auto mr-5`,
-              { visible: selectedLocation === Location.NEW_YORK },
-              { invisible: selectedLocation !== Location.NEW_YORK }
+              { visible: selectedLocation?.idLocation === Location.NEW_YORK },
+              { invisible: selectedLocation?.idLocation !== Location.NEW_YORK }
             )}
           >
             <Icon className="text-white text-lg" icon="las la-check" />
@@ -229,7 +229,7 @@ const ChooseLocation = ({ selectedLocation, setSelectedLocation }) => {
         <Card
           className="pt-3 pl-5 pb-3 flex items-center hover:cursor-pointer"
           withCheckIcon={false}
-          isSelected={selectedLocation === Location.TAOS}
+          isSelected={selectedLocation?.idLocation === Location.TAOS}
           onClick={() => setSelectedLocation(Location.TAOS)}
         >
           <div className="w-6 h-6 p-5 rounded-2xl bg_primary flex items-center justify-center">
@@ -244,8 +244,8 @@ const ChooseLocation = ({ selectedLocation, setSelectedLocation }) => {
           <div
             className={declassify(
               `w-4 h-4 p-5 rounded-full bg_primary flex items-center justify-center ml-auto mr-5`,
-              { visible: selectedLocation === Location.TAOS },
-              { invisible: selectedLocation !== Location.TAOS }
+              { visible: selectedLocation?.idLocation === Location.TAOS },
+              { invisible: selectedLocation?.idLocation !== Location.TAOS }
             )}
           >
             <Icon className="text-white text-lg" icon="las la-check" />
@@ -254,7 +254,7 @@ const ChooseLocation = ({ selectedLocation, setSelectedLocation }) => {
         <Card
           className="pt-3 pl-5 pb-3 flex items-center hover:cursor-pointer"
           withCheckIcon={false}
-          isSelected={selectedLocation === Location.MADISON}
+          isSelected={selectedLocation?.idLocation === Location.MADISON}
           onClick={() => setSelectedLocation(Location.MADISON)}
         >
           <div className="w-6 h-6 p-5 rounded-2xl bg_primary flex items-center justify-center">
@@ -269,8 +269,8 @@ const ChooseLocation = ({ selectedLocation, setSelectedLocation }) => {
           <div
             className={declassify(
               `w-4 h-4 p-5 rounded-full bg_primary flex items-center justify-center ml-auto mr-5`,
-              { visible: selectedLocation === Location.MADISON },
-              { invisible: selectedLocation !== Location.MADISON }
+              { visible: selectedLocation?.idLocation === Location.MADISON },
+              { invisible: selectedLocation?.idLocation !== Location.MADISON }
             )}
           >
             <Icon className="text-white text-lg" icon="las la-check" />
@@ -279,7 +279,7 @@ const ChooseLocation = ({ selectedLocation, setSelectedLocation }) => {
         <Card
           className="pt-3 pl-5 pb-3 flex items-center hover:cursor-pointer"
           withCheckIcon={false}
-          isSelected={selectedLocation === Location.SAVANNAH}
+          isSelected={selectedLocation?.idLocation === Location.SAVANNAH}
           onClick={() => setSelectedLocation(Location.SAVANNAH)}
         >
           <div className="w-6 h-6 p-5 rounded-2xl bg_primary flex items-center justify-center">
@@ -294,8 +294,8 @@ const ChooseLocation = ({ selectedLocation, setSelectedLocation }) => {
           <div
             className={declassify(
               `w-4 h-4 p-5 rounded-full bg_primary flex items-center justify-center ml-auto mr-5`,
-              { visible: selectedLocation === Location.SAVANNAH },
-              { invisible: selectedLocation !== Location.SAVANNAH }
+              { visible: selectedLocation?.idLocation === Location.SAVANNAH },
+              { invisible: selectedLocation?.idLocation !== Location.SAVANNAH }
             )}
           >
             <Icon className="text-white text-lg" icon="las la-check" />
@@ -304,7 +304,7 @@ const ChooseLocation = ({ selectedLocation, setSelectedLocation }) => {
         <Card
           className="pt-3 pl-5 pb-3 flex items-center hover:cursor-pointer"
           withCheckIcon={false}
-          isSelected={selectedLocation === Location.NASHVILLE}
+          isSelected={selectedLocation?.idLocation === Location.NASHVILLE}
           onClick={() => setSelectedLocation(Location.NASHVILLE)}
         >
           <div className="w-6 h-6 p-5 rounded-2xl bg_primary flex items-center justify-center">
@@ -319,8 +319,8 @@ const ChooseLocation = ({ selectedLocation, setSelectedLocation }) => {
           <div
             className={declassify(
               `w-4 h-4 p-5 rounded-full bg_primary flex items-center justify-center ml-auto mr-5`,
-              { visible: selectedLocation === Location.NASHVILLE },
-              { invisible: selectedLocation !== Location.NASHVILLE }
+              { visible: selectedLocation?.idLocation === Location.NASHVILLE },
+              { invisible: selectedLocation?.idLocation !== Location.NASHVILLE }
             )}
           >
             <Icon className="text-white text-lg" icon="las la-check" />
@@ -343,7 +343,7 @@ const PickupDate = ({
 
   const { isLoading, data, refetch } = useFetchAvailableTimeslots(
     idProduct,
-    selectedLocation,
+    selectedLocation?.idLocation,
     selectedDate
   );
 
@@ -561,7 +561,7 @@ const RentEBike = () => {
   };
 
   const onLocationChange = (location: Location): void => {
-    setRentForm({ ...rentForm, location });
+    setRentForm({ ...rentForm, location: getLocation(location)! });
   };
 
   const onDateChange = (date: Dayjs): void => {

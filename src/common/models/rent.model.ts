@@ -6,10 +6,10 @@ import jwtDecode from "jwt-decode";
 
 import { LoaclStorageKeys } from "@enums/local-storage-keys";
 import { ProductSize } from "@enums/product-size";
-import { Location } from "@enums/location";
 
 import Product from "@models/product.model";
 import User from "@models/user.model";
+import Location from "@models/location.model";
 
 import mapJwtClaimsToUserObject from "@mappers/mapJwtClaimsToUserObject";
 

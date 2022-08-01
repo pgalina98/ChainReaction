@@ -6,13 +6,13 @@ export enum ProductType {
 
 export const getProductTypeValue = (idProductType: number): string | null => {
   switch (idProductType) {
-    case 1:
+    case ProductType.E_BIKE:
       return "E-BIKE";
 
-    case 2:
+    case ProductType.BIKE:
       return "BIKE";
 
-    case 3:
+    case ProductType.HELMET:
       return "HELMET";
 
     default:

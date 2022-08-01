@@ -1,8 +1,9 @@
 import { Dayjs } from "dayjs";
 
+import { formatTimeArray } from "@utils/datetime";
 import axios from "@utils/api";
 
-import { APP_LOCAL_DATE_FORMAT } from "@constants/datetime";
+import { APP_LOCAL_DATE_FORMAT, APP_TIME_FORMAT } from "@constants/datetime";
 import RentForm from "@models/rent.model";
 
 export const fetchAvailableTimeslots = (
@@ -19,5 +20,9 @@ export const fetchAvailableTimeslots = (
 };
 
 export const saveRent = (rentForm: RentForm) => {
-  return async () => await axios.post<void>("/rents", rentForm);
+  return async () =>
+    await axios.post<void>("/rents", {
+      ...rentForm,
+      timeslots: formatTimeArray(rentForm.timeslots, APP_TIME_FORMAT),
+    });
 };

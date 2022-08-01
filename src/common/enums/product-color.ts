@@ -10,25 +10,25 @@ export enum ProductColor {
 
 export const getProductColorValue = (idProductColor: number): string | null => {
   switch (idProductColor) {
-    case 1:
+    case ProductColor.WHITE:
       return "WHITE";
 
-    case 2:
+    case ProductColor.GRAY_DARK:
       return "GRAY-DARK";
 
-    case 3:
+    case ProductColor.BLACK:
       return "BLACK";
 
-    case 4:
+    case ProductColor.BLUE:
       return "BLUE";
 
-    case 5:
+    case ProductColor.ORANGE:
       return "ORANGE";
 
-    case 6:
+    case ProductColor.PINK:
       return "PINK";
 
-    case 7:
+    case ProductColor.YELLOW:
       return "YELLOW";
 
     default:
