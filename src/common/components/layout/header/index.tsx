@@ -37,6 +37,10 @@ const Header = ({
     setActiveTab(menuItem);
   };
 
+  const navigateToHomepage = (): void => {
+    router.push("/");
+  };
+
   return (
     <div className={`${styles.header} grid grid-cols-2`}>
       <div className="flex items-center bg_primary">
@@ -68,7 +72,8 @@ const Header = ({
             exit: "exit",
           })}
           variants={useFadeInOutTopVariants({ duration: 0.5 })}
-          className={`${styles.logo_text_container} flex items-center text-white ml-4 mb-4 rounded-bl-xl rounded-br-xl`}
+          className={`${styles.logo_text_container} flex items-center text-white ml-4 mb-4 rounded-bl-xl rounded-br-xl cursor-pointer`}
+          onClick={navigateToHomepage}
         >
           <p className="text-2xl font-medium mt-4">ChainReaction.</p>
         </motion.div>
