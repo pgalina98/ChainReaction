@@ -2,18 +2,10 @@ import { Dayjs } from "dayjs";
 
 import dayjs from "@utils/dayjs";
 
-import jwtDecode from "jwt-decode";
-
-import { LoaclStorageKeys } from "@enums/local-storage-keys";
 import { ProductSize } from "@enums/product-size";
 
 import Product from "@models/product.model";
-import User from "@models/user.model";
 import Location from "@models/location.model";
-
-import mapJwtClaimsToUserObject from "@mappers/mapJwtClaimsToUserObject";
-
-import { getValueByKey } from "@utils/local-storage";
 
 export default interface RentForm {
   idUser: number;
@@ -26,14 +18,8 @@ export default interface RentForm {
 }
 
 export const createEmptyRentFormObject = (): RentForm => {
-  const jwtClaims: any = jwtDecode(
-    getValueByKey(LoaclStorageKeys.AUTHENTICATION_TOKEN)!
-  );
-
-  const user: User = mapJwtClaimsToUserObject(jwtClaims);
-
   return {
-    idUser: user.id!,
+    idUser: null as any,
     product: null as any,
     helmet: null as any,
     helmetSize: null as any,

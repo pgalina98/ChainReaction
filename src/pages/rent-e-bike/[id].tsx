@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 
 import { Dayjs } from "dayjs";
 
+import { connect } from "react-redux";
+
 import dayjs from "@utils/dayjs";
 
 import Image from "next/image";
@@ -40,10 +42,13 @@ import Product from "@models/product.model";
 import Rent, { createEmptyRentFormObject } from "@models/rent.model";
 import Location from "@models/location.model";
 
+import { RootState } from "@store/index";
+
 import {
   declassify,
   getMirroredImagePath,
   isNullOrUndefined,
+  isUndefined,
 } from "@utils/common";
 
 import {
@@ -367,14 +372,14 @@ const RentSummary = ({ rentForm }) => {
   );
 };
 
-const RentEBike = () => {
+const RentEBike = ({ authentication }: RootState) => {
   const router = useRouter();
   const [isShown, setIsShown] = useToast({ duration: 4000 });
 
   const { id: idProduct } = router?.query;
 
   const [selectedBike, setSelectedBike] = useState<Product>();
-  const [rentForm, setRentForm] = useState<Rent>(createEmptyRentFormObject());
+  const [rentForm, setRentForm] = useState<Rent>();
   const [currentStep, setCurrentStep] = useState<RentABikeStep>(
     RentABikeStep.SELECT_GEAR
   );
@@ -388,7 +393,7 @@ const RentEBike = () => {
     isSuccess: isSavingSuccess,
     error: savingError,
     mutate,
-  } = useSaveRent(rentForm);
+  } = useSaveRent(rentForm!);
 
   useEffect(() => {
     if (router?.isReady) {
@@ -398,7 +403,11 @@ const RentEBike = () => {
 
   useEffect(() => {
     setSelectedBike(data?.data);
-    setRentForm({ ...rentForm, product: data?.data });
+    setRentForm({
+      ...createEmptyRentFormObject(),
+      idUser: authentication.id!,
+      product: data?.data,
+    });
   }, [data]);
 
   useEffect(() => {
@@ -429,23 +438,23 @@ const RentEBike = () => {
   };
 
   const onHelmetChange = (helmet: Product): void => {
-    setRentForm({ ...rentForm, helmet });
+    setRentForm({ ...rentForm!, helmet });
   };
 
   const onSizeChange = (helmetSize: ProductSize): void => {
-    setRentForm({ ...rentForm, helmetSize });
+    setRentForm({ ...rentForm!, helmetSize });
   };
 
   const onLocationChange = (location: Location): void => {
-    setRentForm({ ...rentForm, location });
+    setRentForm({ ...rentForm!, location });
   };
 
   const onDateChange = (date: Dayjs): void => {
-    setRentForm({ ...rentForm, date, timeslots: [] });
+    setRentForm({ ...rentForm!, date, timeslots: [] });
   };
 
   const onTimeslotsChange = (timeslots: Dayjs[]): void => {
-    setRentForm({ ...rentForm, timeslots });
+    setRentForm({ ...rentForm!, timeslots });
   };
 
   const onNextButtonClick = (): void => {
@@ -676,4 +685,8 @@ const RentEBike = () => {
   );
 };
 
-export default RentEBike;
+const mapStateToProps = ({ authentication }: RootState) => ({
+  authentication,
+});
+
+export default connect(mapStateToProps)(RentEBike);
