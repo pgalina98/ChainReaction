@@ -26,3 +26,7 @@ export const saveRent = (rentForm: RentForm) => {
       timeslots: formatTimeArray(rentForm.timeslots, APP_TIME_FORMAT),
     });
 };
+
+export const fetchRentLocations = () => {
+  return async () => await axios.get<string[]>("/rents/available-locations");
+};

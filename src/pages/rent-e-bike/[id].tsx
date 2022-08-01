@@ -35,10 +35,10 @@ import {
 } from "@enums/rent-a-bike-step";
 import { ProductType } from "@enums/product-type";
 import { ToastType } from "@enums/toast-type";
-import { getLocation, Location } from "@enums/location";
 
 import Product from "@models/product.model";
 import Rent, { createEmptyRentFormObject } from "@models/rent.model";
+import Location from "@models/location.model";
 
 import {
   declassify,
@@ -56,6 +56,7 @@ import {
 import useFetchProductsByProductType from "@features/order/api/hooks/useFetchProductsByProductType";
 import useFetchProductById from "@features/order/api/hooks/useFetchProductById";
 import useFetchAvailableTimeslots from "@features/rent/api/hooks/useFetchAvailableTimeslots";
+import useFetchRentLocations from "@features/rent/api/hooks/useFetchRentLocations";
 import useSaveRent from "@features/rent/api/hooks/useSaveRent";
 
 import styles from "./rent-a-bike.module.scss";
@@ -147,185 +148,60 @@ const SelectGear = ({
 };
 
 const ChooseLocation = ({ selectedLocation, setSelectedLocation }) => {
+  const [locations, setLocations] = useState<Location[]>();
+
+  const { isLoading, data, refetch } = useFetchRentLocations();
+
+  useEffect(() => {
+    refetch();
+  }, []);
+
+  useEffect(() => {
+    setLocations(data?.data);
+  }, [data]);
+
+  if (isLoading) return <Loader withLabel={false} />;
   return (
     <div className="mt-4">
       <p className="font-medium text-2xl">Choose location</p>
       <div
         className={`${styles.locations_container} mt-4 pr-8 space-y-4 w-full overflow-y-scroll overflow-x-hidden`}
       >
-        <Card
-          className="pt-3 pl-5 pb-3 flex items-center hover:cursor-pointer"
-          withCheckIcon={false}
-          isSelected={selectedLocation?.idLocation === Location.AUSTIN}
-          onClick={() => setSelectedLocation(Location.AUSTIN)}
-        >
-          <div className="w-6 h-6 p-5 rounded-2xl bg_primary flex items-center justify-center">
-            <Icon className="text-white text-2xl" icon="las la-map-pin" />
-          </div>
-          <div className="text-black ml-4 flex-col">
-            <p className="font-semibold text-lg leading-6">Austin</p>
-            <p className="font-thin leading-5">
-              35 miles from current location
-            </p>
-          </div>
-          <div
-            className={declassify(
-              `w-4 h-4 p-5 rounded-full bg_primary flex items-center justify-center ml-auto mr-5`,
-              { visible: selectedLocation?.idLocation === Location.AUSTIN },
-              { invisible: selectedLocation?.idLocation !== Location.AUSTIN }
-            )}
+        {locations?.map((location, index) => (
+          <Card
+            key={index}
+            className="pt-3 pl-5 pb-3 flex items-center hover:cursor-pointer"
+            withCheckIcon={false}
+            isSelected={selectedLocation?.idLocation === location.idLocation}
+            onClick={() => setSelectedLocation(location)}
           >
-            <Icon className="text-white text-lg" icon="las la-check" />
-          </div>
-        </Card>
-        <Card
-          className="pt-3 pl-5 pb-3 flex items-center hover:cursor-pointer"
-          withCheckIcon={false}
-          isSelected={selectedLocation?.idLocation === Location.BOSTON}
-          onClick={() => setSelectedLocation(Location.BOSTON)}
-        >
-          <div className="w-6 h-6 p-5 rounded-2xl bg_primary flex items-center justify-center">
-            <Icon className="text-white text-2xl" icon="las la-map-pin" />
-          </div>
-          <div className="text-black ml-4 flex-col">
-            <p className="font-semibold text-lg leading-6">Boston</p>
-            <p className="font-thin leading-5">
-              47 miles from current location
-            </p>
-          </div>
-          <div
-            className={declassify(
-              `w-4 h-4 p-5 rounded-full bg_primary flex items-center justify-center ml-auto mr-5`,
-              { visible: selectedLocation?.idLocation === Location.BOSTON },
-              { invisible: selectedLocation?.idLocation !== Location.BOSTON }
-            )}
-          >
-            <Icon className="text-white text-lg" icon="las la-check" />
-          </div>
-        </Card>
-        <Card
-          className="pt-3 pl-5 pb-3 flex items-center hover:cursor-pointer"
-          withCheckIcon={false}
-          isSelected={selectedLocation?.idLocation === Location.NEW_YORK}
-          onClick={() => setSelectedLocation(Location.NEW_YORK)}
-        >
-          <div className="w-6 h-6 p-5 rounded-2xl bg_primary flex items-center justify-center">
-            <Icon className="text-white text-2xl" icon="las la-map-pin" />
-          </div>
-          <div className="text-black ml-4 flex-col">
-            <p className="font-semibold text-lg leading-6">New York</p>
-            <p className="font-thin leading-5">4 miles from current location</p>
-          </div>
-          <div
-            className={declassify(
-              `w-4 h-4 p-5 rounded-full bg_primary flex items-center justify-center ml-auto mr-5`,
-              { visible: selectedLocation?.idLocation === Location.NEW_YORK },
-              { invisible: selectedLocation?.idLocation !== Location.NEW_YORK }
-            )}
-          >
-            <Icon className="text-white text-lg" icon="las la-check" />
-          </div>
-        </Card>
-        <Card
-          className="pt-3 pl-5 pb-3 flex items-center hover:cursor-pointer"
-          withCheckIcon={false}
-          isSelected={selectedLocation?.idLocation === Location.TAOS}
-          onClick={() => setSelectedLocation(Location.TAOS)}
-        >
-          <div className="w-6 h-6 p-5 rounded-2xl bg_primary flex items-center justify-center">
-            <Icon className="text-white text-2xl" icon="las la-map-pin" />
-          </div>
-          <div className="text-black ml-4 flex-col">
-            <p className="font-semibold text-lg leading-6">Taos</p>
-            <p className="font-thin leading-5">
-              14 miles from current location
-            </p>
-          </div>
-          <div
-            className={declassify(
-              `w-4 h-4 p-5 rounded-full bg_primary flex items-center justify-center ml-auto mr-5`,
-              { visible: selectedLocation?.idLocation === Location.TAOS },
-              { invisible: selectedLocation?.idLocation !== Location.TAOS }
-            )}
-          >
-            <Icon className="text-white text-lg" icon="las la-check" />
-          </div>
-        </Card>
-        <Card
-          className="pt-3 pl-5 pb-3 flex items-center hover:cursor-pointer"
-          withCheckIcon={false}
-          isSelected={selectedLocation?.idLocation === Location.MADISON}
-          onClick={() => setSelectedLocation(Location.MADISON)}
-        >
-          <div className="w-6 h-6 p-5 rounded-2xl bg_primary flex items-center justify-center">
-            <Icon className="text-white text-2xl" icon="las la-map-pin" />
-          </div>
-          <div className="text-black ml-4 flex-col">
-            <p className="font-semibold text-lg leading-6">Madison</p>
-            <p className="font-thin leading-5">
-              12 miles from current location
-            </p>
-          </div>
-          <div
-            className={declassify(
-              `w-4 h-4 p-5 rounded-full bg_primary flex items-center justify-center ml-auto mr-5`,
-              { visible: selectedLocation?.idLocation === Location.MADISON },
-              { invisible: selectedLocation?.idLocation !== Location.MADISON }
-            )}
-          >
-            <Icon className="text-white text-lg" icon="las la-check" />
-          </div>
-        </Card>
-        <Card
-          className="pt-3 pl-5 pb-3 flex items-center hover:cursor-pointer"
-          withCheckIcon={false}
-          isSelected={selectedLocation?.idLocation === Location.SAVANNAH}
-          onClick={() => setSelectedLocation(Location.SAVANNAH)}
-        >
-          <div className="w-6 h-6 p-5 rounded-2xl bg_primary flex items-center justify-center">
-            <Icon className="text-white text-2xl" icon="las la-map-pin" />
-          </div>
-          <div className="text-black ml-4 flex-col">
-            <p className="font-semibold text-lg leading-6">Savannah</p>
-            <p className="font-thin leading-5">
-              56 miles from current location
-            </p>
-          </div>
-          <div
-            className={declassify(
-              `w-4 h-4 p-5 rounded-full bg_primary flex items-center justify-center ml-auto mr-5`,
-              { visible: selectedLocation?.idLocation === Location.SAVANNAH },
-              { invisible: selectedLocation?.idLocation !== Location.SAVANNAH }
-            )}
-          >
-            <Icon className="text-white text-lg" icon="las la-check" />
-          </div>
-        </Card>
-        <Card
-          className="pt-3 pl-5 pb-3 flex items-center hover:cursor-pointer"
-          withCheckIcon={false}
-          isSelected={selectedLocation?.idLocation === Location.NASHVILLE}
-          onClick={() => setSelectedLocation(Location.NASHVILLE)}
-        >
-          <div className="w-6 h-6 p-5 rounded-2xl bg_primary flex items-center justify-center">
-            <Icon className="text-white text-2xl" icon="las la-map-pin" />
-          </div>
-          <div className="text-black ml-4 flex-col">
-            <p className="font-semibold text-lg leading-6">Nashville</p>
-            <p className="font-thin leading-5">
-              19 miles from current location
-            </p>
-          </div>
-          <div
-            className={declassify(
-              `w-4 h-4 p-5 rounded-full bg_primary flex items-center justify-center ml-auto mr-5`,
-              { visible: selectedLocation?.idLocation === Location.NASHVILLE },
-              { invisible: selectedLocation?.idLocation !== Location.NASHVILLE }
-            )}
-          >
-            <Icon className="text-white text-lg" icon="las la-check" />
-          </div>
-        </Card>
+            <div className="w-6 h-6 p-5 rounded-2xl bg_primary flex items-center justify-center">
+              <Icon className="text-white text-2xl" icon="las la-map-pin" />
+            </div>
+            <div className="text-black ml-4 flex-col">
+              <p className="font-semibold text-lg leading-6">
+                {location.value}
+              </p>
+              <p className="font-thin leading-5">
+                35 miles from current location
+              </p>
+            </div>
+            <div
+              className={declassify(
+                `w-4 h-4 p-5 rounded-full bg_primary flex items-center justify-center ml-auto mr-5`,
+                {
+                  visible: selectedLocation?.idLocation === location.idLocation,
+                },
+                {
+                  invisible:
+                    selectedLocation?.idLocation !== location.idLocation,
+                }
+              )}
+            >
+              <Icon className="text-white text-lg" icon="las la-check" />
+            </div>
+          </Card>
+        ))}
       </div>
     </div>
   );
@@ -561,7 +437,7 @@ const RentEBike = () => {
   };
 
   const onLocationChange = (location: Location): void => {
-    setRentForm({ ...rentForm, location: getLocation(location)! });
+    setRentForm({ ...rentForm, location });
   };
 
   const onDateChange = (date: Dayjs): void => {
