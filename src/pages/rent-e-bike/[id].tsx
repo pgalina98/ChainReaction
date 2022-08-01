@@ -525,13 +525,25 @@ const RentEBike = () => {
     setRentForm({ ...rentForm, product: data?.data });
   }, [data]);
 
+  useEffect(() => {
+    setIsShown(isError || isSavingSuccess);
+  }, [isError, isSavingSuccess]);
+
+  useEffect(() => {
+    setIsShown(isSavingError);
+  }, [isSavingError]);
+
+  useEffect(() => {
+    if (isSavingSuccess) {
+      setTimeout(() => {
+        router.push("/");
+      }, 4000);
+    }
+  }, [isSavingSuccess]);
+
   const navigateToPreviousPage = () => {
     router.back();
   };
-
-  useEffect(() => {
-    setIsShown(isError);
-  }, [isError]);
 
   const calcluateProgressBarValue = (
     value: number,
@@ -578,7 +590,11 @@ const RentEBike = () => {
         isNullOrUndefined(rentForm?.helmetSize)) &&
         currentStep === RentABikeStep.SELECT_GEAR) ||
       (isNullOrUndefined(rentForm?.location) &&
-        currentStep === RentABikeStep.CHOOSE_LOCATION)
+        currentStep === RentABikeStep.CHOOSE_LOCATION) ||
+      ((isNullOrUndefined(rentForm?.date) ||
+        isNullOrUndefined(rentForm?.timeslots) ||
+        rentForm?.timeslots.length === 0) &&
+        currentStep === RentABikeStep.PICKUP_DATE)
     );
   };
 
@@ -606,6 +622,25 @@ const RentEBike = () => {
             message={
               error.response.data?.message || messages.INTERNAL_SERVER_ERROR
             }
+            isShown={isShown}
+            hideToast={() => setIsShown(false)}
+          />
+        )}
+        {isSavingError && (
+          <Toast
+            type={ToastType.DANGER}
+            message={
+              savingError.response.data?.message ||
+              messages.INTERNAL_SERVER_ERROR
+            }
+            isShown={isShown}
+            hideToast={() => setIsShown(false)}
+          />
+        )}
+        {isSavingSuccess && (
+          <Toast
+            type={ToastType.SUCCESS}
+            message={messages.RENT_SUCCESSFULLY_CREATED}
             isShown={isShown}
             hideToast={() => setIsShown(false)}
           />
@@ -755,6 +790,8 @@ const RentEBike = () => {
             appendIcon="las la-check"
             className={`absolute w-32 mb-6 mr-12 ${styles.next_button}`}
             isHidden={isConfirmButtonHidden()}
+            isDisabled={isSaving}
+            isLoading={isSaving}
             onClick={onConfirmButtonClick}
           />
         </div>
