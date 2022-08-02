@@ -469,7 +469,7 @@ const RentEBike = ({ authentication }: RootState) => {
     mutate();
   };
 
-  const iseNextButtonDisabled = (): boolean => {
+  const isNextButtonDisabled = (): boolean => {
     return (
       ((isNullOrUndefined(rentForm?.helmet) ||
         isNullOrUndefined(rentForm?.helmetSize)) &&
@@ -655,30 +655,83 @@ const RentEBike = ({ authentication }: RootState) => {
               <RentSummary rentForm={rentForm} />
             )}
           </motion.div>
-          <Button
-            label="Previous"
-            prependIcon="las la-arrow-left"
-            className={`absolute w-32 mb-6 ml-12 ${styles.previous_button}`}
-            isHidden={isPreviousButtonHidden()}
+        </div>
+        <div className="flex absolute bottom-0 left-1/2 w-full h-16 text-black text-lg bg_white">
+          <div
+            className={declassify("flex items-center justify-center w-1/4", {
+              "cursor-pointer": !isPreviousButtonHidden(),
+            })}
             onClick={() => onPreviousButtonClick()}
-          />
-          <Button
-            label="Next"
-            appendIcon="las la-arrow-right"
-            className={`absolute w-32 mb-6 mr-12 ${styles.next_button}`}
-            isDisabled={iseNextButtonDisabled()}
-            isHidden={isNextButtonHidden()}
-            onClick={() => onNextButtonClick()}
-          />
-          <Button
-            label="Confirm"
-            appendIcon="las la-check"
-            className={`absolute w-32 mb-6 mr-12 ${styles.next_button}`}
-            isHidden={isConfirmButtonHidden()}
-            isDisabled={isSaving}
-            isLoading={isSaving}
-            onClick={onConfirmButtonClick}
-          />
+          >
+            {!isPreviousButtonHidden() ? (
+              <div
+                className={declassify(
+                  "flex items-center",
+                  { visible: !isPreviousButtonHidden() },
+                  { invisible: isPreviousButtonHidden() }
+                )}
+              >
+                <Icon icon="las la-arrow-left mr-3" />
+                <div className="uppercase">Previous</div>
+              </div>
+            ) : (
+              <div className="flex items-center text-black uppercase">
+                Free of charge
+              </div>
+            )}
+          </div>
+          {!isNextButtonHidden() ? (
+            <div
+              className={declassify(
+                "flex items-center justify-center w-1/4",
+                {
+                  "bg_white cursor-pointer": !isNextButtonDisabled(),
+                },
+                { "bg_gray cursor-not-allowed": isNextButtonDisabled() }
+              )}
+              onClick={() => onNextButtonClick()}
+            >
+              <div
+                className={declassify(
+                  "flex items-center",
+                  { visible: !isNextButtonHidden() },
+                  { invisible: isNextButtonHidden() }
+                )}
+              >
+                <div className="uppercase">Next</div>
+                <Icon icon="las la-arrow-right ml-3" />
+              </div>
+            </div>
+          ) : (
+            <div
+              className={declassify(
+                "flex items-center justify-center w-1/4",
+                {
+                  "bg_white cursor-pointer": !isNextButtonDisabled(),
+                },
+                {
+                  "bg_gray cursor-not-allowed":
+                    isNextButtonDisabled() || isSaving,
+                }
+              )}
+              onClick={() => onConfirmButtonClick()}
+            >
+              <div
+                className={declassify(
+                  "flex items-center",
+                  { visible: !isConfirmButtonHidden() },
+                  { invisible: isConfirmButtonHidden() }
+                )}
+              >
+                {!isSaving ? (
+                  <div className="uppercase">Confirm</div>
+                ) : (
+                  <Loader />
+                )}
+                <Icon icon="las la-check ml-3" />
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
