@@ -14,4 +14,5 @@ export { default as ProgressBar } from "common/components/ui/progress-bar";
 export { default as Stepper } from "common/components/ui/stepper";
 export { default as DateTimeCard } from "common/components/ui/cards/date-time";
 export { default as DatePickerStripe } from "common/components/ui/date-picker-stripe";
-export { default as NotificationBox } from "common/components/ui/notification-box";
+export { default as NotificationBox } from "common/components/ui/notifications/notification-box";
+export { default as NotificationItem } from "common/components/ui/notifications/notification-item";
