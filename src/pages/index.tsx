@@ -50,7 +50,7 @@ const Home: NextPage = () => {
     getProductColorValue(ProductColor.BLACK)!
   );
 
-  const { isLoading, isError, isSuccess, data, error, refetch } =
+  const { isLoading, isError, data, error, refetch } =
     useFetchProductsByProductType(ProductType.E_BIKE);
 
   useEffect(() => {

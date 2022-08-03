@@ -1,16 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+
+import { connect } from "react-redux";
 
 import { motion } from "framer-motion";
 
-import { declassify, toString } from "@utils/common";
+import { RootState } from "@store/index";
 
-import { Icon, NotificationItem } from "@components";
+import { declassify, isEmpty, toString } from "@utils/common";
+
+import { Icon, NotificationItem, Loader, Alert } from "@components";
 
 import { useFadeInOutRightVariants } from "@animations";
 
-import styles from "./notification-box.module.scss";
+import useFetchNotifications from "@features/notification/api/hooks/useFetchNotifications";
 
-interface NotificationBoxProps {
+import styles from "./notification-box.module.scss";
+import { AlertType } from "@enums/alert-type";
+
+interface NotificationBoxProps extends RootState {
   className?: string;
   isShown: boolean;
   setIsShown: any;
@@ -20,7 +27,23 @@ export const NotificationBox = ({
   className,
   isShown,
   setIsShown,
+  authentication,
 }: NotificationBoxProps) => {
+  const [notifications, setNotifications] = useState<Notification[]>();
+
+  const { isLoading, isError, isSuccess, data, error, refetch } =
+    useFetchNotifications(authentication?.id!);
+
+  useEffect(() => {
+    refetch();
+  }, []);
+
+  useEffect(() => {
+    setNotifications(data?.data);
+  }, [data]);
+
+  if (isLoading) return <Loader withLabel={false} />;
+
   return (
     <motion.div
       key={toString(isShown)}
@@ -49,15 +72,24 @@ export const NotificationBox = ({
       <div
         className={`${styles.notification_items_container} mt-4 w-full p-4 pt-2 pb-2 normal-case overflow-y-auto`}
       >
-        <NotificationItem />
-        <NotificationItem />
-        <NotificationItem />
-        <NotificationItem />
-        <NotificationItem />
-        <NotificationItem />
+        {isEmpty(notifications) && (
+          <Alert
+            type={AlertType.INFO}
+            accentBorderPosition="left"
+            title="test"
+            text="test"
+          />
+        )}
+        {notifications?.map((notification, index) => (
+          <NotificationItem key={index} />
+        ))}
       </div>
     </motion.div>
   );
 };
 
-export default NotificationBox;
+const mapStateToProps = ({ authentication }: RootState) => ({
+  authentication,
+});
+
+export default connect(mapStateToProps)(NotificationBox);
