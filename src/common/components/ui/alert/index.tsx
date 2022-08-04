@@ -183,7 +183,14 @@ const renderInfoAlert = (
         >
           {title}
         </p>
-        <p className="text-sm">{text}</p>
+        <p
+          className={declassify(
+            { "text-sm": !isNull(title) },
+            { "text-base": isNull(title) }
+          )}
+        >
+          {text}
+        </p>
       </div>
     </React.Fragment>
   );
@@ -200,7 +207,7 @@ const Alert = ({
   return (
     <div
       className={declassify(
-        "rounded-b px-4 py-3 shadow-md",
+        `${className} rounded-b px-4 py-3 shadow-md`,
         {
           "bg-teal-100 border-teal-500 text-teal-900":
             type === AlertType.SUCCESS,

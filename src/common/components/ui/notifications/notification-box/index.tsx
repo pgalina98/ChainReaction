@@ -6,6 +6,10 @@ import { motion } from "framer-motion";
 
 import { RootState } from "@store/index";
 
+import { AlertType } from "@enums/alert-type";
+
+import { notifications } from "@constants/notifications";
+
 import { declassify, isEmpty, toString } from "@utils/common";
 
 import { Icon, NotificationItem, Loader, Alert } from "@components";
@@ -15,7 +19,6 @@ import { useFadeInOutRightVariants } from "@animations";
 import useFetchNotifications from "@features/notification/api/hooks/useFetchNotifications";
 
 import styles from "./notification-box.module.scss";
-import { AlertType } from "@enums/alert-type";
 
 interface NotificationBoxProps extends RootState {
   className?: string;
@@ -29,7 +32,8 @@ export const NotificationBox = ({
   setIsShown,
   authentication,
 }: NotificationBoxProps) => {
-  const [notifications, setNotifications] = useState<Notification[]>();
+  const [loggedUserNotifications, setLoggedUserNotifications] =
+    useState<Notification[]>();
 
   const { isLoading, isError, isSuccess, data, error, refetch } =
     useFetchNotifications(authentication?.id!);
@@ -39,7 +43,7 @@ export const NotificationBox = ({
   }, []);
 
   useEffect(() => {
-    setNotifications(data?.data);
+    setLoggedUserNotifications(data?.data);
   }, [data]);
 
   if (isLoading) return <Loader withLabel={false} />;
@@ -72,14 +76,14 @@ export const NotificationBox = ({
       <div
         className={`${styles.notification_items_container} mt-4 w-full p-4 pt-2 pb-2 normal-case overflow-y-auto`}
       >
-        {isEmpty(notifications) && (
+        {isEmpty(loggedUserNotifications) && (
           <Alert
             type={AlertType.INFO}
             accentBorderPosition="left"
-            text="test"
+            text={notifications.NO_NOTIFICATIONS_YET}
           />
         )}
-        {notifications?.map((notification, index) => (
+        {loggedUserNotifications?.map((notification, index) => (
           <NotificationItem key={index} />
         ))}
       </div>
