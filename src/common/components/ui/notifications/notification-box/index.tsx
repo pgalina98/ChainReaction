@@ -76,7 +76,6 @@ export const NotificationBox = ({
           <Alert
             type={AlertType.INFO}
             accentBorderPosition="left"
-            title="test"
             text="test"
           />
         )}
