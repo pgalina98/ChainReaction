@@ -13,6 +13,8 @@ import { QueryClient, QueryClientProvider } from "react-query";
 
 import jwtDecode from "jwt-decode";
 
+import { connect } from "@config/websocket-middleware";
+
 import User from "@models/user.model";
 
 import { LoaclStorageKeys } from "@enums/local-storage-keys";
@@ -46,6 +48,8 @@ const ComponentWrapper = ({ children }) => {
             authority: getAuthorityByKey(jwtClaims["authorities"]),
           })
         );
+
+        connect(user?.id!);
       } catch (error) {
         clearAuthenticationToken();
       }
