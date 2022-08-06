@@ -724,11 +724,13 @@ const RentEBike = ({ authentication }: RootState) => {
                 )}
               >
                 {!isSaving ? (
-                  <div className="uppercase">Confirm</div>
+                  <div>
+                    <div className="uppercase">Confirm</div>
+                    <Icon icon="las la-check ml-3" />
+                  </div>
                 ) : (
                   <Loader />
                 )}
-                <Icon icon="las la-check ml-3" />
               </div>
             </div>
           )}
