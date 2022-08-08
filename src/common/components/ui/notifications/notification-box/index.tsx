@@ -11,7 +11,7 @@ import { ToastType } from "@enums/toast-type";
 
 import Notification from "@models/notification.model";
 
-import { notifications } from "@constants/notifications";
+import { alert } from "@constants/alert";
 import { messages } from "@constants/messages";
 
 import { declassify, isEmpty, toString } from "@utils/common";
@@ -130,7 +130,7 @@ export const NotificationBox = ({
           <Alert
             type={AlertType.INFO}
             accentBorderPosition="left"
-            text={notifications.NO_NOTIFICATIONS_YET}
+            text={alert.NO_NOTIFICATIONS_YET}
           />
         )}
         {loggedUserNotifications?.map((notification, index) => (

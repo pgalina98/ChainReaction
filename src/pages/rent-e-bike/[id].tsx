@@ -12,8 +12,8 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 
 import {
+  Alert,
   BackIcon,
-  Button,
   Card,
   DatePickerStripe,
   DateTimeCard,
@@ -37,6 +37,7 @@ import {
 } from "@enums/rent-a-bike-step";
 import { ProductType } from "@enums/product-type";
 import { ToastType } from "@enums/toast-type";
+import { AlertType } from "@enums/alert-type";
 
 import Product from "@models/product.model";
 import Rent, { createEmptyRentFormObject } from "@models/rent.model";
@@ -44,11 +45,13 @@ import Location from "@models/location.model";
 
 import { RootState } from "@store/index";
 
+import { alert } from "@constants/alert";
+
 import {
   declassify,
   getMirroredImagePath,
+  isEmpty,
   isNullOrUndefined,
-  isUndefined,
 } from "@utils/common";
 
 import {
@@ -271,6 +274,13 @@ const PickupDate = ({
           setSelectedDate={setSelectedDate}
         />
         <div className="p-4 flex mt-12 space-x-8 overflow-x-auto pb-4">
+          {isEmpty(availableTimeslots) && (
+            <Alert
+              type={AlertType.INFO}
+              accentBorderPosition="left"
+              text={alert.NO_AVAILABLE_TIMESLOTS}
+            />
+          )}
           {availableTimeslots?.map((timeslot, index) => (
             <DateTimeCard
               key={index}

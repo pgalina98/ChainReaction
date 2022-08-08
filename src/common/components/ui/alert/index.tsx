@@ -207,7 +207,7 @@ const Alert = ({
   return (
     <div
       className={declassify(
-        `${className} rounded-b px-4 py-3 shadow-md`,
+        `${className} rounded-b px-4 py-3 shadow-md min-w-full`,
         {
           "bg-teal-100 border-teal-500 text-teal-900":
             type === AlertType.SUCCESS,
