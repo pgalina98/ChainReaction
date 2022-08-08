@@ -689,7 +689,7 @@ const RentEBike = ({ authentication }: RootState) => {
                 },
                 { "bg_gray cursor-not-allowed": isNextButtonDisabled() }
               )}
-              onClick={() => onNextButtonClick()}
+              {...(!isNextButtonDisabled() && { onClick: onNextButtonClick })}
             >
               <div
                 className={declassify(
