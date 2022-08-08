@@ -170,12 +170,12 @@ const ChooseLocation = ({ selectedLocation, setSelectedLocation }) => {
     <div className="mt-4">
       <p className="font-medium text-2xl">Choose location</p>
       <div
-        className={`${styles.locations_container} mt-4 pr-8 space-y-4 w-full overflow-y-scroll overflow-x-hidden`}
+        className={`${styles.locations_container} mt-4 pl-4 pr-8 space-y-4 w-full overflow-y-auto overflow-x-hidden`}
       >
         {locations?.map((location, index) => (
           <Card
             key={index}
-            className="pt-3 pl-5 pb-3 flex items-center hover:cursor-pointer"
+            className="pt-3 pl-5 pb-3 flex items-center hover:cursor-pointer hover:scale-105"
             withCheckIcon={false}
             isSelected={selectedLocation?.idLocation === location.idLocation}
             onClick={() => setSelectedLocation(location)}
@@ -270,11 +270,11 @@ const PickupDate = ({
           selectedDate={selectedDate}
           setSelectedDate={setSelectedDate}
         />
-        <div className="flex mt-12 space-x-8 overflow-x-auto pb-4">
+        <div className="p-4 flex mt-12 space-x-8 overflow-x-auto pb-4">
           {availableTimeslots?.map((timeslot, index) => (
             <DateTimeCard
               key={index}
-              className="cursor-pointer"
+              className="cursor-pointer hover:scale-105"
               date={selectedDate}
               timeslot={dayjs(timeslot)}
               isSelected={isTimeslotSelected(dayjs(timeslot))}
