@@ -12,6 +12,8 @@ import { RootState } from "@store/index";
 import { clearAuthenticationToken } from "@utils/local-storage";
 import { declassify } from "@utils/common";
 
+import { disconnect } from "@config/websocket-middleware";
+
 interface AvatarProps extends RootState {
   className?: string;
   withDropdown: boolean;
@@ -31,9 +33,10 @@ const Avatar = ({
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const onSignInButtonClick = (): void => {
+  const onSignOutButtonClick = (): void => {
     setIsLoading(true);
     clearAuthenticationToken();
+    disconnect();
 
     setTimeout(() => {
       setIsLoading(false);
@@ -82,7 +85,7 @@ const Avatar = ({
         <div className="py-1">
           <a
             className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white flex justify-between items-center cursor-pointer"
-            onClick={onSignInButtonClick}
+            onClick={onSignOutButtonClick}
           >
             <span>Sign out</span>
             {isLoading ? (

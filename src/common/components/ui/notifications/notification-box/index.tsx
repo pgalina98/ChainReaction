@@ -4,8 +4,6 @@ import { connect } from "react-redux";
 
 import { motion } from "framer-motion";
 
-import { receiveWebSocketMessage } from "@config/websocket-middleware";
-
 import { RootState } from "@store/index";
 
 import { AlertType } from "@enums/alert-type";
@@ -42,11 +40,6 @@ export const NotificationBox = ({
 
   useEffect(() => {
     refetch();
-    receiveWebSocketMessage()?.subscribe((isUpdated: boolean) => {
-      if (isUpdated) {
-        refetch(authentication?.id);
-      }
-    });
   }, []);
 
   useEffect(() => {

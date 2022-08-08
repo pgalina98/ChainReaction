@@ -60,7 +60,7 @@ export const subscribe = (topic: string) => {
   listener = createListener();
   connection.then(() => {
     subscriber = stompClient.subscribe(topic, (payload: any) => {
-      listenerObserver.next(JSON.parse(payload.body));
+      listenerObserver?.next(JSON.parse(payload.body));
     });
   });
 };

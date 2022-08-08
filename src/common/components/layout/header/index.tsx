@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+
+import { connect } from "react-redux";
 
 import { motion } from "framer-motion";
 
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 import { BarsIcon, Avatar, IconWIthBadge, NotificationBox } from "@components";
 
@@ -13,10 +16,15 @@ import { MenuItem } from "@enums/menu-items";
 
 import { declassify } from "@utils/common";
 
-import styles from "./header.module.scss";
-import { useRouter } from "next/router";
+import { RootState } from "@store/index";
 
-interface HeaderProps {
+import useFetchNotificationsCount from "@features/notification/api/hooks/useFetchNotificationsCount";
+
+import { receiveWebSocketMessage } from "@config/websocket-middleware";
+
+import styles from "./header.module.scss";
+
+interface HeaderProps extends RootState {
   animated?: boolean;
   showMenu: boolean;
   backgroundColor?: "singleColor" | "split";
@@ -26,12 +34,30 @@ const Header = ({
   animated = false,
   showMenu = false,
   backgroundColor = "singleColor",
+  authentication,
 }: HeaderProps) => {
   const router = useRouter();
 
   const [activeTab, setActiveTab] = useState<MenuItem>();
   const [isNotificationBoxShown, setIsNotificationBoxShown] =
     useState<boolean>(false);
+  const [notificationsCount, setNotificationsCount] = useState<number>();
+
+  const { isLoading, isError, isSuccess, data, error, refetch } =
+    useFetchNotificationsCount(authentication?.id!);
+
+  useEffect(() => {
+    refetch();
+    receiveWebSocketMessage()?.subscribe((isUpdated: boolean) => {
+      if (isUpdated) {
+        refetch();
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    setNotificationsCount(data?.data);
+  }, [data]);
 
   const onMenuItemChange = (menuItem: MenuItem): void => {
     setActiveTab(menuItem);
@@ -145,6 +171,7 @@ const Header = ({
         >
           <IconWIthBadge
             icon="las la-bell"
+            badgeNumber={notificationsCount || 0}
             onClick={() => setIsNotificationBoxShown(true)}
           />
           <IconWIthBadge icon="las la-shopping-bag" />
@@ -159,4 +186,8 @@ const Header = ({
   );
 };
 
-export default Header;
+const mapStateToProps = ({ authentication }: RootState) => ({
+  authentication,
+});
+
+export default connect(mapStateToProps)(Header);
