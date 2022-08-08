@@ -2,11 +2,11 @@ import dayjs from "dayjs";
 
 import updateLocale from "dayjs/plugin/updateLocale";
 import localeData from "dayjs/plugin/localeData";
-import utc from "dayjs/plugin/utc";
+import relativeTime from "dayjs/plugin/relativeTime";
 
 dayjs.extend(updateLocale);
 dayjs.extend(localeData);
-dayjs.extend(utc);
+dayjs.extend(relativeTime);
 
 dayjs.updateLocale("en", {
   weekdays: [

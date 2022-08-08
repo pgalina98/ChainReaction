@@ -2,11 +2,19 @@ import React from "react";
 
 import Image from "next/image";
 
+import Notification from "@models/notification.model";
+
+import dayjs from "@utils/dayjs";
+
 interface NotificationItemProps {
   className?: string;
+  notification: Notification;
 }
 
-const NotificationItem = ({ className }: NotificationItemProps) => {
+const NotificationItem = ({
+  className,
+  notification,
+}: NotificationItemProps) => {
   return (
     <div className="mt-2 px-6 py-4 bg-white rounded-lg shadow w-full">
       <div className=" inline-flex items-center justify-between w-full">
@@ -18,13 +26,15 @@ const NotificationItem = ({ className }: NotificationItemProps) => {
             width={24}
           />
           <h3 className="font-semibold text-base text-gray-800 ml-3 uppercase">
-            Notification
+            {notification.notificationTitle} Notification
           </h3>
         </div>
-        <p className="text-xs text-gray-600">1 hour ago</p>
+        <p className="text-xs text-gray-600">
+          {dayjs(notification.createdAt).fromNow()}
+        </p>
       </div>
       <p className="mt-1 text-sm text-black font-thin">
-        You have a new message
+        {notification.notificationText}
       </p>
     </div>
   );

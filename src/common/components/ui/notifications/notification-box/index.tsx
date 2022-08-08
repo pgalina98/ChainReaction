@@ -8,6 +8,8 @@ import { RootState } from "@store/index";
 
 import { AlertType } from "@enums/alert-type";
 
+import Notification from "@models/notification.model";
+
 import { notifications } from "@constants/notifications";
 
 import { declassify, isEmpty, toString } from "@utils/common";
@@ -84,7 +86,7 @@ export const NotificationBox = ({
           />
         )}
         {loggedUserNotifications?.map((notification, index) => (
-          <NotificationItem key={index} />
+          <NotificationItem key={index} notification={notification} />
         ))}
       </div>
     </motion.div>
