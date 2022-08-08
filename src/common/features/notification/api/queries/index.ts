@@ -11,3 +11,7 @@ export const fetchNotificationsCount = (idUser: number) => {
   return async () =>
     await axios.get<number>(`/notifications/count?idUser=${idUser}`);
 };
+
+export const deleteNotifications = (idUser: number) => {
+  return async () => await axios.delete(`/notifications?idUser=${idUser}`);
+};

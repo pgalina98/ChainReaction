@@ -39,7 +39,7 @@ const Header = ({
   const router = useRouter();
 
   const [activeTab, setActiveTab] = useState<MenuItem>();
-  const [isNotificationBoxShown, setIsNotificationBoxShown] =
+  const [isNotificationBoxOpen, setIsNotificationBoxOpen] =
     useState<boolean>(false);
   const [notificationsCount, setNotificationsCount] = useState<number>();
 
@@ -172,14 +172,14 @@ const Header = ({
           <IconWIthBadge
             icon="las la-bell"
             badgeNumber={notificationsCount || 0}
-            onClick={() => setIsNotificationBoxShown(true)}
+            onClick={() => setIsNotificationBoxOpen(true)}
           />
           <IconWIthBadge icon="las la-shopping-bag" />
           <Avatar className="mr-6" withDropdown />
         </motion.div>
         <NotificationBox
-          isShown={isNotificationBoxShown}
-          setIsShown={setIsNotificationBoxShown}
+          isOpen={isNotificationBoxOpen}
+          toggleNotificationBox={setIsNotificationBoxOpen}
         />
       </div>
     </div>

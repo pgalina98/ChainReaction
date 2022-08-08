@@ -270,7 +270,7 @@ const PickupDate = ({
           selectedDate={selectedDate}
           setSelectedDate={setSelectedDate}
         />
-        <div className="flex mt-12 space-x-8 overflow-x-scroll pb-4">
+        <div className="flex mt-12 space-x-8 overflow-x-auto pb-4">
           {availableTimeslots?.map((timeslot, index) => (
             <DateTimeCard
               key={index}
