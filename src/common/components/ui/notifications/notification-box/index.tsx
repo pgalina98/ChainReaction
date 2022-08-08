@@ -62,16 +62,15 @@ export const NotificationBox = ({
   }, [data]);
 
   useEffect(() => {
-    setIsShown(isError || isDeletingSuccess);
-  }, [isError, isDeletingSuccess]);
+    setIsShown(isError || isDeletingError);
+  }, [isError, isDeletingError]);
 
   useEffect(() => {
-    setIsShown(isDeletingError);
-  }, [isDeletingError]);
+    refetch();
+  }, [isDeletingSuccess]);
 
   const onClearAllButtonClick = () => {
     mutate();
-    refetch();
   };
 
   return (

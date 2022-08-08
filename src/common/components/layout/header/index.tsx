@@ -47,12 +47,15 @@ const Header = ({
     useFetchNotificationsCount(authentication?.id!);
 
   useEffect(() => {
-    refetch();
     receiveWebSocketMessage()?.subscribe((isUpdated: boolean) => {
       if (isUpdated) {
         refetch();
       }
     });
+  });
+
+  useEffect(() => {
+    refetch();
   }, []);
 
   useEffect(() => {
