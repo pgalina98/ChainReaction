@@ -15,3 +15,7 @@
 .invalid_icon {
   color: $red;
 }
+
+.mirrored_icon {
+  transform: scale(-1, 1);
+}

@@ -21,6 +21,7 @@ interface InputProps {
   appendIconClicable?: boolean;
   onAppendIconClick?: any;
   appendIconActive?: boolean;
+  mirroredIcon?: boolean;
   onChange?: any;
   validate?: boolean;
   validator?: any;
@@ -40,6 +41,7 @@ const Input = ({
   appendIconClicable = false,
   onAppendIconClick,
   appendIconActive = false,
+  mirroredIcon = false,
   onChange,
   validate = false,
   validator,
@@ -86,13 +88,20 @@ const Input = ({
     <div className={className}>
       <label
         htmlFor={`inputField_${label}`}
-        className="block text-sm font-medium text-gray-700 text-lg"
+        className="block text-sm font-medium text-gray-700"
       >
         {label}
       </label>
       <div className="mt-1 relative rounded-md shadow-sm">
         {prependIcon && (
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+          <div
+            className={declassify(
+              `absolute inset-y-0 left-0 pl-3 mt-1 flex items-center pointer-events-none ${
+                mirroredIcon && styles.mirrored_icon
+              }`,
+              { "ml-3": mirroredIcon }
+            )}
+          >
             <span className="text-gray-500">
               <i className={prependIcon} style={{ fontSize: "1.3rem" }} />
             </span>
@@ -100,7 +109,11 @@ const Input = ({
         )}
         <input
           id={`inputField_${id}`}
-          type={type === InptType.PASSWORD && !appendIconActive ? "password" : "text"}
+          type={
+            type === InptType.PASSWORD && !appendIconActive
+              ? "password"
+              : "text"
+          }
           className={declassify(
             `focus:ring-gray-500 focus:border-gray-500 block w-full pr-12 sm:text-sm border-gray-300 rounded-md ${
               styles.input
@@ -113,7 +126,9 @@ const Input = ({
         />
         <div className="absolute inset-y-0 right-0 pr-3 flex">
           {isInvalid && (
-            <div className={`flex items-center mt-1 cursor-pointer ${styles.input}`}>
+            <div
+              className={`flex items-center mt-1 cursor-pointer ${styles.input}`}
+            >
               <Tooltip message={error!}>
                 <span className="text-gray-500">
                   <i
@@ -127,7 +142,9 @@ const Input = ({
           {appendIcon && (
             <div
               className={declassify(
-                `flex items-center mt-1 ml-2 ${styles.input}`,
+                `flex items-center mt-1 ml-2 ${styles.input} ${
+                  mirroredIcon && styles.mirrored_icon
+                }`,
                 { "cursor-pointer": appendIconClicable },
                 { "pointer-events-none": !appendIconClicable }
               )}

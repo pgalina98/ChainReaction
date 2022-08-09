@@ -58,7 +58,7 @@ import notAuthenticatedBoundaryRoute from "@components/hoc/route-guards/notAuthe
 
 import styles from "./login.module.scss";
 
-const Login: NextPage = (props) => {
+const Login: NextPage = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const [isShown, setIsShown] = useToast({ duration: 4000 });
@@ -204,7 +204,7 @@ const Login: NextPage = (props) => {
           variants={useFadeInOutVariants({ duration: 0.5, delay: 0.6 })}
           className={`${styles.h_full} w-full flex flex-col justify-center items-center`}
         >
-          <Card className={`${styles.w_60_percentage} p-6`}>
+          <Card className={`${styles.card} p-6`}>
             <Input
               id="username"
               label="Username"
@@ -251,7 +251,7 @@ const Login: NextPage = (props) => {
               </Link>
             </div>
           </Card>
-          <Card className={`${styles.w_60_percentage} mt-8 p-1`}>
+          <Card className={`${styles.card} mt-8 p-1`}>
             <div className="flex justify-center">
               <motion.div
                 initial="initial"

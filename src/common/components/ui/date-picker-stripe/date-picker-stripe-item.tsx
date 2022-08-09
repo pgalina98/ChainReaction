@@ -7,17 +7,17 @@ import { Icon } from "@components";
 import { declassify } from "@utils/common";
 import { getShortNameOfDay, getShortNameOfMonth } from "@utils/datetime";
 
-interface DatePickerItemProps {
+interface DatePickerStripeItemProps {
   date: Dayjs;
   isSelected?: boolean;
   onClick?: any;
 }
 
-const DatePickerItem = ({
+const DatePickerStripeItem = ({
   date,
   isSelected = false,
   onClick,
-}: DatePickerItemProps) => {
+}: DatePickerStripeItemProps) => {
   return (
     <div
       className={declassify(
@@ -71,4 +71,4 @@ const DatePickerItem = ({
   );
 };
 
-export default DatePickerItem;
+export default DatePickerStripeItem;

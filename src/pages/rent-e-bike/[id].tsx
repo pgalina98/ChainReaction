@@ -10,6 +10,7 @@ import dayjs from "@utils/dayjs";
 
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { NextPage } from "next";
 
 import {
   Alert,
@@ -382,7 +383,7 @@ const RentSummary = ({ rentForm }) => {
   );
 };
 
-const RentEBike = ({ authentication }: RootState) => {
+const RentEBike: NextPage<RootState> = ({ authentication }: RootState) => {
   const router = useRouter();
   const [isShown, setIsShown] = useToast({ duration: 4000 });
 
