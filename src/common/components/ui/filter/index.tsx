@@ -40,7 +40,7 @@ const Filter = ({ className, isOpen = true, toggleFilterBox }: FilterProps) => {
       )}
     >
       <div className="flex items-center justify-between p-4">
-        <div className="text-xl font-normal">Filter</div>
+        <div className="text-xl font-medium text-gray-700">Filter</div>
         <Icon
           className={`${styles.mirrored_icon} text-2xl cursor-pointer mt-1`}
           icon="las la-times"
