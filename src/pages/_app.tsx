@@ -17,7 +17,7 @@ import { connect } from "@config/websocket-middleware";
 
 import User from "@models/user.model";
 
-import { LoaclStorageKeys } from "@enums/local-storage-keys";
+import { LocalStorageKeys } from "@enums/local-storage-keys";
 import { getAuthorityByKey } from "@enums/authority";
 
 import { clearAuthenticationToken, getValueByKey } from "@utils/local-storage";
@@ -34,10 +34,10 @@ const ComponentWrapper = ({ children }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!!getValueByKey(LoaclStorageKeys.AUTHENTICATION_TOKEN)) {
+    if (!!getValueByKey(LocalStorageKeys.AUTHENTICATION_TOKEN)) {
       try {
         const jwtClaims: any = jwtDecode(
-          getValueByKey(LoaclStorageKeys.AUTHENTICATION_TOKEN)!
+          getValueByKey(LocalStorageKeys.AUTHENTICATION_TOKEN)!
         );
 
         const user: User = mapJwtClaimsToUserObject(jwtClaims);

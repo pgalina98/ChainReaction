@@ -1,12 +1,18 @@
-import { LoaclStorageKeys } from "@enums/local-storage-keys";
+import { LocalStorageKeys } from "@enums/local-storage-keys";
 
 export const clearLocalStorage = () => {
-  Object.values(LoaclStorageKeys).forEach((value) => localStorage.remove(value));
+  Object.values(LocalStorageKeys).forEach((value) =>
+    localStorage.remove(value)
+  );
 };
 
 export const clearAuthenticationToken = () => {
-  localStorage.removeItem(LoaclStorageKeys.AUTHENTICATION_TOKEN);
-  localStorage.removeItem(LoaclStorageKeys.REFRESH_TOKEN);
+  localStorage.removeItem(LocalStorageKeys.AUTHENTICATION_TOKEN);
+  localStorage.removeItem(LocalStorageKeys.REFRESH_TOKEN);
+};
+
+export const clearActiveTab = () => {
+  localStorage.removeItem(LocalStorageKeys.ACTIVE_TAB);
 };
 
 export const setValue = (key: string, value: string) => {

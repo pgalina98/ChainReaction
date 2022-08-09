@@ -25,7 +25,7 @@ import { useToast } from "@components/hooks/useToast";
 import { InptType } from "@enums/input-type";
 import { ButtonType } from "@enums/button-type";
 import { ToastType } from "@enums/toast-type";
-import { LoaclStorageKeys } from "@enums/local-storage-keys";
+import { LocalStorageKeys } from "@enums/local-storage-keys";
 import { getAuthorityByKey } from "@enums/authority";
 
 import { messages } from "@constants/messages";
@@ -93,11 +93,11 @@ const Login: NextPage = () => {
   useEffect(() => {
     if (isSuccess) {
       setValue(
-        LoaclStorageKeys.AUTHENTICATION_TOKEN,
+        LocalStorageKeys.AUTHENTICATION_TOKEN,
         (data.data as JwtToken).authenticationToken
       );
       setValue(
-        LoaclStorageKeys.REFRESH_TOKEN,
+        LocalStorageKeys.REFRESH_TOKEN,
         (data.data as JwtToken).refreshToken
       );
 

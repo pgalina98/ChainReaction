@@ -25,6 +25,7 @@ import { ProductType } from "@enums/product-type";
 import { ProductColor, getProductColorValue } from "@enums/product-color";
 
 import { getMirroredImagePath, isNullOrUndefined } from "@utils/common";
+import { clearActiveTab } from "@utils/local-storage";
 
 import Product from "@models/product.model";
 
@@ -55,6 +56,7 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     refetch();
+    clearActiveTab();
   }, []);
 
   useEffect(() => {

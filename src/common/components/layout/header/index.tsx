@@ -13,8 +13,10 @@ import { BarsIcon, Avatar, IconWIthBadge, NotificationBox } from "@components";
 import { useFadeInOutLeftVariants, useFadeInOutTopVariants } from "@animations";
 
 import { MenuItem } from "@enums/menu-items";
+import { LocalStorageKeys } from "@enums/local-storage-keys";
 
 import { declassify } from "@utils/common";
+import { getValueByKey, setValue } from "@utils/local-storage";
 
 import { RootState } from "@store/index";
 
@@ -38,7 +40,7 @@ const Header = ({
 }: HeaderProps) => {
   const router = useRouter();
 
-  const [activeTab, setActiveTab] = useState<MenuItem>();
+  const activeTab = getValueByKey(LocalStorageKeys.ACTIVE_TAB || null);
   const [isNotificationBoxOpen, setIsNotificationBoxOpen] =
     useState<boolean>(false);
   const [notificationsCount, setNotificationsCount] = useState<number>();
@@ -64,7 +66,7 @@ const Header = ({
 
   const onMenuItemChange = (menuItem: MenuItem): void => {
     router.push(menuItem);
-    setActiveTab(menuItem);
+    setValue(LocalStorageKeys.ACTIVE_TAB, menuItem);
   };
 
   const navigateToHomepage = (): void => {
