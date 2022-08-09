@@ -4,7 +4,7 @@ import dayjs, { Dayjs } from "dayjs";
 
 import { Icon } from "@components";
 
-import DatePickerItem from "./date-picker-item";
+import DatePickerStripeItem from "./date-picker-stripe-item";
 
 interface DatePickerStripeProps {
   className?: string;
@@ -49,7 +49,7 @@ const DatePickerStripe = ({
           onClick={() => changeRange(initialDate.subtract(1, "days"))}
         />
         {range?.map((date, index) => (
-          <DatePickerItem
+          <DatePickerStripeItem
             key={index}
             date={date}
             isSelected={selectedDate.isSame(date, "dates")}

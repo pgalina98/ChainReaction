@@ -63,6 +63,7 @@ const Header = ({
   }, [data]);
 
   const onMenuItemChange = (menuItem: MenuItem): void => {
+    router.push(menuItem);
     setActiveTab(menuItem);
   };
 

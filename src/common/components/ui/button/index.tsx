@@ -48,9 +48,9 @@ const Button = ({
         } ${!isButtonDisabled() && "hover:bg-green-600"} text-white`;
 
       case ButtonType.DANGER:
-        return `border-red-500 bg-red-500 ${isButtonDisabled() && "border-red-400 bg-red-400"} ${
-          !isButtonDisabled() && "hover:bg-red-600"
-        } text-white`;
+        return `border-red-500 bg-red-500 ${
+          isButtonDisabled() && "border-red-400 bg-red-400"
+        } ${!isButtonDisabled() && "hover:bg-red-600"} text-white`;
 
       case ButtonType.WARNING:
         return `border-yellow-500 bg-yellow-500 ${
@@ -83,7 +83,7 @@ const Button = ({
     <button
       type="button"
       className={declassify(
-        `${className} border px-4 py-2 rounded-full focus:outline-none focus:shadow-outline ${determineClassNames()}`,
+        `border px-4 py-2 ${className} rounded-full focus:outline-none focus:shadow-outline ${determineClassNames()}`,
         { "rounded-full": rounded },
         { "rounded-md": !rounded },
         { "cursor-not-allowed": isButtonDisabled() }

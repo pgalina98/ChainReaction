@@ -17,3 +17,6 @@ export { default as DatePickerStripe } from "common/components/ui/date-picker-st
 export { default as NotificationBox } from "common/components/ui/notifications/notification-box";
 export { default as NotificationItem } from "common/components/ui/notifications/notification-item";
 export { default as Alert } from "common/components/ui/alert";
+export { default as Filter } from "common/components/ui/filter";
+export { default as Checkbox } from "common/components/ui/checkbox";
+export { default as RangeSlider } from "common/components/ui/range-slider";

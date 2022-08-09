@@ -158,7 +158,7 @@ const Register: NextPage = () => {
           })}
           className={`${styles.h_full} w-full flex flex-col justify-center items-center`}
         >
-          <Card className={`${styles.w_60_percentage} p-6`}>
+          <Card className={`${styles.card} p-6`}>
             <Input
               id="fullname"
               label="Full name"
