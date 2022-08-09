@@ -1,6 +1,7 @@
 import axios from "@utils/api";
 
 import Notification from "@models/notification.model";
+import { AxiosResponse } from "axios";
 
 export const fetchNotifications = (idUser: number) => {
   return async () =>
@@ -14,4 +15,8 @@ export const fetchNotificationsCount = (idUser: number) => {
 
 export const deleteNotifications = (idUser: number) => {
   return async () => await axios.delete(`/notifications?idUser=${idUser}`);
+};
+
+export const deleteNotificationById = (idNotification: number) => {
+  return async () => await axios.delete(`/notifications/${idNotification}`);
 };

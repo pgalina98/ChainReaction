@@ -25,6 +25,7 @@ import useFetchNotifications from "@features/notification/api/hooks/useFetchNoti
 import useDeleteNotificationsByIdUser from "@features/notification/api/hooks/useDeleteNotificationsByIdUser";
 
 import styles from "./notification-box.module.scss";
+import useDeleteNotificationById from "@features/notification/api/hooks/useDeleteNotificationById";
 
 interface NotificationBoxProps extends RootState {
   className?: string;
@@ -46,12 +47,19 @@ export const NotificationBox = ({
   const { isLoading, isError, isSuccess, data, error, refetch } =
     useFetchNotifications(authentication?.id!);
   const {
+    isLoading: isDeletingAll,
+    isError: isDeletingAllError,
+    isSuccess: isDeletingAllSuccess,
+    error: deletingAllError,
+    mutate: deleteAll,
+  } = useDeleteNotificationsByIdUser(authentication?.id!);
+  const {
     isLoading: isDeleting,
     isError: isDeletingError,
     isSuccess: isDeletingSuccess,
     error: deletingError,
-    mutate,
-  } = useDeleteNotificationsByIdUser(authentication?.id!);
+    mutate: deleteSingle,
+  } = useDeleteNotificationById();
 
   useEffect(() => {
     refetch();
@@ -62,15 +70,23 @@ export const NotificationBox = ({
   }, [data]);
 
   useEffect(() => {
-    setIsShown(isError || isDeletingError);
-  }, [isError, isDeletingError]);
+    setIsShown(isError || isDeletingAllError);
+  }, [isError, isDeletingAllError, isDeleting]);
 
   useEffect(() => {
     refetch();
-  }, [isDeletingSuccess]);
+  }, [isDeletingAllSuccess, isDeletingSuccess]);
 
-  const onClearAllButtonClick = () => {
-    mutate();
+  const hasAnyError = (): boolean => {
+    return isError || isDeletingError || isDeletingAllError;
+  };
+
+  const onDeleteAllButtonClick = (): void => {
+    deleteAll();
+  };
+
+  const onDeleteSingleButtonClick = (idNotification: number): void => {
+    deleteSingle(idNotification);
   };
 
   return (
@@ -86,21 +102,13 @@ export const NotificationBox = ({
         { invisible: !isOpen }
       )}
     >
-      {isError && (
+      {hasAnyError() && (
         <Toast
           type={ToastType.DANGER}
           message={
-            error.response.data?.message || messages.INTERNAL_SERVER_ERROR
-          }
-          isShown={isShown}
-          hideToast={() => setIsShown(false)}
-        />
-      )}
-      {isDeletingError && (
-        <Toast
-          type={ToastType.DANGER}
-          message={
-            deletingError.response.data?.message ||
+            error?.response.data?.message ||
+            deletingError?.response?.data.message ||
+            deletingAllError?.response?.data.message ||
             messages.INTERNAL_SERVER_ERROR
           }
           isShown={isShown}
@@ -114,7 +122,7 @@ export const NotificationBox = ({
           onClick={() => toggleNotificationBox(false)}
         />
         <div className="flex items-center normal-case bg_white text-black hover:bg-red-400 hover:text-white rounded-lg pl-4 pr-4 cursor-pointer">
-          <div className="mr-4" onClick={onClearAllButtonClick}>
+          <div className="mr-4" onClick={onDeleteAllButtonClick}>
             Clear all
           </div>
           <Icon icon="las la-dumpster" className="text-2xl" />
@@ -133,7 +141,11 @@ export const NotificationBox = ({
           />
         )}
         {loggedUserNotifications?.map((notification, index) => (
-          <NotificationItem key={index} notification={notification} />
+          <NotificationItem
+            key={index}
+            notification={notification}
+            onDeleteSingleButtonClick={onDeleteSingleButtonClick}
+          />
         ))}
       </div>
     </motion.div>

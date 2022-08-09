@@ -402,7 +402,7 @@ const RentEBike = ({ authentication }: RootState) => {
     isError: isSavingError,
     isSuccess: isSavingSuccess,
     error: savingError,
-    mutate,
+    mutate: saveRent,
   } = useSaveRent(rentForm!);
 
   useEffect(() => {
@@ -476,7 +476,7 @@ const RentEBike = ({ authentication }: RootState) => {
   };
 
   const onConfirmButtonClick = (): void => {
-    mutate();
+    saveRent();
   };
 
   const isNextButtonDisabled = (): boolean => {

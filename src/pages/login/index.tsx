@@ -69,8 +69,14 @@ const Login: NextPage = (props) => {
 
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
 
-  const { isLoading, isError, isSuccess, data, error, mutate } =
-    useAuthenticateUser(user);
+  const {
+    isLoading,
+    isError,
+    isSuccess,
+    data,
+    error,
+    mutate: authenticateUser,
+  } = useAuthenticateUser(user);
 
   useEffect(() => {
     if (isNullOrUndefined(router.query.showLoadingOverlay)) {
@@ -133,7 +139,7 @@ const Login: NextPage = (props) => {
   };
 
   const onSignInButtonClick = (): void => {
-    mutate();
+    authenticateUser();
   };
 
   if (isLoadingOverlayShown) return <LoadingOverlay />;

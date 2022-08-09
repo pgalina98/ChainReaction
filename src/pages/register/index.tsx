@@ -53,8 +53,13 @@ const Register: NextPage = () => {
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
     useState<boolean>(false);
 
-  const { isLoading, isError, isSuccess, error, mutate } =
-    useRegisterUser(user);
+  const {
+    isLoading,
+    isError,
+    isSuccess,
+    error,
+    mutate: registerUser,
+  } = useRegisterUser(user);
 
   useEffect(() => {
     if (isSuccess) {
@@ -117,7 +122,7 @@ const Register: NextPage = () => {
   };
 
   const onSignUpButtonClick = (): void => {
-    mutate();
+    registerUser();
   };
 
   return (
