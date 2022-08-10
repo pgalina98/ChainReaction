@@ -5,6 +5,9 @@ import { motion } from "framer-motion";
 import { declassify, toString } from "@utils/common";
 
 import { ButtonType } from "@enums/button-type";
+import { ProductFilterKeys } from "@enums/product-filter-keys";
+
+import ProductFilter from "@models/product-filter.model";
 
 import {
   Icon,
@@ -18,14 +21,26 @@ import {
 import { useFadeInOutLeftVariants } from "@animations";
 
 import styles from "./filter.module.scss";
+import { getProductTypeValue, ProductType } from "@enums/product-type";
+import { getProductColorValue, ProductColor } from "@enums/product-color";
 
 interface FilterProps {
   className?: string;
   isOpen: boolean;
   toggleFilterBox: any;
+  productFilter: ProductFilter;
+  onFilterValueChange: any;
+  onResetButtonClick?: any;
 }
 
-const Filter = ({ className, isOpen = true, toggleFilterBox }: FilterProps) => {
+const Filter = ({
+  className,
+  isOpen = true,
+  toggleFilterBox,
+  productFilter,
+  onFilterValueChange,
+  onResetButtonClick,
+}: FilterProps) => {
   return (
     <motion.div
       key={toString(isOpen)}
@@ -56,13 +71,16 @@ const Filter = ({ className, isOpen = true, toggleFilterBox }: FilterProps) => {
           appendIconClicable
           mirroredIcon
           placeholder="Search"
+          onChange={(value) =>
+            onFilterValueChange(ProductFilterKeys.KEYWORD, value)
+          }
         />
         <div className="mt-4 flex justify-end">
           <Button
             label="Reset filters"
             className={`${styles.reset_filters_button} px-2 py-0`}
             type={ButtonType.DARK}
-            onClick={() => {}}
+            onClick={onResetButtonClick}
           />
         </div>
         <div className="mt-2">
@@ -72,16 +90,64 @@ const Filter = ({ className, isOpen = true, toggleFilterBox }: FilterProps) => {
               className="mt-2"
               label="Cowboy"
               additionalText="Models 4 and 4ST available."
+              isChecked={productFilter?.brands?.includes("Cowboy")!}
+              onChange={(value) => {
+                if (productFilter?.brands?.includes(value)) {
+                  onFilterValueChange(ProductFilterKeys.BRANDS, [
+                    ...productFilter?.brands?.filter(
+                      (brand) => brand !== value
+                    )!,
+                    ,
+                  ]);
+                } else {
+                  onFilterValueChange(ProductFilterKeys.BRANDS, [
+                    ...productFilter?.brands!,
+                    value,
+                  ]);
+                }
+              }}
             />
             <Checkbox
               className="mt-2"
               label="Trek"
               additionalText="Models Rail and Powerfly available."
+              isChecked={productFilter?.brands?.includes("Trek")!}
+              onChange={(value) => {
+                if (productFilter?.brands?.includes(value)) {
+                  onFilterValueChange(ProductFilterKeys.BRANDS, [
+                    ...productFilter?.brands?.filter(
+                      (brand) => brand !== value
+                    )!,
+                    ,
+                  ]);
+                } else {
+                  onFilterValueChange(ProductFilterKeys.BRANDS, [
+                    ...productFilter?.brands!,
+                    value,
+                  ]);
+                }
+              }}
             />
             <Checkbox
               className="mt-2"
               label="Scott"
               additionalText="Model E-MTB available."
+              isChecked={productFilter?.brands?.includes("Scott")!}
+              onChange={(value) => {
+                if (productFilter?.brands?.includes(value)) {
+                  onFilterValueChange(ProductFilterKeys.BRANDS, [
+                    ...productFilter?.brands?.filter(
+                      (brand) => brand !== value
+                    )!,
+                    ,
+                  ]);
+                } else {
+                  onFilterValueChange(ProductFilterKeys.BRANDS, [
+                    ...productFilter?.brands!,
+                    value,
+                  ]);
+                }
+              }}
             />
           </div>
         </div>
@@ -92,11 +158,59 @@ const Filter = ({ className, isOpen = true, toggleFilterBox }: FilterProps) => {
               className="mt-2"
               label="Electric"
               additionalText="With electrical drive option."
+              isChecked={
+                productFilter?.types?.includes(
+                  getProductTypeValue(ProductType.E_BIKE)!
+                )!
+              }
+              onChange={() => {
+                if (
+                  productFilter?.types?.includes(
+                    getProductTypeValue(ProductType.E_BIKE)!
+                  )
+                ) {
+                  onFilterValueChange(ProductFilterKeys.TYPES, [
+                    ...productFilter?.types?.filter(
+                      (type) => type !== getProductTypeValue(ProductType.E_BIKE)
+                    )!,
+                    ,
+                  ]);
+                } else {
+                  onFilterValueChange(ProductFilterKeys.TYPES, [
+                    ...productFilter?.types!,
+                    getProductTypeValue(ProductType.E_BIKE),
+                  ]);
+                }
+              }}
             />
             <Checkbox
               className="mt-2"
               label="Normal"
               additionalText="Without electrical drive option."
+              isChecked={
+                productFilter?.types?.includes(
+                  getProductTypeValue(ProductType.BIKE)!
+                )!
+              }
+              onChange={() => {
+                if (
+                  productFilter?.types?.includes(
+                    getProductTypeValue(ProductType.BIKE)!
+                  )
+                ) {
+                  onFilterValueChange(ProductFilterKeys.TYPES, [
+                    ...productFilter?.types?.filter(
+                      (type) => type !== getProductTypeValue(ProductType.BIKE)
+                    )!,
+                    ,
+                  ]);
+                } else {
+                  onFilterValueChange(ProductFilterKeys.TYPES, [
+                    ...productFilter?.types!,
+                    getProductTypeValue(ProductType.BIKE),
+                  ]);
+                }
+              }}
             />
           </div>
         </div>
@@ -106,24 +220,80 @@ const Filter = ({ className, isOpen = true, toggleFilterBox }: FilterProps) => {
             <ColorPickerIcon
               className="cursor-pointer border-2 border-gray-300"
               color="WHITE"
-              isSelected={true}
-              onClick={() => {}}
+              isSelected={productFilter?.colors?.includes(
+                getProductColorValue(ProductColor.WHITE)!
+              )}
+              onClick={(value) => {
+                if (productFilter?.colors?.includes(value)) {
+                  onFilterValueChange(ProductFilterKeys.COLORS, [
+                    ...productFilter?.colors?.filter(
+                      (color) => color !== value
+                    )!,
+                    ,
+                  ]);
+                } else {
+                  onFilterValueChange(ProductFilterKeys.COLORS, [
+                    ...productFilter?.colors!,
+                    value,
+                  ]);
+                }
+              }}
             />
             <ColorPickerIcon
               className="cursor-pointer border-2 border-gray-300"
               color="GRAY-DARK"
-              onClick={() => {}}
+              isSelected={productFilter?.colors?.includes(
+                getProductColorValue(ProductColor.GRAY_DARK)!
+              )}
+              onClick={(value) => {
+                if (productFilter?.colors?.includes(value)) {
+                  onFilterValueChange(ProductFilterKeys.COLORS, [
+                    ...productFilter?.colors?.filter(
+                      (color) => color !== value
+                    )!,
+                    ,
+                  ]);
+                } else {
+                  onFilterValueChange(ProductFilterKeys.COLORS, [
+                    ...productFilter?.colors!,
+                    value,
+                  ]);
+                }
+              }}
             />
             <ColorPickerIcon
               className="cursor-pointer border-2 border-gray-300"
               color="BLACK"
-              onClick={() => {}}
+              isSelected={productFilter?.colors?.includes(
+                getProductColorValue(ProductColor.BLACK)!
+              )}
+              onClick={(value) => {
+                if (productFilter?.colors?.includes(value)) {
+                  onFilterValueChange(ProductFilterKeys.COLORS, [
+                    ...productFilter?.colors?.filter(
+                      (color) => color !== value
+                    )!,
+                    ,
+                  ]);
+                } else {
+                  onFilterValueChange(ProductFilterKeys.COLORS, [
+                    ...productFilter?.colors!,
+                    value,
+                  ]);
+                }
+              }}
             />
           </div>
         </div>
         <div className="mt-4">
           <div className="block font-medium text-gray-700">Price</div>
-          <RangeSlider className="mt-2" />
+          <RangeSlider
+            className="mt-2"
+            selectedValue={productFilter?.maxPrice!}
+            onChange={(value) =>
+              onFilterValueChange(ProductFilterKeys.MAX_PRICE, value)
+            }
+          />
         </div>
       </div>
     </motion.div>

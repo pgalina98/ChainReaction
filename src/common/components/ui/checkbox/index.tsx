@@ -9,6 +9,8 @@ interface CheckboxProps {
   label?: string;
   additionalText?: string;
   rounded?: boolean;
+  isChecked: boolean;
+  onChange: any;
 }
 
 const Checkbox = ({
@@ -16,6 +18,8 @@ const Checkbox = ({
   label,
   additionalText,
   rounded = false,
+  isChecked = false,
+  onChange,
 }: CheckboxProps) => {
   return (
     <div className={`${className} flex rounded-full`}>
@@ -30,6 +34,8 @@ const Checkbox = ({
             } text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 cursor-pointer`,
             { "rounded-full": rounded }
           )}
+          checked={isChecked}
+          onChange={() => onChange(label)}
         />
       </div>
       <div className="ml-2 text-sm">

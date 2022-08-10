@@ -44,7 +44,9 @@ const ColorPickerIcon = ({
       )}
       {...(isAvailable && { onClick: onIconClick })}
     >
-      {isSelected && <i className={`las la-check text-${determineCheckIconColor()}`} />}
+      {isSelected && (
+        <i className={`las la-check text-${determineCheckIconColor()}`} />
+      )}
     </div>
   );
 };

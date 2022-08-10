@@ -1,0 +1,19 @@
+import ProductType from "@models/product-type.model";
+
+export default interface ProductFilter {
+  keyword?: string;
+  brands?: string[];
+  types?: string[];
+  colors?: string[];
+  maxPrice?: number;
+}
+
+export const createInitProductFilter = (): ProductFilter => {
+  return {
+    keyword: "",
+    brands: [],
+    types: [],
+    colors: [],
+    maxPrice: null!,
+  };
+};
