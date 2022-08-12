@@ -3,8 +3,8 @@ import ProductType from "@models/product-type.model";
 export default interface ProductFilter {
   keyword?: string;
   brands?: string[];
-  types?: string[];
-  colors?: string[];
+  types?: number[];
+  colors?: number[];
   maxPrice?: number;
 }
 

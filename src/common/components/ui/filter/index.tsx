@@ -21,8 +21,8 @@ import {
 import { useFadeInOutLeftVariants } from "@animations";
 
 import styles from "./filter.module.scss";
-import { getProductTypeValue, ProductType } from "@enums/product-type";
-import { getProductColorValue, ProductColor } from "@enums/product-color";
+import { ProductType } from "@enums/product-type";
+import { ProductColor } from "@enums/product-color";
 
 interface FilterProps {
   className?: string;
@@ -158,27 +158,19 @@ const Filter = ({
               className="mt-2"
               label="Electric"
               additionalText="With electrical drive option."
-              isChecked={
-                productFilter?.types?.includes(
-                  getProductTypeValue(ProductType.E_BIKE)!
-                )!
-              }
+              isChecked={productFilter?.types?.includes(ProductType.E_BIKE!)!}
               onChange={() => {
-                if (
-                  productFilter?.types?.includes(
-                    getProductTypeValue(ProductType.E_BIKE)!
-                  )
-                ) {
+                if (productFilter?.types?.includes(ProductType.E_BIKE)!) {
                   onFilterValueChange(ProductFilterKeys.TYPES, [
                     ...productFilter?.types?.filter(
-                      (type) => type !== getProductTypeValue(ProductType.E_BIKE)
+                      (type) => type !== ProductType.E_BIKE
                     )!,
                     ,
                   ]);
                 } else {
                   onFilterValueChange(ProductFilterKeys.TYPES, [
                     ...productFilter?.types!,
-                    getProductTypeValue(ProductType.E_BIKE),
+                    ProductType.E_BIKE,
                   ]);
                 }
               }}
@@ -187,27 +179,19 @@ const Filter = ({
               className="mt-2"
               label="Normal"
               additionalText="Without electrical drive option."
-              isChecked={
-                productFilter?.types?.includes(
-                  getProductTypeValue(ProductType.BIKE)!
-                )!
-              }
+              isChecked={productFilter?.types?.includes(ProductType.BIKE!)!}
               onChange={() => {
-                if (
-                  productFilter?.types?.includes(
-                    getProductTypeValue(ProductType.BIKE)!
-                  )
-                ) {
+                if (productFilter?.types?.includes(ProductType.BIKE!)) {
                   onFilterValueChange(ProductFilterKeys.TYPES, [
                     ...productFilter?.types?.filter(
-                      (type) => type !== getProductTypeValue(ProductType.BIKE)
+                      (type) => type !== ProductType.BIKE
                     )!,
                     ,
                   ]);
                 } else {
                   onFilterValueChange(ProductFilterKeys.TYPES, [
                     ...productFilter?.types!,
-                    getProductTypeValue(ProductType.BIKE),
+                    ProductType.BIKE,
                   ]);
                 }
               }}
@@ -220,9 +204,7 @@ const Filter = ({
             <ColorPickerIcon
               className="cursor-pointer border-2 border-gray-300"
               color="WHITE"
-              isSelected={productFilter?.colors?.includes(
-                getProductColorValue(ProductColor.WHITE)!
-              )}
+              isSelected={productFilter?.colors?.includes(ProductColor.WHITE!)}
               onClick={(value) => {
                 if (productFilter?.colors?.includes(value)) {
                   onFilterValueChange(ProductFilterKeys.COLORS, [
@@ -243,7 +225,7 @@ const Filter = ({
               className="cursor-pointer border-2 border-gray-300"
               color="GRAY-DARK"
               isSelected={productFilter?.colors?.includes(
-                getProductColorValue(ProductColor.GRAY_DARK)!
+                ProductColor.GRAY_DARK!
               )}
               onClick={(value) => {
                 if (productFilter?.colors?.includes(value)) {
@@ -264,9 +246,7 @@ const Filter = ({
             <ColorPickerIcon
               className="cursor-pointer border-2 border-gray-300"
               color="BLACK"
-              isSelected={productFilter?.colors?.includes(
-                getProductColorValue(ProductColor.BLACK)!
-              )}
+              isSelected={productFilter?.colors?.includes(ProductColor.BLACK!)}
               onClick={(value) => {
                 if (productFilter?.colors?.includes(value)) {
                   onFilterValueChange(ProductFilterKeys.COLORS, [
