@@ -5,3 +5,4 @@ export { default as useFadeInOutTopVariants } from "common/animations/hooks/useF
 export { default as useRotateAndScaleVariants } from "common/animations/hooks/useRotateAndScale";
 export { default as useBounce } from "common/animations/hooks/useBounce";
 export { default as useDisplayNoneOnExit } from "common/animations/hooks/useDisplayNoneOnExit";
+export { default as useLazyLoadImageVariants } from "common/animations/hooks/useLazyLoadImage";
