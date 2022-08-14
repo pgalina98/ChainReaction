@@ -1,4 +1,4 @@
-import ProductType from "@models/product-type.model";
+import ProductType from "@models/product/product-type.model";
 
 export default interface ProductFilter {
   keyword?: string;

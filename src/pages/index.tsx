@@ -27,7 +27,7 @@ import { ProductColor, getProductColorValue } from "@enums/product-color";
 import { getMirroredImagePath, isNullOrUndefined } from "@utils/common";
 import { clearActiveTab } from "@utils/local-storage";
 
-import Product from "@models/product.model";
+import Product from "@models/product/product.model";
 
 import {
   useFadeInOutLeftVariants,

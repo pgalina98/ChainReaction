@@ -2,7 +2,7 @@ import React from "react";
 
 import Image from "next/image";
 
-import Notification from "@models/notification.model";
+import Notification from "@models/notification/notification.model";
 
 import { Icon } from "@components";
 

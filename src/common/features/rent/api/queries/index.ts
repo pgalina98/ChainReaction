@@ -4,7 +4,7 @@ import { formatTimeArray } from "@utils/datetime";
 import axios from "@utils/api";
 
 import { APP_LOCAL_DATE_FORMAT, APP_TIME_FORMAT } from "@constants/datetime";
-import RentForm from "@models/rent.model";
+import RentForm from "@models/rent/rent.model";
 
 export const fetchAvailableTimeslots = (
   idProduct: string,

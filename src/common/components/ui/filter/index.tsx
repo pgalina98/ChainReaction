@@ -7,7 +7,7 @@ import { declassify, toString } from "@utils/common";
 import { ButtonType } from "@enums/button-type";
 import { ProductFilterKeys } from "@enums/product-filter-keys";
 
-import ProductFilter from "@models/product-filter.model";
+import ProductFilter from "@models/product/product-filter.model";
 
 import {
   Icon,
@@ -49,9 +49,9 @@ const Filter = ({
       exit="exit"
       variants={useFadeInOutLeftVariants({ duration: 0.3 })}
       className={declassify(
-        `${className} h-full ${styles.filter_container} bg_white rounded-r-xl`,
+        `${className} h-full ${styles.filter_container} bg_white rounded-r-xl z-20`,
         { visible: isOpen },
-        { invisible: !isOpen }
+        { "invisible hidden": !isOpen }
       )}
     >
       <div className="flex items-center justify-between p-4">
@@ -69,8 +69,12 @@ const Filter = ({
           prependIcon="las la-search"
           appendIcon="las la-times"
           appendIconClicable
+          onAppendIconClick={() =>
+            onFilterValueChange(ProductFilterKeys.KEYWORD, "")
+          }
           mirroredIcon
           placeholder="Search"
+          value={productFilter?.keyword}
           onChange={(value) =>
             onFilterValueChange(ProductFilterKeys.KEYWORD, value)
           }
@@ -97,7 +101,6 @@ const Filter = ({
                     ...productFilter?.brands?.filter(
                       (brand) => brand !== value
                     )!,
-                    ,
                   ]);
                 } else {
                   onFilterValueChange(ProductFilterKeys.BRANDS, [
@@ -118,7 +121,6 @@ const Filter = ({
                     ...productFilter?.brands?.filter(
                       (brand) => brand !== value
                     )!,
-                    ,
                   ]);
                 } else {
                   onFilterValueChange(ProductFilterKeys.BRANDS, [
@@ -139,7 +141,6 @@ const Filter = ({
                     ...productFilter?.brands?.filter(
                       (brand) => brand !== value
                     )!,
-                    ,
                   ]);
                 } else {
                   onFilterValueChange(ProductFilterKeys.BRANDS, [
@@ -165,7 +166,6 @@ const Filter = ({
                     ...productFilter?.types?.filter(
                       (type) => type !== ProductType.E_BIKE
                     )!,
-                    ,
                   ]);
                 } else {
                   onFilterValueChange(ProductFilterKeys.TYPES, [
@@ -186,7 +186,6 @@ const Filter = ({
                     ...productFilter?.types?.filter(
                       (type) => type !== ProductType.BIKE
                     )!,
-                    ,
                   ]);
                 } else {
                   onFilterValueChange(ProductFilterKeys.TYPES, [
@@ -211,7 +210,6 @@ const Filter = ({
                     ...productFilter?.colors?.filter(
                       (color) => color !== value
                     )!,
-                    ,
                   ]);
                 } else {
                   onFilterValueChange(ProductFilterKeys.COLORS, [
@@ -233,7 +231,6 @@ const Filter = ({
                     ...productFilter?.colors?.filter(
                       (color) => color !== value
                     )!,
-                    ,
                   ]);
                 } else {
                   onFilterValueChange(ProductFilterKeys.COLORS, [
@@ -253,7 +250,6 @@ const Filter = ({
                     ...productFilter?.colors?.filter(
                       (color) => color !== value
                     )!,
-                    ,
                   ]);
                 } else {
                   onFilterValueChange(ProductFilterKeys.COLORS, [

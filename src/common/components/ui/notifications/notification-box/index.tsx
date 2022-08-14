@@ -9,7 +9,7 @@ import { RootState } from "@store/index";
 import { AlertType } from "@enums/alert-type";
 import { ToastType } from "@enums/toast-type";
 
-import Notification from "@models/notification.model";
+import Notification from "@models/notification/notification.model";
 
 import { alert } from "@constants/alert";
 import { messages } from "@constants/messages";

@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 import { Button, Card, Header, Input, Toast } from "@components";
 import { useToast } from "@components/hooks/useToast";
 
-import { InptType } from "@enums/input-type";
+import { InputType } from "@enums/input-type";
 import { ButtonType } from "@enums/button-type";
 import { ToastType } from "@enums/toast-type";
 
@@ -24,7 +24,7 @@ import {
   useDisplayNoneOnExit,
 } from "@animations";
 
-import User, { createEmptyUserObject } from "@models/user.model";
+import User, { createEmptyUserObject } from "@models/user/user.model";
 
 import {
   useValidateFullname,
@@ -164,6 +164,7 @@ const Register: NextPage = () => {
               label="Full name"
               placeholder="Enter full name"
               prependIcon="las la-id-card"
+              value={user?.fullname}
               onChange={onFullnameChange}
               validate
               validator={useValidateFullname}
@@ -177,6 +178,7 @@ const Register: NextPage = () => {
               placeholder="Enter username"
               className="mt-4"
               prependIcon="lar la-user"
+              value={user?.username}
               onChange={onUsernameChange}
               validate
               validator={useValidateUsername}
@@ -190,6 +192,7 @@ const Register: NextPage = () => {
               placeholder="Enter e-mail"
               className="mt-4"
               prependIcon="lar la-envelope"
+              value={user?.email}
               onChange={onEmailChange}
               validate
               validator={useValidateEmail}
@@ -201,13 +204,14 @@ const Register: NextPage = () => {
               id="password"
               label="Password"
               placeholder="Enter password"
-              type={InptType.PASSWORD}
+              type={InputType.PASSWORD}
               className="mt-4"
               prependIcon="las la-unlock-alt"
               appendIcon={isPasswordVisible ? "lar la-eye" : "lar la-eye-slash"}
               appendIconClicable
               onAppendIconClick={() => onTogglePasswordVisibilityClick()}
               appendIconActive={isPasswordVisible}
+              value={user?.password}
               onChange={onPasswordChange}
               validate
               validator={useValidatePassword}
@@ -219,7 +223,7 @@ const Register: NextPage = () => {
               id="confirmation_passwprd"
               label="Password confirmation"
               placeholder="Confirm password"
-              type={InptType.PASSWORD}
+              type={InputType.PASSWORD}
               className="mt-4"
               prependIcon="las la-unlock-alt"
               appendIcon={
@@ -230,6 +234,7 @@ const Register: NextPage = () => {
                 onToggleConfirmationPasswordVisibilityClick()
               }
               appendIconActive={isConfirmPasswordVisible}
+              value={user?.confirmationPassword}
               onChange={onConfirmationPasswordChange}
               validate
               validator={useValidateConfirmationPassword}

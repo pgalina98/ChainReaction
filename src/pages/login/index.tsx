@@ -22,7 +22,7 @@ import {
 } from "@components";
 import { useToast } from "@components/hooks/useToast";
 
-import { InptType } from "@enums/input-type";
+import { InputType } from "@enums/input-type";
 import { ButtonType } from "@enums/button-type";
 import { ToastType } from "@enums/toast-type";
 import { LocalStorageKeys } from "@enums/local-storage-keys";
@@ -38,8 +38,8 @@ import {
   useDisplayNoneOnExit,
 } from "@animations";
 
-import User, { createEmptyUserObject } from "@models/user.model";
-import JwtToken from "@models/jwt-token.model";
+import User, { createEmptyUserObject } from "@models/user/user.model";
+import JwtToken from "@models/jwt-token/jwt-token.model";
 
 import {
   useValidatePassword,
@@ -210,6 +210,7 @@ const Login: NextPage = () => {
               label="Username"
               placeholder="Enter username"
               prependIcon="lar la-user"
+              value={user?.username}
               onChange={onUsernameChange}
               validate
               validator={useValidateUsername}
@@ -218,13 +219,14 @@ const Login: NextPage = () => {
               id="password"
               label="Password"
               placeholder="Enter password"
-              type={InptType.PASSWORD}
+              type={InputType.PASSWORD}
               className="mt-4"
               prependIcon="las la-unlock-alt"
               appendIcon={isPasswordVisible ? "lar la-eye" : "lar la-eye-slash"}
               appendIconClicable
               onAppendIconClick={() => onTogglePasswordVisibilityButtonClick()}
               appendIconActive={isPasswordVisible}
+              value={user?.password}
               onChange={onPasswordChange}
               validate
               validator={useValidatePassword}

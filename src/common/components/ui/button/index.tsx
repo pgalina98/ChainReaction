@@ -13,6 +13,7 @@ interface ButtonProps {
   rounded?: boolean;
   prependIcon?: string;
   appendIcon?: string;
+  iconSize?: string;
   isLoading?: boolean;
   isDisabled?: boolean;
   isHidden?: boolean;
@@ -26,6 +27,7 @@ const Button = ({
   rounded = false,
   prependIcon,
   appendIcon,
+  iconSize = "text-lg",
   isLoading = false,
   isDisabled = false,
   isHidden = false,
@@ -97,9 +99,13 @@ const Button = ({
           <span>{label}</span>
         ) : (
           <span className="flex items-center justify-between">
-            {prependIcon && <span className={`${prependIcon} text-lg`}></span>}
+            {prependIcon && (
+              <span className={`${prependIcon} ${iconSize}`}></span>
+            )}
             <span>{label}</span>
-            {appendIcon && <span className={`${appendIcon} text-lg`}></span>}
+            {appendIcon && (
+              <span className={`${appendIcon} ${iconSize}`}></span>
+            )}
           </span>
         )
       ) : (

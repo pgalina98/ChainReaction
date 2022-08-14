@@ -2,20 +2,21 @@ import { Variants } from "framer-motion";
 
 interface UseLazyLoadCardProps {
   isLoading?: boolean;
+  duration?: number;
+  delay?: number;
 }
 
 const useLazyLoadImage = ({
-  isLoading = true,
+  isLoading = false,
+  duration = 0.4,
+  delay = 0.5,
 }: UseLazyLoadCardProps): Variants => {
   return {
-    initial: { height: "16rem", opacity: 0 },
+    initial: { height: "2rem", opacity: 0 },
     animate: {
-      height: isLoading ? "16rem" : "auto",
+      height: isLoading ? "2rem" : "auto",
       opacity: isLoading ? 0 : 1,
-    },
-    transition: {
-      height: "delay: 0, duration: 0.4",
-      opacity: "delay: 0.5, duration: 0.4",
+      transition: { duration, delay },
     },
   };
 };

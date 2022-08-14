@@ -4,8 +4,8 @@ import dayjs from "@utils/dayjs";
 
 import { ProductSize } from "@enums/product-size";
 
-import Product from "@models/product.model";
-import Location from "@models/location.model";
+import Product from "@models/product/product.model";
+import Location from "@models/location/location.model";
 
 export default interface RentForm {
   idUser: number;

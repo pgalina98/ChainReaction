@@ -1,4 +1,4 @@
-import User, { createEmptyUserObjectWithoutPassword } from "@models/user.model";
+import User, { createEmptyUserObjectWithoutPassword } from "@models/user/user.model";
 
 const mapJwtClaimsToUserObject = (jwtClaims: any): User => {
   const user: User = createEmptyUserObjectWithoutPassword();

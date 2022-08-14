@@ -1,6 +1,6 @@
 import { useMutation } from "react-query";
 
-import User from "@models/user.model";
+import User from "@models/user/user.model";
 
 import { registerUser } from "../queries/index";
 

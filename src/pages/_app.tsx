@@ -15,12 +15,17 @@ import jwtDecode from "jwt-decode";
 
 import { connect } from "@config/websocket-middleware";
 
-import User from "@models/user.model";
+import User from "@models/user/user.model";
 
 import { LocalStorageKeys } from "@enums/local-storage-keys";
 import { getAuthorityByKey } from "@enums/authority";
 
-import { clearAuthenticationToken, getValueByKey } from "@utils/local-storage";
+import {
+  clearAuthenticationToken,
+  getValueByKey,
+  setValue,
+} from "@utils/local-storage";
+import { createInitPagination } from "@utils/pagination";
 
 import { login } from "@features/authentication/authentication-slice";
 
@@ -47,6 +52,10 @@ const ComponentWrapper = ({ children }) => {
             ...user,
             authority: getAuthorityByKey(jwtClaims["authorities"]),
           })
+        );
+        setValue(
+          LocalStorageKeys.PAGING_SETTINGS,
+          JSON.stringify(createInitPagination())
         );
 
         connect(user?.id!);

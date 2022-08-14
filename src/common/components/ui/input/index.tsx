@@ -4,7 +4,7 @@ import { Tooltip } from "@components";
 
 import { ValidationResult } from "common/types/validation-result.type";
 
-import { InptType } from "@enums/input-type";
+import { InputType } from "@enums/input-type";
 
 import { declassify, isNullOrUndefined } from "@utils/common";
 
@@ -14,7 +14,7 @@ interface InputProps {
   id: string;
   className?: string;
   label?: string;
-  type?: InptType;
+  type?: InputType;
   placeholder?: string;
   prependIcon?: string;
   appendIcon?: string;
@@ -22,6 +22,7 @@ interface InputProps {
   onAppendIconClick?: any;
   appendIconActive?: boolean;
   mirroredIcon?: boolean;
+  value?: string;
   onChange?: any;
   validate?: boolean;
   validator?: any;
@@ -34,7 +35,7 @@ const Input = ({
   id,
   className,
   label,
-  type = InptType.TEXT,
+  type = InputType.TEXT,
   placeholder,
   prependIcon,
   appendIcon,
@@ -42,6 +43,7 @@ const Input = ({
   onAppendIconClick,
   appendIconActive = false,
   mirroredIcon = false,
+  value,
   onChange,
   validate = false,
   validator,
@@ -110,7 +112,7 @@ const Input = ({
         <input
           id={`inputField_${id}`}
           type={
-            type === InptType.PASSWORD && !appendIconActive
+            type === InputType.PASSWORD && !appendIconActive
               ? "password"
               : "text"
           }
@@ -121,6 +123,7 @@ const Input = ({
             { "pl-10": !isNullOrUndefined(prependIcon) }
           )}
           placeholder={placeholder || ""}
+          value={value || ""}
           onChange={({ target: { value } }) => onInputFieldChange(value)}
           disabled={isDisabled}
         />

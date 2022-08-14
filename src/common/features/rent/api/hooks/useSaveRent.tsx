@@ -1,4 +1,4 @@
-import RentForm from "@models/rent.model";
+import RentForm from "@models/rent/rent.model";
 
 import { useMutation } from "react-query";
 

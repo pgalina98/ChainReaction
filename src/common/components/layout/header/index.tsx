@@ -135,36 +135,30 @@ const Header = ({
           variants={useFadeInOutTopVariants({ duration: 0.5 })}
           className="space-x-12 ml-16 mr-16"
         >
-          <Link href="/">
-            <span
-              className={declassify("cursor-pointer hover:border-b-2", {
-                "border-b-2 text-white": activeTab === MenuItem.BIKES,
-              })}
-              onClick={() => onMenuItemChange(MenuItem.BIKES)}
-            >
-              Bikes
-            </span>
-          </Link>
-          <Link href="/">
-            <span
-              className={declassify("cursor-pointer hover:border-b-2", {
-                "border-b-2 text-white": activeTab === MenuItem.ACCESSORIES,
-              })}
-              onClick={() => onMenuItemChange(MenuItem.ACCESSORIES)}
-            >
-              Accessories
-            </span>
-          </Link>
-          <Link href="/">
-            <span
-              className={declassify("cursor-pointer hover:border-b-2", {
-                "border-b-2 text-white": activeTab === MenuItem.SERVICES,
-              })}
-              onClick={() => onMenuItemChange(MenuItem.SERVICES)}
-            >
-              Services
-            </span>
-          </Link>
+          <span
+            className={declassify("cursor-pointer hover:border-b-2", {
+              "border-b-2 text-white": activeTab === MenuItem.BIKES,
+            })}
+            onClick={() => onMenuItemChange(MenuItem.BIKES)}
+          >
+            Bikes
+          </span>
+          <span
+            className={declassify("cursor-pointer hover:border-b-2", {
+              "border-b-2 text-white": activeTab === MenuItem.ACCESSORIES,
+            })}
+            onClick={() => onMenuItemChange(MenuItem.ACCESSORIES)}
+          >
+            Accessories
+          </span>
+          <span
+            className={declassify("cursor-pointer hover:border-b-2", {
+              "border-b-2 text-white": activeTab === MenuItem.SERVICES,
+            })}
+            onClick={() => onMenuItemChange(MenuItem.SERVICES)}
+          >
+            Services
+          </span>
         </motion.div>
         <motion.div
           {...(animated && {

@@ -1,5 +1,5 @@
-import ProductColor from "@models/product-color.model";
-import ProductType from "@models/product-type.model";
+import ProductColor from "@models/product/product-color.model";
+import ProductType from "@models/product/product-type.model";
 
 export default interface Product {
   idProduct: number;

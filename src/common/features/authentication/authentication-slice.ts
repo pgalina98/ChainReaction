@@ -1,12 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
-import User, { createEmptyUserObjectWithoutPassword } from "@models/user.model";
+import User, {
+  createEmptyUserObjectWithoutPassword,
+} from "@models/user/user.model";
 
 import { Authority } from "@enums/authority";
 
 import { clearAuthenticationToken } from "@utils/local-storage";
-import { stat } from "fs/promises";
 
 export interface AuthenticationState extends User {
   authority: Authority;

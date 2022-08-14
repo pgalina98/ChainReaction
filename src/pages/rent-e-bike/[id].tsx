@@ -40,9 +40,9 @@ import { ProductType } from "@enums/product-type";
 import { ToastType } from "@enums/toast-type";
 import { AlertType } from "@enums/alert-type";
 
-import Product from "@models/product.model";
-import Rent, { createEmptyRentFormObject } from "@models/rent.model";
-import Location from "@models/location.model";
+import Product from "@models/product/product.model";
+import Rent, { createEmptyRentFormObject } from "@models/rent/rent.model";
+import Location from "@models/location/location.model";
 
 import { RootState } from "@store/index";
 
@@ -170,6 +170,7 @@ const ChooseLocation = ({ selectedLocation, setSelectedLocation }) => {
   }, [data]);
 
   if (isLoading) return <Loader withLabel={false} />;
+
   return (
     <div className="mt-4">
       <p className="font-medium text-2xl">Choose location</p>
