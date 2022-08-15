@@ -84,7 +84,7 @@ const ProductCard = ({ className, product }: ProductCardProps) => {
               onClick={() => {}}
             />
           </div>
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-4">
             <Icon
               icon="las la-minus"
               className="p-2 rounded-md bg_blue-lighter cursor-pointer"
@@ -97,7 +97,7 @@ const ProductCard = ({ className, product }: ProductCardProps) => {
           </div>
         </div>
         <div className="flex justify-between items-center mt-8">
-          <span className="text-2xl font-semibold text-gray-900 dark:text-white">
+          <span className="text-3xl font-semibold text-gray-900 dark:text-white">
             ${product?.price}
           </span>
           <Button

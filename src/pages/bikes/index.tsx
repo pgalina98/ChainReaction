@@ -99,7 +99,7 @@ const Bikes: NextPage = () => {
         />
         <div
           className={declassify(
-            `${styles.h_full} w-full p-8 pb-20 grid grid-cols-3 gap-4 overflow-auto`,
+            `${styles.h_full} w-full p-8 pt-4 pb-20 grid grid-cols-3 gap-4 overflow-auto`,
             {
               "grid-cols-4": !isFilterBoxOpen,
             }
