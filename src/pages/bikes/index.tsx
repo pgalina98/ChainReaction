@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 
+import { motion } from "framer-motion";
+
 import { NextPage } from "next";
 
 import { declassify } from "@utils/common";
@@ -16,6 +18,11 @@ import ProductColor from "@models/product/product-color.model";
 import Pagination from "@models/pagination/pagination.model";
 import ProductPage from "@models/product/product-page.model";
 import Product from "@models/product/product.model";
+
+import {
+  useFadeInOutLeftVariants,
+  useFadeInOutRightVariants,
+} from "@animations";
 
 import { Filter, Header, Icon, LoadingOverlay, ProductCard } from "@components";
 
@@ -83,12 +90,16 @@ const Bikes: NextPage = () => {
             hidden: isFilterBoxOpen,
           })}
         >
-          <div
+          <motion.div
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            variants={useFadeInOutLeftVariants({ duration: 0.5 })}
             className="w-20 h-12 absolute -left-5 flex items-center justify-center p-2 bg_white rounded-full cursor-pointer"
             onClick={() => setIsFilterBoxOpen(true)}
           >
             <Icon className="ml-3 text-2xl" icon="las la-filter" />
-          </div>
+          </motion.div>
         </div>
         <Filter
           isOpen={isFilterBoxOpen}
@@ -97,7 +108,14 @@ const Bikes: NextPage = () => {
           onFilterValueChange={onFilterValueChange}
           onResetButtonClick={onResetButtonClick}
         />
-        <div
+        <motion.div
+          initial="initial"
+          animate="animate"
+          exit="exit"
+          variants={useFadeInOutRightVariants({
+            duration: 0.75,
+            delay: 0.25,
+          })}
           className={declassify(
             `${styles.h_full} w-full p-8 pt-4 pb-20 grid grid-cols-3 gap-4 overflow-auto`,
             {
@@ -108,7 +126,7 @@ const Bikes: NextPage = () => {
           {distinctByModel(productPage?.products!).map((product, index) => (
             <ProductCard key={index} product={product} />
           ))}
-        </div>
+        </motion.div>
       </div>
     </div>
   );
