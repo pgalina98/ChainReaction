@@ -24,7 +24,14 @@ import {
   useFadeInOutRightVariants,
 } from "@animations";
 
-import { Filter, Header, Icon, LoadingOverlay, ProductCard } from "@components";
+import {
+  Filter,
+  Header,
+  Icon,
+  LoadingOverlay,
+  ProductCard,
+  Pagination as Paginator,
+} from "@components";
 
 import { getValueByKey } from "@utils/local-storage";
 
@@ -84,7 +91,7 @@ const Bikes: NextPage = () => {
   return (
     <div className="h-full">
       <Header animated showMenu backgroundColor="split" />
-      <div className="h-screen bg_split flex">
+      <div className="h-screen bg_split flex relative">
         <div
           className={declassify(`h-full w-16`, {
             hidden: isFilterBoxOpen,
@@ -117,7 +124,7 @@ const Bikes: NextPage = () => {
             delay: 0.25,
           })}
           className={declassify(
-            `${styles.h_full} w-full p-8 pt-4 pb-20 grid grid-cols-3 gap-4 overflow-auto`,
+            `${styles.h_full} w-full p-8 pt-4 pb-16 grid grid-cols-3 gap-4 overflow-auto`,
             {
               "grid-cols-4": !isFilterBoxOpen,
             }
@@ -128,6 +135,7 @@ const Bikes: NextPage = () => {
           ))}
         </motion.div>
       </div>
+      <Paginator className="absolute bottom-5 pl-24 pr-10" />
     </div>
   );
 };

@@ -21,3 +21,4 @@ export { default as Filter } from "common/components/ui/filter";
 export { default as Checkbox } from "common/components/ui/checkbox";
 export { default as RangeSlider } from "common/components/ui/range-slider";
 export { default as ProductCard } from "common/components/ui/cards/product-card";
+export { default as Pagination } from "common/components/ui/pagination";
