@@ -133,7 +133,7 @@ const Filter = ({
             <Checkbox
               className="mt-2"
               label="Scott"
-              additionalText="Model E-MTB available."
+              additionalText="Model Ransom available."
               isChecked={productFilter?.brands?.includes("Scott")!}
               onChange={(value) => {
                 if (productFilter?.brands?.includes(value)) {
