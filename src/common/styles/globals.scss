@@ -82,6 +82,10 @@ a {
   background-color: $blue;
 }
 
+.bg_blue-lighter {
+  background-color: $blue-lighter;
+}
+
 .bg_split {
   background: linear-gradient(90deg, $primary 50%, $brown 50%);
 }
