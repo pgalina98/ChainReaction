@@ -112,7 +112,7 @@ const Header = ({
       </div>
       <BarsIcon
         className={declassify(
-          " absolute left-1/2 top-14 transform -translate-x-1/2 z-20",
+          "absolute left-1/2 top-14 transform -translate-x-1/2 z-20",
           { visible: showMenu },
           { invisible: !showMenu }
         )}
