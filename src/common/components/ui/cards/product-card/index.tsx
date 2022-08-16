@@ -2,14 +2,17 @@ import React, { useState } from "react";
 
 import Image from "next/image";
 
-import { getProductColorValue, ProductColor } from "@enums/product-color";
+import { ProductColor } from "@enums/product-color";
+import { LocalStorageKeys } from "@enums/local-storage-keys";
 
 import Product from "@models/product/product.model";
 
 import { Button, Icon, ColorPickerIcon } from "@components";
 
+import { declassify, isNull } from "@utils/common";
+import { getValueByKey, setValue } from "@utils/local-storage";
+
 import styles from "./product-card.module.scss";
-import { declassify } from "@utils/common";
 
 interface ProductCardProps {
   className?: string;
@@ -17,10 +20,19 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ className, product }: ProductCardProps) => {
-  const [selectedQuantity, setSelectedQuantity] = useState<number>(1);
+  const [quantity, setQuantity] = useState<number>(1);
 
   const isAvailable = (): boolean => {
     return product?.availableQuantity! > 0;
+  };
+
+  const onAddToCartButtonClick = (): void => {
+    const cart = JSON.parse(getValueByKey(LocalStorageKeys.CART)!) || [];
+
+    setValue(
+      LocalStorageKeys.CART,
+      JSON.stringify([...cart, { ...product, quantity }])
+    );
   };
 
   return (
@@ -73,7 +85,7 @@ const ProductCard = ({ className, product }: ProductCardProps) => {
               { "bg-red-400": !isAvailable() }
             )}
           >
-            {`${product?.availableQuantity} available`}
+            {isAvailable() ? `${product?.availableQuantity} available` : "Out of Stock"}
           </div>
         </div>
         <div className="flex items-center justify-between mt-3">
@@ -105,30 +117,27 @@ const ProductCard = ({ className, product }: ProductCardProps) => {
               isDisabled={!isAvailable()}
               className={declassify(
                 `p-2 rounded-md bg_blue-lighter cursor-pointer`,
-                { "cursor-not-allowed": selectedQuantity === 1 }
+                { "cursor-not-allowed": quantity === 1 }
               )}
               onClick={() => {
-                if (selectedQuantity !== 1) {
-                  setSelectedQuantity(selectedQuantity - 1);
+                if (quantity !== 1) {
+                  setQuantity(quantity - 1);
                 }
               }}
             />
-            <div className={`${styles.min_w_12} text-xl`}>
-              {selectedQuantity}
-            </div>
+            <div className={`${styles.min_w_12} text-xl`}>{quantity}</div>
             <Icon
               icon="las la-plus"
               isDisabled={!isAvailable()}
               className={declassify(
                 `p-2 rounded-md bg_blue-lighter cursor-pointer`,
                 {
-                  "cursor-not-allowed":
-                    selectedQuantity === product?.availableQuantity,
+                  "cursor-not-allowed": quantity === product?.availableQuantity,
                 }
               )}
               onClick={() => {
-                if (selectedQuantity !== product?.availableQuantity) {
-                  setSelectedQuantity(selectedQuantity + 1);
+                if (quantity !== product?.availableQuantity) {
+                  setQuantity(quantity + 1);
                 }
               }}
             />
@@ -144,7 +153,7 @@ const ProductCard = ({ className, product }: ProductCardProps) => {
             appendIcon="las la-cart-plus ml-2"
             iconSize="text-2xl"
             isDisabled={!isAvailable()}
-            onClick={() => {}}
+            onClick={onAddToCartButtonClick}
           />
         </div>
       </div>

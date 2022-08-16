@@ -3,4 +3,5 @@ export enum LocalStorageKeys {
   REFRESH_TOKEN = "refreshToken",
   ACTIVE_TAB = "activeTab",
   PAGING_SETTINGS = "pagingSettings",
+  CART = "cart",
 }
