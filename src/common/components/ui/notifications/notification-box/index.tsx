@@ -27,7 +27,7 @@ import useDeleteNotificationsByIdUser from "@features/notification/api/hooks/use
 import styles from "./notification-box.module.scss";
 import useDeleteNotificationById from "@features/notification/api/hooks/useDeleteNotificationById";
 
-interface NotificationBoxProps extends RootState {
+interface NotificationBoxProps extends StateProps {
   className?: string;
   isOpen: boolean;
   toggleNotificationBox: any;
@@ -155,5 +155,7 @@ export const NotificationBox = ({
 const mapStateToProps = ({ authentication }: RootState) => ({
   authentication,
 });
+
+type StateProps = ReturnType<typeof mapStateToProps>;
 
 export default connect(mapStateToProps)(NotificationBox);

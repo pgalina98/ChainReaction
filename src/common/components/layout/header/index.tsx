@@ -26,7 +26,7 @@ import { receiveWebSocketMessage } from "@config/websocket-middleware";
 
 import styles from "./header.module.scss";
 
-interface HeaderProps extends RootState {
+interface HeaderProps extends StateProps {
   animated?: boolean;
   showMenu: boolean;
   backgroundColor?: "singleColor" | "split";
@@ -195,5 +195,7 @@ const Header = ({
 const mapStateToProps = ({ authentication }: RootState) => ({
   authentication,
 });
+
+type StateProps = ReturnType<typeof mapStateToProps>;
 
 export default connect(mapStateToProps)(Header);

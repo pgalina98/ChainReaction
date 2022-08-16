@@ -20,18 +20,14 @@ import User from "@models/user/user.model";
 import { LocalStorageKeys } from "@enums/local-storage-keys";
 import { getAuthorityByKey } from "@enums/authority";
 
-import {
-  clearAuthenticationToken,
-  getValueByKey,
-  setValue,
-} from "@utils/local-storage";
-import { createInitPagination } from "@utils/pagination";
+import { clearAuthenticationToken, getValueByKey } from "@utils/local-storage";
 
 import { login } from "@features/authentication/authentication-slice";
 
 import mapJwtClaimsToUserObject from "@mappers/mapJwtClaimsToUserObject";
 
 import "common/styles/globals.scss";
+import { setItems } from "@features/cart/cart-slice";
 
 const queryClient = new QueryClient();
 
@@ -53,15 +49,17 @@ const ComponentWrapper = ({ children }) => {
             authority: getAuthorityByKey(jwtClaims["authorities"]),
           })
         );
-        setValue(
-          LocalStorageKeys.PAGING_SETTINGS,
-          JSON.stringify(createInitPagination())
-        );
 
         connect(user?.id!);
       } catch (error) {
         clearAuthenticationToken();
       }
+    }
+
+    if (!!getValueByKey(LocalStorageKeys.CART)) {
+      const cart: any = getValueByKey(LocalStorageKeys.CART);
+
+      dispatch(setItems(cart));
     }
   }, []);
 

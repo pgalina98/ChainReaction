@@ -48,6 +48,8 @@ import {
 
 import { isEmpty, isNullOrUndefined, toBoolean } from "@utils/common";
 import { setValue } from "@utils/local-storage";
+import { createInitPagination } from "@utils/pagination";
+import { createInitCart } from "@utils/cart";
 
 import useAuthenticateUser from "@features/authentication/api/hooks/useAuthenticateUser";
 import { login } from "@features/authentication/authentication-slice";
@@ -100,6 +102,10 @@ const Login: NextPage = () => {
         LocalStorageKeys.REFRESH_TOKEN,
         (data.data as JwtToken).refreshToken
       );
+      setValue(
+        LocalStorageKeys.PAGING_SETTINGS,
+        JSON.stringify(createInitPagination())
+      );
 
       const jwtClaims: any = jwtDecode(
         (data.data as JwtToken).authenticationToken
@@ -112,6 +118,15 @@ const Login: NextPage = () => {
           ...user,
           authority: getAuthorityByKey(jwtClaims["authorities"]),
         })
+      );
+
+      setValue(
+        LocalStorageKeys.PAGING_SETTINGS,
+        JSON.stringify(createInitPagination())
+      );
+      setValue(
+        LocalStorageKeys.CART,
+        JSON.stringify(createInitCart(user?.id!))
       );
 
       router.push("/");

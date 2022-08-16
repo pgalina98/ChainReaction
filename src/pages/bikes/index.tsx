@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 
+import { connect } from "react-redux";
+
 import { motion } from "framer-motion";
 
 import { NextPage } from "next";
@@ -22,6 +24,8 @@ import ProductType from "@models/product/product-type.model";
 import ProductColor from "@models/product/product-color.model";
 import Pagination from "@models/pagination/pagination.model";
 import ProductPage from "@models/product/product-page.model";
+
+import { RootState } from "@store/index";
 
 import {
   useFadeInOutLeftVariants,
@@ -47,7 +51,9 @@ import useFetchProductsByFilter from "@features/order/api/hooks/useFetchProductB
 
 import styles from "./bikes.module.scss";
 
-const Bikes: NextPage = () => {
+interface BikesProps extends StateProps {}
+
+const Bikes = ({ cart }: BikesProps) => {
   const [isShown, setIsShown] = useToast({ duration: 4000 });
 
   const [isFilterBoxOpen, setIsFilterBoxOpen] = useState<boolean>(false);
@@ -81,6 +87,10 @@ const Bikes: NextPage = () => {
   useEffect(() => {
     setIsShown(isError);
   }, [isError]);
+
+  useEffect(() => {
+    // TODO -> implement logic for items in cart detection
+  }, [cart]);
 
   const onFilterValueChange = (
     key: ProductFilterKeys,
@@ -191,4 +201,10 @@ const Bikes: NextPage = () => {
   );
 };
 
-export default Bikes;
+const mapStateToProps = ({ cart }: RootState) => ({
+  cart,
+});
+
+type StateProps = ReturnType<typeof mapStateToProps>;
+
+export default connect(mapStateToProps)(Bikes);

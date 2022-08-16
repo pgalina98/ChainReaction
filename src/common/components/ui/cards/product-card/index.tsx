@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 
+import { useDispatch } from "react-redux";
+
 import Image from "next/image";
 
 import { ProductColor } from "@enums/product-color";
@@ -9,10 +11,11 @@ import Product from "@models/product/product.model";
 
 import { Button, Icon, ColorPickerIcon } from "@components";
 
-import { declassify, isNull } from "@utils/common";
+import { declassify } from "@utils/common";
 import { getValueByKey, setValue } from "@utils/local-storage";
 
 import styles from "./product-card.module.scss";
+import { addItem } from "@features/cart/cart-slice";
 
 interface ProductCardProps {
   className?: string;
@@ -20,6 +23,8 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ className, product }: ProductCardProps) => {
+  const dispatch = useDispatch();
+
   const [quantity, setQuantity] = useState<number>(1);
 
   const isAvailable = (): boolean => {
@@ -27,12 +32,7 @@ const ProductCard = ({ className, product }: ProductCardProps) => {
   };
 
   const onAddToCartButtonClick = (): void => {
-    const cart = JSON.parse(getValueByKey(LocalStorageKeys.CART)!) || [];
-
-    setValue(
-      LocalStorageKeys.CART,
-      JSON.stringify([...cart, { ...product, quantity }])
-    );
+    dispatch(addItem({ ...product!, quantity }));
   };
 
   return (
@@ -85,7 +85,9 @@ const ProductCard = ({ className, product }: ProductCardProps) => {
               { "bg-red-400": !isAvailable() }
             )}
           >
-            {isAvailable() ? `${product?.availableQuantity} available` : "Out of Stock"}
+            {isAvailable()
+              ? `${product?.availableQuantity} available`
+              : "Out of Stock"}
           </div>
         </div>
         <div className="flex items-center justify-between mt-3">

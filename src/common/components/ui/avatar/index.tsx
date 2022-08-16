@@ -14,7 +14,7 @@ import { declassify } from "@utils/common";
 
 import { disconnect } from "@config/websocket-middleware";
 
-interface AvatarProps extends RootState {
+interface AvatarProps extends StateProps {
   className?: string;
   withDropdown: boolean;
 }
@@ -103,5 +103,7 @@ const Avatar = ({
 const mapStateToProps = ({ authentication }: RootState) => ({
   authentication,
 });
+
+type StateProps = ReturnType<typeof mapStateToProps>;
 
 export default connect(mapStateToProps)(Avatar);
