@@ -9,6 +9,9 @@ import { declassify } from "@utils/common";
 import { ProductFilterKeys } from "@enums/product-filter-keys";
 import { LocalStorageKeys } from "@enums/local-storage-keys";
 import { ProductType as ProductTypes } from "@enums/product-type";
+import { ToastType } from "@enums/toast-type";
+
+import { messages } from "@constants/messages";
 
 import ProductFilter, {
   createInitProductFilter,
@@ -17,7 +20,6 @@ import ProductType from "@models/product/product-type.model";
 import ProductColor from "@models/product/product-color.model";
 import Pagination from "@models/pagination/pagination.model";
 import ProductPage from "@models/product/product-page.model";
-import Product from "@models/product/product.model";
 
 import {
   useFadeInOutLeftVariants,
@@ -32,7 +34,9 @@ import {
   LoadingOverlay,
   ProductCard,
   Pagination as Paginator,
+  Toast,
 } from "@components";
+import { useToast } from "@components/hooks/useToast";
 
 import { getValueByKey } from "@utils/local-storage";
 
@@ -41,6 +45,8 @@ import useFetchProductsByFilter from "@features/order/api/hooks/useFetchProductB
 import styles from "./bikes.module.scss";
 
 const Bikes: NextPage = () => {
+  const [isShown, setIsShown] = useToast({ duration: 4000 });
+
   const [isFilterBoxOpen, setIsFilterBoxOpen] = useState<boolean>(false);
 
   const [productPage, setProductPage] = useState<ProductPage>();
@@ -58,7 +64,7 @@ const Bikes: NextPage = () => {
     data,
     error,
     mutate: refetch,
-  } = useFetchProductsByFilter([ProductTypes.BIKE, ProductTypes.E_BIKE]);
+  } = useFetchProductsByFilter([ProductTypes.E_BIKE, ProductTypes.BIKE]);
 
   useEffect(() => {
     refetch({ pagination, productFilter });
@@ -69,6 +75,10 @@ const Bikes: NextPage = () => {
     setPagination({ ...pagination, totalElements: data?.data?.totalElements });
   }, [data]);
 
+  useEffect(() => {
+    setIsShown(isError);
+  }, [isError]);
+
   const onFilterValueChange = (
     key: ProductFilterKeys,
     value: string | string[] | ProductType[] | ProductColor[] | number
@@ -78,18 +88,11 @@ const Bikes: NextPage = () => {
 
   const onPageChange = (page: number): void => {
     setPagination({ ...pagination, page });
+    refetch({ pagination: { ...pagination, page }, productFilter });
   };
 
   const onResetButtonClick = (): void => {
     setProductFilter(createInitProductFilter());
-  };
-
-  const distinctByModel = (products: Product[]): Product[] => {
-    return [
-      ...new Map(
-        products?.map((product) => [product["model"], product])
-      ).values(),
-    ];
   };
 
   if (isLoading) return <LoadingOverlay />;
@@ -98,6 +101,16 @@ const Bikes: NextPage = () => {
     <div className="h-full">
       <Header animated showMenu backgroundColor="split" />
       <div className="h-screen bg_split flex relative">
+        {isError && (
+          <Toast
+            type={ToastType.DANGER}
+            message={
+              error.response.data?.message || messages.INTERNAL_SERVER_ERROR
+            }
+            isShown={isShown}
+            hideToast={() => setIsShown(false)}
+          />
+        )}
         <div
           className={declassify(`h-full w-16`, {
             hidden: isFilterBoxOpen,
@@ -130,13 +143,13 @@ const Bikes: NextPage = () => {
             delay: 0.25,
           })}
           className={declassify(
-            `${styles.h_full} w-full p-8 pt-4 pb-16 grid grid-cols-3 gap-4 overflow-auto`,
+            `${styles.h_full} w-full p-8 pt-4 pb-20 grid grid-cols-3 gap-4 overflow-auto`,
             {
               "grid-cols-4": !isFilterBoxOpen,
             }
           )}
         >
-          {distinctByModel(productPage?.products!).map((product, index) => (
+          {productPage?.products?.map((product, index) => (
             <ProductCard key={index} product={product} />
           ))}
         </motion.div>
@@ -149,7 +162,7 @@ const Bikes: NextPage = () => {
       >
         {pagination?.totalElements && (
           <Paginator
-            className="absolute bottom-5 pl-24 pr-10"
+            className="absolute bottom-5 pl-24 pr-10 pt-"
             pagination={pagination}
             onPageChange={onPageChange}
           />

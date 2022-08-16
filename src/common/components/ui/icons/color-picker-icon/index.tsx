@@ -1,13 +1,14 @@
 import React from "react";
 
 import { declassify } from "@utils/common";
+import { getProductColorId } from "@enums/product-color";
 
 interface ColorPickerIconProps {
   className?: string;
-  color: "WHITE" | "GRAY-LIGHT" | "GRAY-DARK" | "BLACK";
+  color: string;
   isSelected?: boolean;
   isAvailable?: boolean;
-  onClick: any;
+  onClick?: any;
 }
 
 const ColorPickerIcon = ({
@@ -33,7 +34,7 @@ const ColorPickerIcon = ({
   };
 
   const onIconClick = (): void => {
-    onClick(color);
+    onClick(getProductColorId(color));
   };
 
   return (

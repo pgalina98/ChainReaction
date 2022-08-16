@@ -136,8 +136,5 @@ export function isEqual(value: string, valueForComparison: string): boolean {
 }
 
 export function range(from: number, to: number) {
-  console.log("from: ", from);
-  console.log("to: ", to);
-
   return new Array(to - from + 1).fill(null).map((_, index) => index + from);
 }

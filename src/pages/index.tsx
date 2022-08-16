@@ -61,7 +61,7 @@ const Home: NextPage = () => {
   }, []);
 
   useEffect(() => {
-    setEBikes(data?.data);
+    setEBikes(data?.data.filter((bike) => bike.name === "Cowboy"));
     setSelectedBike(
       data?.data.find(
         (eBike: Product) =>
@@ -154,7 +154,7 @@ const Home: NextPage = () => {
               <div className="text-6xl max-w-lg ml-16">
                 {selectedBike?.description}
                 <span className="text-4xl font-thin font_secondary">
-                  &nbsp;Cowboy. {selectedBike?.model}
+                  &nbsp;{selectedBike?.name}. {selectedBike?.model}
                 </span>
               </div>
             </motion.div>

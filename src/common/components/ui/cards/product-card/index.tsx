@@ -16,10 +16,6 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ className, product }: ProductCardProps) => {
-  const [selectedColor, setSelectedColor] = useState<string>(
-    getProductColorValue(ProductColor.BLACK)!
-  );
-
   return (
     <div
       className={`${className} ${styles.card} w-full max-w-sm bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 py-4 px-2 relative`}
@@ -63,25 +59,24 @@ const ProductCard = ({ className, product }: ProductCardProps) => {
         <div className="flex items-center justify-between mt-3">
           <div className="flex flex-row w-40 space-x-6">
             <ColorPickerIcon
-              className="cursor-pointer border-2 border-gray-300"
+              className="border-2 border-gray-300"
               color="WHITE"
-              isSelected={selectedColor === "WHITE"}
-              isAvailable={true}
-              onClick={() => {}}
+              isSelected={product?.color?.idProductColor === ProductColor.WHITE}
+              isAvailable={false}
             />
             <ColorPickerIcon
-              className="cursor-pointer border-2 border-gray-300"
+              className="border-2 border-gray-300"
               color="GRAY-DARK"
-              isSelected={selectedColor === "GRAY-DARK"}
+              isSelected={
+                product?.color?.idProductColor === ProductColor.GRAY_DARK
+              }
               isAvailable={false}
-              onClick={() => {}}
             />
             <ColorPickerIcon
-              className="cursor-pointer border-2 border-gray-300"
+              className="border-2 border-gray-300"
               color="BLACK"
-              isSelected={selectedColor === "BLACK"}
+              isSelected={product?.color?.idProductColor === ProductColor.BLACK}
               isAvailable={false}
-              onClick={() => {}}
             />
           </div>
           <div className="flex items-center space-x-4">
@@ -89,7 +84,7 @@ const ProductCard = ({ className, product }: ProductCardProps) => {
               icon="las la-minus"
               className="p-2 rounded-md bg_blue-lighter cursor-pointer"
             />
-            <div className={`${styles.min_w_12} text-xl`}>10</div>
+            <div className={`${styles.min_w_12} text-xl`}>1</div>
             <Icon
               icon="las la-plus"
               className="p-2 rounded-md bg_blue-lighter cursor-pointer"

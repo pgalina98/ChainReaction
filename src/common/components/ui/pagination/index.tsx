@@ -117,7 +117,9 @@ const Pagination = ({
         </span>{" "}
         to{" "}
         <span className="font-semibold text-white dark:text-white">
-          {pagination?.page * pagination?.size}
+          {pagination?.page * pagination?.size <= pagination.totalElements
+            ? pagination?.page * pagination?.size
+            : pagination.totalElements}
         </span>{" "}
         of{" "}
         <span className="font-semibold text-white dark:text-white">

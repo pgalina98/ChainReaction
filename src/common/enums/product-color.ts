@@ -35,3 +35,31 @@ export const getProductColorValue = (idProductColor: number): string | null => {
       return null;
   }
 };
+
+export const getProductColorId = (productColor: string): number | null => {
+  switch (productColor) {
+    case "WHITE":
+      return ProductColor.WHITE;
+
+    case "GRAY-DARK":
+      return ProductColor.GRAY_DARK;
+
+    case "BLACK":
+      return ProductColor.BLACK;
+
+    case "BLUE":
+      return ProductColor.BLUE;
+
+    case "ORANGE":
+      return ProductColor.ORANGE;
+
+    case "PINK":
+      return ProductColor.PINK;
+
+    case "YELLOW":
+      return ProductColor.YELLOW;
+
+    default:
+      return null;
+  }
+};
