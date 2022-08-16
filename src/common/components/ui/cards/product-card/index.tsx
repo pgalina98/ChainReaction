@@ -25,7 +25,7 @@ const ProductCard = ({ className, product }: ProductCardProps) => {
 
   return (
     <div
-      className={`${className} ${styles.card} w-full max-w-sm bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 py-4 px-2 relative`}
+      className={`${className} ${styles.card} w-full max-w-sm bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 py-4 px-2 relative hover:scale-105 cursor-pointer`}
     >
       <div className="absolute right-4 top-2 flex items-center mt-2.5 mb-5">
         <svg
