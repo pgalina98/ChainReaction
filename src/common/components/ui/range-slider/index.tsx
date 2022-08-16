@@ -19,6 +19,7 @@ const RangeSlider = ({
         min="0"
         max="12000"
         step="50"
+        value={selectedValue || 0}
         onChange={({ target: { value } }) => onChange(value)}
       />
       <div className="flex justify-between">

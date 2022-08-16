@@ -2,10 +2,12 @@ import React from "react";
 
 import { motion } from "framer-motion";
 
-import { declassify, toString } from "@utils/common";
+import { declassify, toNumber, toString } from "@utils/common";
 
 import { ButtonType } from "@enums/button-type";
 import { ProductFilterKeys } from "@enums/product-filter-keys";
+import { ProductType } from "@enums/product-type";
+import { ProductColor } from "@enums/product-color";
 
 import ProductFilter from "@models/product/product-filter.model";
 
@@ -21,8 +23,6 @@ import {
 import { useFadeInOutLeftVariants } from "@animations";
 
 import styles from "./filter.module.scss";
-import { ProductType } from "@enums/product-type";
-import { ProductColor } from "@enums/product-color";
 
 interface FilterProps {
   className?: string;
@@ -30,7 +30,8 @@ interface FilterProps {
   toggleFilterBox: any;
   productFilter: ProductFilter;
   onFilterValueChange: any;
-  onResetButtonClick?: any;
+  onApplyFiltersButtonClick: any;
+  onResetFiltersButtonClick?: any;
 }
 
 const Filter = ({
@@ -39,7 +40,8 @@ const Filter = ({
   toggleFilterBox,
   productFilter,
   onFilterValueChange,
-  onResetButtonClick,
+  onApplyFiltersButtonClick,
+  onResetFiltersButtonClick,
 }: FilterProps) => {
   return (
     <motion.div
@@ -79,12 +81,18 @@ const Filter = ({
             onFilterValueChange(ProductFilterKeys.KEYWORD, value)
           }
         />
-        <div className="mt-4 flex justify-end">
+        <div className="mt-4 flex justify-between">
+          <Button
+            label="Save filters"
+            className={styles.control_button}
+            type={ButtonType.DARK}
+            onClick={onApplyFiltersButtonClick}
+          />
           <Button
             label="Reset filters"
-            className={`${styles.reset_filters_button} px-2 py-0`}
+            className={styles.control_button}
             type={ButtonType.DARK}
-            onClick={onResetButtonClick}
+            onClick={onResetFiltersButtonClick}
           />
         </div>
         <div className="mt-2">
@@ -267,7 +275,7 @@ const Filter = ({
             className="mt-2"
             selectedValue={productFilter?.maxPrice!}
             onChange={(value) =>
-              onFilterValueChange(ProductFilterKeys.MAX_PRICE, value)
+              onFilterValueChange(ProductFilterKeys.MAX_PRICE, toNumber(value))
             }
           />
         </div>

@@ -1,3 +1,11 @@
 .h_full {
   height: calc(100vh - 80px);
 }
+
+.w_full_filter_opened {
+  width: calc(100vw - 350px);
+}
+
+.w_full_filter_closed {
+  width: calc(100vw - 115px);
+}

@@ -9,6 +9,7 @@ import Product from "@models/product/product.model";
 import { Button, Icon, ColorPickerIcon } from "@components";
 
 import styles from "./product-card.module.scss";
+import { declassify } from "@utils/common";
 
 interface ProductCardProps {
   className?: string;
@@ -16,6 +17,12 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ className, product }: ProductCardProps) => {
+  const [selectedQuantity, setSelectedQuantity] = useState<number>(1);
+
+  const isAvailable = (): boolean => {
+    return product?.availableQuantity! > 0;
+  };
+
   return (
     <div
       className={`${className} ${styles.card} w-full max-w-sm bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 py-4 px-2 relative`}
@@ -50,12 +57,25 @@ const ProductCard = ({ className, product }: ProductCardProps) => {
         )}
       </div>
       <div className="px-5 mb-2 mt-4">
-        <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-          {`${product?.name} ${product?.model}`}
-        </h5>
-        <h5 className="text-base font-thin tracking-tight text-gray-900 dark:text-white">
-          {product?.type?.value}
-        </h5>
+        <div className="flex items-center justify-between">
+          <div className="flex flex-col">
+            <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
+              {`${product?.name} ${product?.model}`}
+            </h5>
+            <h5 className="text-base font-thin tracking-tight text-gray-900 dark:text-white">
+              {product?.type?.value}
+            </h5>
+          </div>
+          <div
+            className={declassify(
+              `p-1 pl-4 pr-4 h-8 rounded-lg text-white font-thin`,
+              { bg_blue: isAvailable() },
+              { "bg-red-400": !isAvailable() }
+            )}
+          >
+            {`${product?.availableQuantity} available`}
+          </div>
+        </div>
         <div className="flex items-center justify-between mt-3">
           <div className="flex flex-row w-40 space-x-6">
             <ColorPickerIcon
@@ -82,12 +102,35 @@ const ProductCard = ({ className, product }: ProductCardProps) => {
           <div className="flex items-center space-x-4">
             <Icon
               icon="las la-minus"
-              className="p-2 rounded-md bg_blue-lighter cursor-pointer"
+              isDisabled={!isAvailable()}
+              className={declassify(
+                `p-2 rounded-md bg_blue-lighter cursor-pointer`,
+                { "cursor-not-allowed": selectedQuantity === 1 }
+              )}
+              onClick={() => {
+                if (selectedQuantity !== 1) {
+                  setSelectedQuantity(selectedQuantity - 1);
+                }
+              }}
             />
-            <div className={`${styles.min_w_12} text-xl`}>1</div>
+            <div className={`${styles.min_w_12} text-xl`}>
+              {selectedQuantity}
+            </div>
             <Icon
               icon="las la-plus"
-              className="p-2 rounded-md bg_blue-lighter cursor-pointer"
+              isDisabled={!isAvailable()}
+              className={declassify(
+                `p-2 rounded-md bg_blue-lighter cursor-pointer`,
+                {
+                  "cursor-not-allowed":
+                    selectedQuantity === product?.availableQuantity,
+                }
+              )}
+              onClick={() => {
+                if (selectedQuantity !== product?.availableQuantity) {
+                  setSelectedQuantity(selectedQuantity + 1);
+                }
+              }}
             />
           </div>
         </div>
@@ -100,6 +143,7 @@ const ProductCard = ({ className, product }: ProductCardProps) => {
             className="pt-1 pb-1"
             appendIcon="las la-cart-plus ml-2"
             iconSize="text-2xl"
+            isDisabled={!isAvailable()}
             onClick={() => {}}
           />
         </div>

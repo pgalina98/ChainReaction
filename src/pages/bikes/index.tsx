@@ -4,14 +4,16 @@ import { motion } from "framer-motion";
 
 import { NextPage } from "next";
 
-import { declassify } from "@utils/common";
+import { declassify, isEmpty } from "@utils/common";
 
 import { ProductFilterKeys } from "@enums/product-filter-keys";
 import { LocalStorageKeys } from "@enums/local-storage-keys";
 import { ProductType as ProductTypes } from "@enums/product-type";
 import { ToastType } from "@enums/toast-type";
+import { AlertType } from "@enums/alert-type";
 
 import { messages } from "@constants/messages";
+import { alert } from "@constants/alert";
 
 import ProductFilter, {
   createInitProductFilter,
@@ -35,6 +37,7 @@ import {
   ProductCard,
   Pagination as Paginator,
   Toast,
+  Alert,
 } from "@components";
 import { useToast } from "@components/hooks/useToast";
 
@@ -68,7 +71,7 @@ const Bikes: NextPage = () => {
 
   useEffect(() => {
     refetch({ pagination, productFilter });
-  }, [productFilter]);
+  }, []);
 
   useEffect(() => {
     setProductPage(data?.data);
@@ -91,7 +94,11 @@ const Bikes: NextPage = () => {
     refetch({ pagination: { ...pagination, page }, productFilter });
   };
 
-  const onResetButtonClick = (): void => {
+  const onApplyFiltersButtonClick = (): void => {
+    refetch({ pagination, productFilter });
+  };
+
+  const onResetFiltersButtonClick = (): void => {
     setProductFilter(createInitProductFilter());
   };
 
@@ -105,7 +112,7 @@ const Bikes: NextPage = () => {
           <Toast
             type={ToastType.DANGER}
             message={
-              error.response.data?.message || messages.INTERNAL_SERVER_ERROR
+              error?.response?.data?.message || messages.INTERNAL_SERVER_ERROR
             }
             isShown={isShown}
             hideToast={() => setIsShown(false)}
@@ -132,23 +139,33 @@ const Bikes: NextPage = () => {
           toggleFilterBox={setIsFilterBoxOpen}
           productFilter={productFilter}
           onFilterValueChange={onFilterValueChange}
-          onResetButtonClick={onResetButtonClick}
+          onApplyFiltersButtonClick={onApplyFiltersButtonClick}
+          onResetFiltersButtonClick={onResetFiltersButtonClick}
         />
         <motion.div
           initial="initial"
           animate="animate"
           exit="exit"
           variants={useFadeInOutRightVariants({
-            duration: 0.75,
-            delay: 0.25,
+            duration: 0.5,
           })}
           className={declassify(
-            `${styles.h_full} w-full p-8 pt-4 pb-20 grid grid-cols-3 gap-4 overflow-auto`,
+            `${styles.h_full} w-full p-8 pt-4 pb-16 grid grid-cols-3 gap-4 overflow-auto`,
             {
               "grid-cols-4": !isFilterBoxOpen,
             }
           )}
         >
+          {isEmpty(productPage?.products) && (
+            <Alert
+              className={`${isFilterBoxOpen && styles.w_full_filter_opened} ${
+                !isFilterBoxOpen && styles.w_full_filter_closed
+              } h-14`}
+              type={AlertType.INFO}
+              accentBorderPosition="left"
+              text={alert.NO_DATA_FOR_SPECIFIED_FILTER}
+            />
+          )}
           {productPage?.products?.map((product, index) => (
             <ProductCard key={index} product={product} />
           ))}
@@ -162,7 +179,9 @@ const Bikes: NextPage = () => {
       >
         {pagination?.totalElements && (
           <Paginator
-            className="absolute bottom-5 pl-24 pr-10 pt-"
+            className={`${isFilterBoxOpen && styles.w_full_filter_opened} ${
+              !isFilterBoxOpen && styles.w_full_filter_closed
+            } absolute bottom-3 right-10 pl-6`}
             pagination={pagination}
             onPageChange={onPageChange}
           />

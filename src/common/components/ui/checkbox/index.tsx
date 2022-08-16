@@ -35,7 +35,9 @@ const Checkbox = ({
             { "rounded-full": rounded }
           )}
           checked={isChecked}
-          onChange={() => onChange(label)}
+          onChange={() => {
+            onChange(label);
+          }}
         />
       </div>
       <div className="ml-2 text-sm">

@@ -15,8 +15,8 @@ export const fetchProductById = (idProduct: string) => {
 };
 
 export const fetchProductsByFilter = (
-  pagination: Pagination,
   productTypes: number[],
+  pagination: Pagination,
   filter: ProductFilter
 ) => {
   return async () =>

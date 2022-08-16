@@ -7,6 +7,7 @@ import { FETCH_NOTIFICATIONS_COUNT } from "../queries/constants";
 const useFetchNotificationsCount = (idUser: number): any => {
   return useQuery(FETCH_NOTIFICATIONS_COUNT, fetchNotificationsCount(idUser), {
     enabled: false,
+    refetchOnWindowFocus: false,
   });
 };
 

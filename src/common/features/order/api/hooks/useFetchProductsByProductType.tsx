@@ -9,7 +9,11 @@ import { FETCH_PRODUCTS_BY_PRODUCT_TYPE } from "../queries/constants";
 const useFetchProductsByProductType = (productType: number): any => {
   return useQuery(
     FETCH_PRODUCTS_BY_PRODUCT_TYPE,
-    fetchProductsByProductType(getProductTypeValue(productType)!)
+    fetchProductsByProductType(getProductTypeValue(productType)!),
+    {
+      enabled: false,
+      refetchOnWindowFocus: false,
+    }
   );
 };
 

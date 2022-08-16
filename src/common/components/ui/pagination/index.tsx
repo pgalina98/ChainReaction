@@ -108,7 +108,7 @@ const Pagination = ({
   return (
     <nav
       aria-label="Pagination"
-      className={`${className} flex w-screen items-end justify-between`}
+      className={`${className} flex items-end justify-between`}
     >
       <span className="text-sm text-white dark:text-white-400">
         Showing{" "}

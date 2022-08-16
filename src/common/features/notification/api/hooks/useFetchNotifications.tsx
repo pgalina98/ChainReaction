@@ -7,6 +7,7 @@ import { FETCH_NOTIFICATIONS } from "../queries/constants";
 const useFetchNotifications = (idUser: number): any => {
   return useQuery(FETCH_NOTIFICATIONS, fetchNotifications(idUser), {
     enabled: false,
+    refetchOnWindowFocus: false,
   });
 };
 

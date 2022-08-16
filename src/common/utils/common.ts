@@ -56,6 +56,10 @@ export function toBoolean(value: any): boolean {
   }
 }
 
+export function toNumber(value: any): number {
+  return Number(value);
+}
+
 export function isString(value: unknown): value is string {
   return typeof value === "string";
 }

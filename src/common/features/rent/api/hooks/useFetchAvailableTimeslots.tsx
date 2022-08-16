@@ -14,7 +14,10 @@ const useFetchAvailableTimeslots = (
   return useQuery(
     FETCH_AVAILABLE_TIMESLOTS,
     fetchAvailableTimeslots(idProduct, location, date),
-    { enabled: false }
+    {
+      enabled: false,
+      refetchOnWindowFocus: false,
+    }
   );
 };
 
