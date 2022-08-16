@@ -15,7 +15,7 @@ import { useFadeInOutLeftVariants, useFadeInOutTopVariants } from "@animations";
 import { MenuItem } from "@enums/menu-items";
 import { LocalStorageKeys } from "@enums/local-storage-keys";
 
-import { declassify } from "@utils/common";
+import { declassify, isUndefined } from "@utils/common";
 import { getValueByKey, setValue } from "@utils/local-storage";
 
 import { RootState } from "@store/index";
@@ -40,7 +40,7 @@ const Header = ({
 }: HeaderProps) => {
   const router = useRouter();
 
-  const activeTab = getValueByKey(LocalStorageKeys.ACTIVE_TAB || null);
+  const [activeTab, setActiveTab] = useState<string>();
   const [isNotificationBoxOpen, setIsNotificationBoxOpen] =
     useState<boolean>(false);
   const [notificationsCount, setNotificationsCount] = useState<number>();
@@ -54,6 +54,12 @@ const Header = ({
         refetch();
       }
     });
+  });
+
+  useEffect(() => {
+    if (!isUndefined(typeof window)) {
+      setActiveTab(getValueByKey(LocalStorageKeys.ACTIVE_TAB || null)!);
+    }
   });
 
   useEffect(() => {
