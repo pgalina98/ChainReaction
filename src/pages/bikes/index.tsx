@@ -107,17 +107,17 @@ const Bikes: NextPage = () => {
   return (
     <div className="h-full">
       <Header animated showMenu backgroundColor="split" />
+      {isError && (
+        <Toast
+          type={ToastType.DANGER}
+          message={
+            error?.response?.data?.message || messages.INTERNAL_SERVER_ERROR
+          }
+          isShown={isShown}
+          hideToast={() => setIsShown(false)}
+        />
+      )}
       <div className="h-screen bg_split flex relative">
-        {isError && (
-          <Toast
-            type={ToastType.DANGER}
-            message={
-              error?.response?.data?.message || messages.INTERNAL_SERVER_ERROR
-            }
-            isShown={isShown}
-            hideToast={() => setIsShown(false)}
-          />
-        )}
         <div
           className={declassify(`h-full w-16`, {
             hidden: isFilterBoxOpen,

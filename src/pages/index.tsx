@@ -130,17 +130,17 @@ const Home: NextPage = () => {
   return (
     <div className="h-full">
       <Header animated showMenu backgroundColor="split" />
+      {isError && (
+        <Toast
+          type={ToastType.DANGER}
+          message={
+            error.response.data?.message || messages.INTERNAL_SERVER_ERROR
+          }
+          isShown={isShown}
+          hideToast={() => setIsShown(false)}
+        />
+      )}
       <div className="grid grid-cols-2 text-white">
-        {isError && (
-          <Toast
-            type={ToastType.DANGER}
-            message={
-              error.response.data?.message || messages.INTERNAL_SERVER_ERROR
-            }
-            isShown={isShown}
-            hideToast={() => setIsShown(false)}
-          />
-        )}
         <div className={`${styles.h_full} bg_primary`}>
           <div className={`${styles.h_full} ${styles.radial_gradient}`}>
             <motion.div

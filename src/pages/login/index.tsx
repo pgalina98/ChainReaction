@@ -147,17 +147,17 @@ const Login: NextPage = () => {
   return (
     <div className="h-full">
       <Header animated showMenu={false} />
+      {isError && (
+        <Toast
+          type={ToastType.DANGER}
+          message={
+            error.response.data?.message || messages.INTERNAL_SERVER_ERROR
+          }
+          isShown={isShown}
+          hideToast={() => setIsShown(false)}
+        />
+      )}
       <div className={`${styles.h_full} grid grid-cols-2 gap-4`}>
-        {isError && (
-          <Toast
-            type={ToastType.DANGER}
-            message={
-              error.response.data?.message || messages.INTERNAL_SERVER_ERROR
-            }
-            isShown={isShown}
-            hideToast={() => setIsShown(false)}
-          />
-        )}
         <motion.div
           initial="initial"
           animate="animate"

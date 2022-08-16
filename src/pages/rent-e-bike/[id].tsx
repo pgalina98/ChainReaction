@@ -508,36 +508,35 @@ const RentEBike: NextPage<RootState> = ({ authentication }: RootState) => {
   return (
     <div className="h-full">
       <Header animated showMenu backgroundColor="split" />
+      {isError && (
+        <Toast
+          type={ToastType.DANGER}
+          message={
+            error.response.data?.message || messages.INTERNAL_SERVER_ERROR
+          }
+          isShown={isShown}
+          hideToast={() => setIsShown(false)}
+        />
+      )}
+      {isSavingError && (
+        <Toast
+          type={ToastType.DANGER}
+          message={
+            savingError.response.data?.message || messages.INTERNAL_SERVER_ERROR
+          }
+          isShown={isShown}
+          hideToast={() => setIsShown(false)}
+        />
+      )}
+      {isSavingSuccess && (
+        <Toast
+          type={ToastType.SUCCESS}
+          message={messages.RENT_SUCCESSFULLY_CREATED}
+          isShown={isShown}
+          hideToast={() => setIsShown(false)}
+        />
+      )}
       <div className="grid grid-cols-2 text-white">
-        {isError && (
-          <Toast
-            type={ToastType.DANGER}
-            message={
-              error.response.data?.message || messages.INTERNAL_SERVER_ERROR
-            }
-            isShown={isShown}
-            hideToast={() => setIsShown(false)}
-          />
-        )}
-        {isSavingError && (
-          <Toast
-            type={ToastType.DANGER}
-            message={
-              savingError.response.data?.message ||
-              messages.INTERNAL_SERVER_ERROR
-            }
-            isShown={isShown}
-            hideToast={() => setIsShown(false)}
-          />
-        )}
-        {isSavingSuccess && (
-          <Toast
-            type={ToastType.SUCCESS}
-            message={messages.RENT_SUCCESSFULLY_CREATED}
-            isShown={isShown}
-            hideToast={() => setIsShown(false)}
-          />
-        )}
         <div className={`${styles.h_full} bg_primary overflow-hidden`}>
           <motion.div
             initial="initial"
