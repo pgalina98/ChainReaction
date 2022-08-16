@@ -24,7 +24,8 @@ import { ButtonType } from "@enums/button-type";
 import { ProductType } from "@enums/product-type";
 import { ProductColor, getProductColorValue } from "@enums/product-color";
 
-import { getMirroredImagePath, isNullOrUndefined } from "@utils/common";
+import { isNullOrUndefined } from "@utils/common";
+import { getMirroredImagePath } from "@utils/shared";
 import { clearActiveTab } from "@utils/local-storage";
 
 import Product from "@models/product/product.model";

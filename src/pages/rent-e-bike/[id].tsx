@@ -48,12 +48,8 @@ import { RootState } from "@store/index";
 
 import { alert } from "@constants/alert";
 
-import {
-  declassify,
-  getMirroredImagePath,
-  isEmpty,
-  isNullOrUndefined,
-} from "@utils/common";
+import { declassify, isEmpty, isNullOrUndefined } from "@utils/common";
+import { getMirroredImagePath } from "@utils/shared";
 
 import {
   useFadeInOutLeftVariants,

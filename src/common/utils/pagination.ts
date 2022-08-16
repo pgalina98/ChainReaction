@@ -1,7 +1,7 @@
 export const createInitPagination = () => {
   return {
     page: 1,
-    size: 20,
+    size: 8,
     total: 0,
   };
 };

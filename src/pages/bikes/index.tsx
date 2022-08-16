@@ -22,6 +22,7 @@ import Product from "@models/product/product.model";
 import {
   useFadeInOutLeftVariants,
   useFadeInOutRightVariants,
+  useFadeInOutVariants,
 } from "@animations";
 
 import {
@@ -61,10 +62,11 @@ const Bikes: NextPage = () => {
 
   useEffect(() => {
     refetch({ pagination, productFilter });
-  }, [pagination, productFilter]);
+  }, [productFilter]);
 
   useEffect(() => {
     setProductPage(data?.data);
+    setPagination({ ...pagination, totalElements: data?.data?.totalElements });
   }, [data]);
 
   const onFilterValueChange = (
@@ -74,16 +76,20 @@ const Bikes: NextPage = () => {
     setProductFilter({ ...productFilter, [key]: value });
   };
 
+  const onPageChange = (page: number): void => {
+    setPagination({ ...pagination, page });
+  };
+
+  const onResetButtonClick = (): void => {
+    setProductFilter(createInitProductFilter());
+  };
+
   const distinctByModel = (products: Product[]): Product[] => {
     return [
       ...new Map(
         products?.map((product) => [product["model"], product])
       ).values(),
     ];
-  };
-
-  const onResetButtonClick = (): void => {
-    setProductFilter(createInitProductFilter());
   };
 
   if (isLoading) return <LoadingOverlay />;
@@ -135,7 +141,20 @@ const Bikes: NextPage = () => {
           ))}
         </motion.div>
       </div>
-      <Paginator className="absolute bottom-5 pl-24 pr-10" />
+      <motion.div
+        initial="initial"
+        animate="animate"
+        exit="exit"
+        variants={useFadeInOutVariants({ duration: 0.5, delay: 0.25 })}
+      >
+        {pagination?.totalElements && (
+          <Paginator
+            className="absolute bottom-5 pl-24 pr-10"
+            pagination={pagination}
+            onPageChange={onPageChange}
+          />
+        )}
+      </motion.div>
     </div>
   );
 };

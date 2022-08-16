@@ -14,7 +14,9 @@ export function classify(...classes: Classifiable[]): ClassesAsArray {
       if (isString(value)) {
         return value.split(" ");
       } else if (isArray(value)) {
-        return value.map((className) => classify(className)).reduce(arrayReducer, []);
+        return value
+          .map((className) => classify(className))
+          .reduce(arrayReducer, []);
       }
       return Object.keys(value)
         .map((key) => (value[key] ? classify(key) : []))
@@ -42,12 +44,20 @@ export function noEmpty<T = any>(inArray: T[]): T[] {
   return inArray.filter((value) => !isEmpty(value));
 }
 
-export function isString(value: unknown): value is string {
-  return typeof value === "string";
-}
-
 export function toString(value: any): string {
   return value?.toString();
+}
+
+export function toBoolean(value: any): boolean {
+  if (value === "true") {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+export function isString(value: unknown): value is string {
+  return typeof value === "string";
 }
 
 export function isArray<T>(value: unknown): value is T[] {
@@ -62,7 +72,12 @@ export function isEmpty(value: any): boolean {
   if (isArray(value)) {
     return value.filter((value) => !isEmpty(value)).length === 0;
   }
-  if (undefined === value || value === "" || value === null || value === false) {
+  if (
+    undefined === value ||
+    value === "" ||
+    value === null ||
+    value === false
+  ) {
     return true;
   }
   if (isDate(value)) {
@@ -100,7 +115,12 @@ export function isUndefined(value: any): boolean {
 }
 
 export function isEqual(value: string, valueForComparison: string): boolean {
-  if (undefined === value || value === "" || value === null || value === undefined) {
+  if (
+    undefined === value ||
+    value === "" ||
+    value === null ||
+    value === undefined
+  ) {
     return false;
   }
   if (
@@ -115,17 +135,9 @@ export function isEqual(value: string, valueForComparison: string): boolean {
   return value === valueForComparison;
 }
 
-export function toBoolean(value: any): boolean {
-  if (value === "true") {
-    return true;
-  } else {
-    return false;
-  }
-}
+export function range(from: number, to: number) {
+  console.log("from: ", from);
+  console.log("to: ", to);
 
-export function getMirroredImagePath(imagePath: string): string {
-  const imagePathWithoutExtension = imagePath.substring(0, imagePath.lastIndexOf("."));
-  const imageExtension = imagePath.substring(imagePath.lastIndexOf("."), imagePath.length);
-
-  return `${imagePathWithoutExtension}_mirrored${imageExtension}`;
+  return new Array(to - from + 1).fill(null).map((_, index) => index + from);
 }
