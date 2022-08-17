@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { useDispatch } from "react-redux";
 
@@ -12,20 +12,30 @@ import Product from "@models/product/product.model";
 import { Button, Icon, ColorPickerIcon } from "@components";
 
 import { declassify } from "@utils/common";
-import { getValueByKey, setValue } from "@utils/local-storage";
+
+import { addItem, removeItem } from "@features/cart/cart-slice";
 
 import styles from "./product-card.module.scss";
-import { addItem } from "@features/cart/cart-slice";
+import { ButtonType } from "@enums/button-type";
 
 interface ProductCardProps {
   className?: string;
   product?: Product;
+  cart: any;
 }
 
-const ProductCard = ({ className, product }: ProductCardProps) => {
+const ProductCard = ({ className, product, cart }: ProductCardProps) => {
   const dispatch = useDispatch();
 
   const [quantity, setQuantity] = useState<number>(1);
+  const [inCart, setInCart] = useState<boolean>(false);
+
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    setInCart(isProductInCart());
+    setQuantity(determineCartItemQuantity());
+  }, [cart]);
 
   const isAvailable = (): boolean => {
     return product?.availableQuantity! > 0;
@@ -33,6 +43,31 @@ const ProductCard = ({ className, product }: ProductCardProps) => {
 
   const onAddToCartButtonClick = (): void => {
     dispatch(addItem({ ...product!, quantity }));
+    showLoader();
+  };
+
+  const onRemoveFromCartButtonClick = (): void => {
+    dispatch(removeItem(product!));
+    showLoader();
+  };
+
+  const showLoader = (): void => {
+    setIsLoading(true);
+
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 500);
+  };
+
+  const isProductInCart = (): boolean => {
+    return cart?.items?.some((item) => item.idProduct === product?.idProduct);
+  };
+
+  const determineCartItemQuantity = (): number => {
+    return (
+      cart?.items?.find((item) => item.idProduct === product?.idProduct)
+        ?.quantity || 1
+    );
   };
 
   return (
@@ -116,7 +151,7 @@ const ProductCard = ({ className, product }: ProductCardProps) => {
           <div className="flex items-center space-x-4">
             <Icon
               icon="las la-minus"
-              isDisabled={!isAvailable()}
+              isDisabled={!isAvailable() || inCart}
               className={declassify(
                 `p-2 rounded-md bg_blue-lighter cursor-pointer`,
                 { "cursor-not-allowed": quantity === 1 }
@@ -130,7 +165,7 @@ const ProductCard = ({ className, product }: ProductCardProps) => {
             <div className={`${styles.min_w_12} text-xl`}>{quantity}</div>
             <Icon
               icon="las la-plus"
-              isDisabled={!isAvailable()}
+              isDisabled={!isAvailable() || inCart}
               className={declassify(
                 `p-2 rounded-md bg_blue-lighter cursor-pointer`,
                 {
@@ -149,14 +184,27 @@ const ProductCard = ({ className, product }: ProductCardProps) => {
           <span className="text-3xl font-semibold text-gray-900 dark:text-white">
             ${product?.price}
           </span>
-          <Button
-            label="Add to cart"
-            className="pt-1 pb-1"
-            appendIcon="las la-cart-plus ml-2"
-            iconSize="text-2xl"
-            isDisabled={!isAvailable()}
-            onClick={onAddToCartButtonClick}
-          />
+          {!inCart ? (
+            <Button
+              label="Add to cart"
+              className="pt-1 pb-1"
+              appendIcon="las la-cart-plus ml-2"
+              iconSize="text-2xl"
+              isDisabled={!isAvailable()}
+              isLoading={isLoading}
+              onClick={onAddToCartButtonClick}
+            />
+          ) : (
+            <Button
+              label="Remove item"
+              className="pt-1 pb-1 "
+              type={ButtonType.DANGER}
+              appendIcon="las la-cart-arrow-down ml-2"
+              iconSize="text-2xl"
+              isLoading={isLoading}
+              onClick={onRemoveFromCartButtonClick}
+            />
+          )}
         </div>
       </div>
     </div>

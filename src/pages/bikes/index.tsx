@@ -88,10 +88,6 @@ const Bikes = ({ cart }: BikesProps) => {
     setIsShown(isError);
   }, [isError]);
 
-  useEffect(() => {
-    // TODO -> implement logic for items in cart detection
-  }, [cart]);
-
   const onFilterValueChange = (
     key: ProductFilterKeys,
     value: string | string[] | ProductType[] | ProductColor[] | number
@@ -177,7 +173,7 @@ const Bikes = ({ cart }: BikesProps) => {
             />
           )}
           {productPage?.products?.map((product, index) => (
-            <ProductCard key={index} product={product} />
+            <ProductCard key={index} product={product} cart={cart} />
           ))}
         </motion.div>
       </div>

@@ -17,7 +17,7 @@ interface ButtonProps {
   isLoading?: boolean;
   isDisabled?: boolean;
   isHidden?: boolean;
-  onClick: any;
+  onClick?: any;
 }
 
 const Button = ({
@@ -50,9 +50,9 @@ const Button = ({
         } ${!isButtonDisabled() && "hover:bg-green-600"} text-white`;
 
       case ButtonType.DANGER:
-        return `border-red-500 bg-red-500 ${
-          isButtonDisabled() && "border-red-400 bg-red-400"
-        } ${!isButtonDisabled() && "hover:bg-red-600"} text-white`;
+        return `border-red-400 bg-red-400 ${
+          isButtonDisabled() && "border-red-300 bg-red-300"
+        } ${!isButtonDisabled() && "hover:bg-red-500"} text-white`;
 
       case ButtonType.WARNING:
         return `border-yellow-500 bg-yellow-500 ${

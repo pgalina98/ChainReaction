@@ -57,11 +57,11 @@ const ComponentWrapper = ({ children }) => {
     }
 
     if (!!getValueByKey(LocalStorageKeys.CART)) {
-      const cart: any = getValueByKey(LocalStorageKeys.CART);
+      const cart: any = JSON.parse(getValueByKey(LocalStorageKeys.CART)!);
 
       dispatch(setItems(cart));
     }
-  }, []);
+  });
 
   return <React.Fragment>{children}</React.Fragment>;
 };
