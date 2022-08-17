@@ -6,9 +6,13 @@ import { motion } from "framer-motion";
 
 import { RootState } from "@store/index";
 
-import { declassify, toString } from "@utils/common";
+import { AlertType } from "@enums/alert-type";
 
-import { Icon } from "@components";
+import { alert } from "@constants/alert";
+
+import { declassify, isEmpty, toString } from "@utils/common";
+
+import { Icon, Alert } from "@components";
 
 import { useFadeInOutRightVariants } from "@animations";
 
@@ -58,14 +62,13 @@ export const NotificationBox = ({
       <div
         className={`${styles.cart_items_container} mt-4 w-full p-4 pt-2 pb-2 normal-case overflow-y-auto`}
       >
-        {/* {isLoading || (isDeleting && <Loader withLabel={false} />)}
-        {isEmpty(loggedUserNotifications) && (
+        {isEmpty(cart) && (
           <Alert
             type={AlertType.INFO}
             accentBorderPosition="left"
-            text={alert.NO_NOTIFICATIONS_YET}
+            text={alert.NO_ITEMS_IN_CART_YET}
           />
-        )} */}
+        )}
       </div>
     </motion.div>
   );
