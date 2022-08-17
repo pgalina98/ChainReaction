@@ -8,7 +8,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import { BarsIcon, Avatar, IconWIthBadge, NotificationBox } from "@components";
+import {
+  BarsIcon,
+  Avatar,
+  IconWIthBadge,
+  NotificationBox,
+  CartBox,
+} from "@components";
 
 import { useFadeInOutLeftVariants, useFadeInOutTopVariants } from "@animations";
 
@@ -37,6 +43,7 @@ const Header = ({
   showMenu = false,
   backgroundColor = "singleColor",
   authentication,
+  cart,
 }: HeaderProps) => {
   const router = useRouter();
 
@@ -44,6 +51,8 @@ const Header = ({
   const [isNotificationBoxOpen, setIsNotificationBoxOpen] =
     useState<boolean>(false);
   const [notificationsCount, setNotificationsCount] = useState<number>();
+  const [isCartBoxOpen, setIsCartBoxOpen] = useState<boolean>(false);
+  const [cartItemsCount, setCartItemsCount] = useState<number>();
 
   const { isLoading, isError, isSuccess, data, error, refetch } =
     useFetchNotificationsCount(authentication?.id!);
@@ -69,6 +78,10 @@ const Header = ({
   useEffect(() => {
     setNotificationsCount(data?.data);
   }, [data]);
+
+  useEffect(() => {
+    setCartItemsCount(cart?.items.length);
+  }, [cart]);
 
   const onMenuItemChange = (menuItem: MenuItem): void => {
     router.push(menuItem);
@@ -180,20 +193,26 @@ const Header = ({
             badgeNumber={notificationsCount || 0}
             onClick={() => setIsNotificationBoxOpen(true)}
           />
-          <IconWIthBadge icon="las la-shopping-bag" />
+          <IconWIthBadge
+            icon="las la-shopping-bag"
+            badgeNumber={cartItemsCount || 0}
+            onClick={() => setIsCartBoxOpen(true)}
+          />
           <Avatar className="mr-6" withDropdown />
         </motion.div>
         <NotificationBox
           isOpen={isNotificationBoxOpen}
           toggleNotificationBox={setIsNotificationBoxOpen}
         />
+        <CartBox isOpen={isCartBoxOpen} toggleCartBox={setIsCartBoxOpen} />
       </div>
     </div>
   );
 };
 
-const mapStateToProps = ({ authentication }: RootState) => ({
+const mapStateToProps = ({ authentication, cart }: RootState) => ({
   authentication,
+  cart,
 });
 
 type StateProps = ReturnType<typeof mapStateToProps>;

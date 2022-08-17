@@ -23,9 +23,9 @@ import { useFadeInOutRightVariants } from "@animations";
 
 import useFetchNotifications from "@features/notification/api/hooks/useFetchNotifications";
 import useDeleteNotificationsByIdUser from "@features/notification/api/hooks/useDeleteNotificationsByIdUser";
+import useDeleteNotificationById from "@features/notification/api/hooks/useDeleteNotificationById";
 
 import styles from "./notification-box.module.scss";
-import useDeleteNotificationById from "@features/notification/api/hooks/useDeleteNotificationById";
 
 interface NotificationBoxProps extends StateProps {
   className?: string;
