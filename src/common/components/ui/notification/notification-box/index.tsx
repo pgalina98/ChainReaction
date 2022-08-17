@@ -121,7 +121,12 @@ export const NotificationBox = ({
           icon="las la-times"
           onClick={() => toggleNotificationBox(false)}
         />
-        <div className="flex items-center normal-case bg_white text-black hover:bg-red-400 hover:text-white rounded-lg pl-4 pr-4 cursor-pointer">
+        <div
+          className={declassify(
+            "flex items-center normal-case bg_white text-black hover:bg-red-400 hover:text-white rounded-lg pl-4 pr-4 cursor-pointer",
+            { invisible: isEmpty(loggedUserNotifications) }
+          )}
+        >
           <div className="mr-4" onClick={onDeleteAllButtonClick}>
             Clear all
           </div>
