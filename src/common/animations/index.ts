@@ -2,6 +2,7 @@ export { default as useFadeInOutVariants } from "common/animations/hooks/useFade
 export { default as useFadeInOutLeftVariants } from "common/animations/hooks/useFadeInOutLeft";
 export { default as useFadeInOutRightVariants } from "common/animations/hooks/useFadeInOutRight";
 export { default as useFadeInOutTopVariants } from "common/animations/hooks/useFadeInOutTop";
+export { default as useFadeInOutBottomVariants } from "common/animations/hooks/useFadeInOutBottom";
 export { default as useRotateAndScaleVariants } from "common/animations/hooks/useRotateAndScale";
 export { default as useBounce } from "common/animations/hooks/useBounce";
 export { default as useDisplayNoneOnExit } from "common/animations/hooks/useDisplayNoneOnExit";
