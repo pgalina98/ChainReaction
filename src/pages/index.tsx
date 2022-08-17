@@ -36,7 +36,7 @@ import {
   useFadeInOutVariants,
 } from "@animations";
 
-import useFetchProductsByProductType from "@features/product/api/hooks/useFetchProductsByProductType";
+import useFetchProductsByProductTypeAndProductName from "@features/product/api/hooks/useFetchProductsByProductTypeAndProductName";
 
 import authenticatedBoundaryRoute from "@components/hoc/route-guards/authenticatedBoundaryRoute";
 
@@ -48,12 +48,12 @@ const Home: NextPage = () => {
 
   const [eBikes, setEBikes] = useState<Product[]>();
   const [selectedBike, setSelectedBike] = useState<Product>();
-  const [selectedColor, setSelectedColor] = useState<string>(
-    getProductColorValue(ProductColor.BLACK)!
+  const [selectedColor, setSelectedColor] = useState<number>(
+    ProductColor.BLACK!
   );
 
   const { isLoading, isError, data, error, refetch } =
-    useFetchProductsByProductType(ProductType.E_BIKE);
+    useFetchProductsByProductTypeAndProductName(ProductType.E_BIKE, "Cowboy");
 
   useEffect(() => {
     refetch();
@@ -61,12 +61,12 @@ const Home: NextPage = () => {
   }, []);
 
   useEffect(() => {
-    setEBikes(data?.data.filter((bike) => bike.name === "Cowboy"));
+    setEBikes(data?.data);
     setSelectedBike(
       data?.data.find(
         (eBike: Product) =>
           eBike?.model === data.data[0].model &&
-          eBike.color?.value === selectedColor
+          eBike.color?.idProductColor === selectedColor
       )
     );
   }, [data]);
@@ -81,6 +81,10 @@ const Home: NextPage = () => {
     );
   }, [selectedColor]);
 
+  const getUniqueKey = (): string => {
+    return `${selectedBike?.model}`;
+  };
+
   const isProductInSpecificColorAvailable = (color: number): boolean => {
     const eBike = eBikes?.find(
       (eBike) =>
@@ -93,13 +97,11 @@ const Home: NextPage = () => {
     return eBike?.availableQuantity! > 0 || false;
   };
 
-  const getUniqueKey = (): string => {
-    return `${selectedBike?.model}`;
-  };
-
   const changeSelectedBike = (eBikes: Product[]): void => {
     setSelectedBike(
-      eBikes?.find((eBike: Product) => eBike.color?.value === selectedColor)
+      eBikes?.find(
+        (eBike: Product) => eBike.color?.idProductColor === selectedColor
+      )
     );
   };
 
@@ -117,7 +119,7 @@ const Home: NextPage = () => {
     );
   };
 
-  const onSelectedColorChange = (color: string): void => {
+  const onSelectedColorChange = (color: number): void => {
     setSelectedColor(color);
   };
 
@@ -306,7 +308,7 @@ const Home: NextPage = () => {
               <ColorPickerIcon
                 className="cursor-pointer border-2 border-gray-300"
                 color="WHITE"
-                isSelected={selectedColor === "WHITE"}
+                isSelected={selectedColor === ProductColor.WHITE}
                 isAvailable={isProductInSpecificColorAvailable(
                   ProductColor.WHITE
                 )}
@@ -315,7 +317,7 @@ const Home: NextPage = () => {
               <ColorPickerIcon
                 className="cursor-pointer border-2 border-gray-300"
                 color="GRAY-DARK"
-                isSelected={selectedColor === "GRAY-DARK"}
+                isSelected={selectedColor === ProductColor.GRAY_DARK}
                 isAvailable={isProductInSpecificColorAvailable(
                   ProductColor.GRAY_DARK
                 )}
@@ -324,7 +326,7 @@ const Home: NextPage = () => {
               <ColorPickerIcon
                 className="cursor-pointer border-2 border-gray-300"
                 color="BLACK"
-                isSelected={selectedColor === "BLACK"}
+                isSelected={selectedColor === ProductColor.BLACK}
                 isAvailable={isProductInSpecificColorAvailable(
                   ProductColor.BLACK
                 )}

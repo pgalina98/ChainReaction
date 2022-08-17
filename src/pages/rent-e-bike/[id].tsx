@@ -58,7 +58,7 @@ import {
   useFadeInOutVariants,
 } from "@animations";
 
-import useFetchProductsByProductType from "@features/product/api/hooks/useFetchProductsByProductType";
+import useFetchProductsByProductTypeAndProductName from "@features/product/api/hooks/useFetchProductsByProductTypeAndProductName";
 import useFetchProductById from "@features/product/api/hooks/useFetchProductById";
 import useFetchAvailableTimeslots from "@features/rent/api/hooks/useFetchAvailableTimeslots";
 import useFetchRentLocations from "@features/rent/api/hooks/useFetchRentLocations";
@@ -74,9 +74,8 @@ const SelectGear = ({
 }) => {
   const [helmets, setHelmets] = useState<Product[]>();
 
-  const { isLoading, data, refetch } = useFetchProductsByProductType(
-    ProductType.HELMET
-  );
+  const { isLoading, data, refetch } =
+    useFetchProductsByProductTypeAndProductName(ProductType.HELMET);
 
   useEffect(() => {
     refetch();
