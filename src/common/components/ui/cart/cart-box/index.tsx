@@ -18,7 +18,7 @@ import { useFadeInOutRightVariants } from "@animations";
 
 import styles from "./cart-box.module.scss";
 
-interface NotificationBoxProps extends StateProps {
+interface CartBoxProps extends StateProps {
   className?: string;
   isOpen: boolean;
   toggleCartBox: any;
@@ -29,7 +29,7 @@ export const CartBox = ({
   isOpen,
   toggleCartBox,
   cart,
-}: NotificationBoxProps) => {
+}: CartBoxProps) => {
   const [isCartSummaryOpen, setIsCartSummaryOpen] = useState<boolean>(false);
 
   const onDeleteAllButtonClick = (): void => {};
@@ -79,6 +79,9 @@ export const CartBox = ({
             text={alert.NO_ITEMS_IN_CART_YET}
           />
         )}
+        {cart?.items.map((cartItem, index) => (
+          <CartItem key={index} cartItem={cartItem} />
+        ))}
         <CartSummary
           isOpen={isCartSummaryOpen}
           toggleCartSummary={setIsCartSummaryOpen}

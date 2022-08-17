@@ -1,16 +1,29 @@
 import React from "react";
 
+import { useDispatch } from "react-redux";
+
 import Image from "next/image";
 
 import { ColorPickerIcon, Icon } from "@components";
+
+import { declassify } from "@utils/common";
+
+import { CartItem, updateItem } from "@features/cart/cart-slice";
 
 import styles from "./cart-item.module.scss";
 
 interface CartItemProps {
   className?: string;
+  cartItem: CartItem;
 }
 
-const CartItem = ({ className }: CartItemProps) => {
+const CartItem = ({ className, cartItem }: CartItemProps) => {
+  const dispatch = useDispatch();
+
+  const onQuantityChangeButtonClick = (cartItem: CartItem): void => {
+    dispatch(updateItem(cartItem));
+  };
+
   return (
     <div className="mt-4">
       <div
@@ -21,36 +34,65 @@ const CartItem = ({ className }: CartItemProps) => {
             <div className="absolute rounded-full bg_white text-black font-medium pl-3 pr-3 -top-2 -right-3">
               1
             </div>
-            <Image
-              src="/assets/e-bikes/cowboy-4/cowboy-4-white.png"
-              alt="ChainReaction Logo"
-              width={85}
-              height={47}
-              priority
-            />
+            {cartItem?.imagePath && (
+              <Image
+                src={cartItem?.imagePath}
+                alt="Product image"
+                width={85}
+                height={47}
+                priority
+              />
+            )}
           </div>
           <div className="ml-6">
-            <div className="text-lg font-medium">Cowboy 4</div>
+            <div className="text-lg font-medium">{`${cartItem?.name} ${cartItem?.model}`}</div>
             <div className="flex items-center space-x-3 mt-3">
+              <ColorPickerIcon
+                className="border-2 border-gray-300"
+                color={cartItem?.color?.value!}
+                size="h-7 w-7"
+                isAvailable={false}
+              />
               <Icon
                 icon="las la-minus text-black"
-                className="p-2 rounded-md bg_blue-lighter cursor-pointer"
+                className={declassify(
+                  `p-2 rounded-md bg_blue-lighter cursor-pointer`,
+                  { "cursor-not-allowed": cartItem?.quantity === 1 }
+                )}
+                onClick={() => {
+                  if (cartItem?.quantity !== 1) {
+                    onQuantityChangeButtonClick({
+                      ...cartItem,
+                      quantity: cartItem?.quantity - 1,
+                    });
+                  }
+                }}
               />
-              <div className={`${styles.min_w_12} text-xl`}>1</div>
+              <div className={`${styles.min_w_12} text-xl`}>
+                {cartItem?.quantity}
+              </div>
               <Icon
                 icon="las la-plus text-black"
-                className="p-2 rounded-md bg_blue-lighter cursor-pointer"
+                className={declassify(
+                  `p-2 rounded-md bg_blue-lighter cursor-pointer`,
+                  {
+                    "cursor-not-allowed":
+                      cartItem?.quantity === cartItem?.availableQuantity,
+                  }
+                )}
+                onClick={() => {
+                  if (cartItem?.quantity !== cartItem?.availableQuantity) {
+                    onQuantityChangeButtonClick({
+                      ...cartItem,
+                      quantity: cartItem?.quantity + 1,
+                    });
+                  }
+                }}
               />
             </div>
           </div>
         </div>
-        <ColorPickerIcon
-          className="border-2 border-gray-300"
-          color="WHITE"
-          size="h-7 w-7"
-          isAvailable={false}
-        />
-        <div className="text-2xl">1 x $2999</div>
+        <div className="text-2xl">{`${cartItem?.quantity} x $${cartItem?.price}`}</div>
       </div>
       <hr className="border-1 w-full text-white bg_white" />
     </div>

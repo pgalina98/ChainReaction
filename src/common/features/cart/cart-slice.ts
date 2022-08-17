@@ -3,9 +3,9 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 
 import Product from "@models/product/product.model";
 
-import { addItemToCart, removeItemToCart } from "@utils/cart";
+import { addItemToCart, removeItemToCart, updateItemInCart } from "@utils/cart";
 
-interface CartItem extends Product {
+export interface CartItem extends Product {
   quantity: number;
 }
 
@@ -31,12 +31,24 @@ export const cartSlice = createSlice({
         ...Object.assign(state, {
           items: [
             ...state.items.filter(
-              (item) => item.idProduct !== action.payload.idProduct
+              (item: CartItem) => item.idProduct !== action.payload.idProduct
             ),
           ],
         }),
       };
       removeItemToCart(action.payload);
+    },
+    updateItem: (state, action: PayloadAction<CartItem>) => {
+      const itemIndex = state.items.findIndex(
+        (item: CartItem) => item.idProduct === action.payload.idProduct
+      );
+
+      state.items[itemIndex] = { ...action.payload };
+
+      state = {
+        ...Object.assign(state, { items: [...state.items] }),
+      };
+      updateItemInCart(action.payload);
     },
     setItems: (state, action: PayloadAction<CartState>) => {
       state = { ...Object.assign(state, { items: [...action.payload.items] }) };
@@ -44,5 +56,5 @@ export const cartSlice = createSlice({
   },
 });
 
-export const { addItem, removeItem, setItems } = cartSlice.actions;
+export const { addItem, removeItem, updateItem, setItems } = cartSlice.actions;
 export default cartSlice.reducer;

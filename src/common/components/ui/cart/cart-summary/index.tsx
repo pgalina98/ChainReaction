@@ -4,15 +4,17 @@ import { motion } from "framer-motion";
 
 import { declassify, toString } from "@utils/common";
 
+import { useFadeInOutBottomVariants } from "@animations";
+
 import { Icon } from "@components";
 
-import { useFadeInOutBottomVariants } from "@animations";
+import { CartState } from "@features/cart/cart-slice";
 
 interface CartSummaryProps {
   className?: string;
   isOpen: boolean;
   toggleCartSummary: any;
-  cart: any;
+  cart: CartState;
 }
 
 const CartSummary = ({
