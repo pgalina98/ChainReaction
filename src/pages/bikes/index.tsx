@@ -47,7 +47,7 @@ import { useToast } from "@components/hooks/useToast";
 
 import { getValueByKey } from "@utils/local-storage";
 
-import useFetchProductsByFilter from "@features/order/api/hooks/useFetchProductByFilter";
+import useFetchProductsByFilter from "@features/product/api/hooks/useFetchProductByFilter";
 
 import styles from "./bikes.module.scss";
 

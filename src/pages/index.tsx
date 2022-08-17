@@ -36,7 +36,7 @@ import {
   useFadeInOutVariants,
 } from "@animations";
 
-import useFetchProductsByProductType from "@features/order/api/hooks/useFetchProductsByProductType";
+import useFetchProductsByProductType from "@features/product/api/hooks/useFetchProductsByProductType";
 
 import authenticatedBoundaryRoute from "@components/hoc/route-guards/authenticatedBoundaryRoute";
 

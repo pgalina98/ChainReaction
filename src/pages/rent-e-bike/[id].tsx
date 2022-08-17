@@ -58,8 +58,8 @@ import {
   useFadeInOutVariants,
 } from "@animations";
 
-import useFetchProductsByProductType from "@features/order/api/hooks/useFetchProductsByProductType";
-import useFetchProductById from "@features/order/api/hooks/useFetchProductById";
+import useFetchProductsByProductType from "@features/product/api/hooks/useFetchProductsByProductType";
+import useFetchProductById from "@features/product/api/hooks/useFetchProductById";
 import useFetchAvailableTimeslots from "@features/rent/api/hooks/useFetchAvailableTimeslots";
 import useFetchRentLocations from "@features/rent/api/hooks/useFetchRentLocations";
 import useSaveRent from "@features/rent/api/hooks/useSaveRent";
