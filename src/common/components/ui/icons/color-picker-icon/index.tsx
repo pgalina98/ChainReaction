@@ -6,6 +6,7 @@ import { getProductColorId } from "@enums/product-color";
 interface ColorPickerIconProps {
   className?: string;
   color: string;
+  size?: string;
   isSelected?: boolean;
   isAvailable?: boolean;
   onClick?: any;
@@ -14,6 +15,7 @@ interface ColorPickerIconProps {
 const ColorPickerIcon = ({
   className,
   color,
+  size = "h-8 w-8",
   isSelected = false,
   isAvailable = true,
   onClick,
@@ -40,7 +42,7 @@ const ColorPickerIcon = ({
   return (
     <div
       className={declassify(
-        `${className} h-8 w-8 rounded-full flex justify-center items-center bg_${color.toLowerCase()}`,
+        `${className} ${size} rounded-full flex justify-center items-center bg_${color.toLowerCase()}`,
         { "cursor-not-allowed": !isAvailable }
       )}
       {...(isAvailable && { onClick: onIconClick })}

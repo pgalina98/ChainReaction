@@ -5,7 +5,6 @@ import { useDispatch } from "react-redux";
 import Image from "next/image";
 
 import { ProductColor } from "@enums/product-color";
-import { LocalStorageKeys } from "@enums/local-storage-keys";
 
 import Product from "@models/product/product.model";
 
@@ -150,7 +149,7 @@ const ProductCard = ({ className, product, cart }: ProductCardProps) => {
           </div>
           <div className="flex items-center space-x-4">
             <Icon
-              icon="las la-minus"
+              icon="las la-minus text-black"
               isDisabled={!isAvailable() || inCart}
               className={declassify(
                 `p-2 rounded-md bg_blue-lighter cursor-pointer`,

@@ -110,7 +110,6 @@ const Header = ({
           <Image
             src="/assets/shared/chain-reaction_logo.png"
             alt="ChainReaction Logo"
-            style={{ position: "absolute", zIndex: 0 }}
             width={45}
             height={40}
             priority
