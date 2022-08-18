@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 
 import { motion } from "framer-motion";
 
@@ -16,6 +16,8 @@ import { Icon, Alert, CartItem, CartSummary } from "@components";
 
 import { useFadeInOutRightVariants } from "@animations";
 
+import { clearCart } from "@features/cart/cart-slice";
+
 import styles from "./cart-box.module.scss";
 
 interface CartBoxProps extends StateProps {
@@ -28,11 +30,16 @@ export const CartBox = ({
   className,
   isOpen,
   toggleCartBox,
+  authentication,
   cart,
 }: CartBoxProps) => {
+  const dispatch = useDispatch();
+
   const [isCartSummaryOpen, setIsCartSummaryOpen] = useState<boolean>(false);
 
-  const onDeleteAllButtonClick = (): void => {};
+  const onDeleteAllButtonClick = (): void => {
+    dispatch(clearCart(authentication?.id!));
+  };
 
   return (
     <motion.div
@@ -98,7 +105,8 @@ export const CartBox = ({
   );
 };
 
-const mapStateToProps = ({ cart }: RootState) => ({
+const mapStateToProps = ({ authentication, cart }: RootState) => ({
+  authentication,
   cart,
 });
 

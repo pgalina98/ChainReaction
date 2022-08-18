@@ -3,7 +3,12 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 
 import Product from "@models/product/product.model";
 
-import { addItemToCart, removeItemToCart, updateItemInCart } from "@utils/cart";
+import {
+  addItemToCart,
+  removeAllItemsFromCart,
+  removeItemToCart,
+  updateItemInCart,
+} from "@utils/cart";
 
 export interface CartItem extends Product {
   quantity: number;
@@ -50,11 +55,16 @@ export const cartSlice = createSlice({
       };
       updateItemInCart(action.payload);
     },
+    clearCart: (state, action: PayloadAction<number>) => {
+      state = { ...Object.assign(state, initialState) };
+      removeAllItemsFromCart(action.payload);
+    },
     setItems: (state, action: PayloadAction<CartState>) => {
       state = { ...Object.assign(state, { items: [...action.payload.items] }) };
     },
   },
 });
 
-export const { addItem, removeItem, updateItem, setItems } = cartSlice.actions;
+export const { addItem, removeItem, updateItem, clearCart, setItems } =
+  cartSlice.actions;
 export default cartSlice.reducer;

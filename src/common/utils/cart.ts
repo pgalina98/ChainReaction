@@ -47,6 +47,10 @@ export const updateItemInCart = (cartItem: CartItem): void => {
   );
 };
 
+export const removeAllItemsFromCart = (idUser: number) => {
+  setValue(LocalStorageKeys.CART, JSON.stringify(createInitCart(idUser)));
+};
+
 export const calculateSubtotal = (): number => {
   const cart = JSON.parse(getValueByKey(LocalStorageKeys.CART)!) || [];
 
