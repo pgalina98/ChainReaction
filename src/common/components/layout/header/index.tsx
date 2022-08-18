@@ -84,7 +84,7 @@ const Header = ({
   }, [cart]);
 
   const onMenuItemChange = (menuItem: MenuItem): void => {
-    router.push(menuItem);
+    router.push(`/${menuItem}`);
     setValue(LocalStorageKeys.ACTIVE_TAB, menuItem);
   };
 
