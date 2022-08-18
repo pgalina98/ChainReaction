@@ -44,6 +44,7 @@ import {
   Alert,
 } from "@components";
 import { useToast } from "@components/hooks/useToast";
+import authenticatedBoundaryRoute from "@components/hoc/route-guards/authenticatedBoundaryRoute";
 
 import { getValueByKey } from "@utils/local-storage";
 
@@ -203,4 +204,4 @@ const mapStateToProps = ({ cart }: RootState) => ({
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 
-export default connect(mapStateToProps)(Bikes);
+export default authenticatedBoundaryRoute(connect(mapStateToProps)(Bikes));
