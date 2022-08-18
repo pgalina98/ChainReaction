@@ -1,6 +1,7 @@
 import { LocalStorageKeys } from "@enums/local-storage-keys";
 
 import { CartItem } from "@features/cart/cart-slice";
+import { SHIPPING_COST } from "@features/cart/constants";
 
 import Product from "@models/product/product.model";
 
@@ -44,6 +45,20 @@ export const updateItemInCart = (cartItem: CartItem): void => {
       ...cart,
     })
   );
+};
+
+export const calculateSubtotal = (): number => {
+  const cart = JSON.parse(getValueByKey(LocalStorageKeys.CART)!) || [];
+
+  return cart?.items.reduce(
+    (accumulator: number, cartItem: CartItem) =>
+      accumulator + cartItem.quantity * cartItem.price,
+    0
+  );
+};
+
+export const calculateTotal = (): number => {
+  return calculateSubtotal() + SHIPPING_COST;
 };
 
 export const createInitCart = (idUser: number) => {
