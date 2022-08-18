@@ -50,7 +50,7 @@ import { RootState } from "@store/index";
 import { alert } from "@constants/alert";
 
 import { declassify, isEmpty, isNullOrUndefined } from "@utils/common";
-import { getMirroredImagePath } from "@utils/shared";
+import { calcluateProgressBarValue, getMirroredImagePath } from "@utils/shared";
 import { formatNumberToCurrency } from "@utils/currency";
 
 import {
@@ -444,13 +444,6 @@ const RentEBike: NextPage<RootState> = ({ authentication }: RootState) => {
     router.back();
   };
 
-  const calcluateProgressBarValue = (
-    value: number,
-    comparativeValue: number
-  ): number => {
-    return Math.round((value / comparativeValue) * 100);
-  };
-
   const onHelmetChange = (helmet: Product): void => {
     setRentForm({ ...rentForm!, helmet });
   };
@@ -615,7 +608,7 @@ const RentEBike: NextPage<RootState> = ({ authentication }: RootState) => {
             {selectedBike?.imagePath && (
               <Image
                 src={getMirroredImagePath(selectedBike?.imagePath!)}
-                alt="Cowboy 4"
+                alt="Cowboy e-bike image"
                 width={1920}
                 height={1064}
                 priority

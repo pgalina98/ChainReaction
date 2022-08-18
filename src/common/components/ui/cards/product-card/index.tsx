@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 import { ProductColor } from "@enums/product-color";
 import { ButtonType } from "@enums/button-type";
@@ -13,6 +14,8 @@ import { Button, Icon, ColorPickerIcon } from "@components";
 
 import { declassify } from "@utils/common";
 import { formatNumberToCurrency } from "@utils/currency";
+import { isProductAvailable } from "@utils/shared";
+import { isProductInCart } from "@utils/cart";
 
 import { addItem, removeItem } from "@features/cart/cart-slice";
 
@@ -26,6 +29,7 @@ interface ProductCardProps {
 
 const ProductCard = ({ className, product, cart }: ProductCardProps) => {
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const [quantity, setQuantity] = useState<number>(1);
   const [inCart, setInCart] = useState<boolean>(false);
@@ -33,13 +37,9 @@ const ProductCard = ({ className, product, cart }: ProductCardProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    setInCart(isProductInCart());
+    setInCart(isProductInCart(product!));
     setQuantity(determineCartItemQuantity());
   }, [cart]);
-
-  const isAvailable = (): boolean => {
-    return product?.availableQuantity! > 0;
-  };
 
   const onAddToCartButtonClick = (): void => {
     dispatch(addItem({ ...product!, quantity }));
@@ -59,10 +59,6 @@ const ProductCard = ({ className, product, cart }: ProductCardProps) => {
     }, 500);
   };
 
-  const isProductInCart = (): boolean => {
-    return cart?.items?.some((item) => item.idProduct === product?.idProduct);
-  };
-
   const determineCartItemQuantity = (): number => {
     return (
       cart?.items?.find((item) => item.idProduct === product?.idProduct)
@@ -70,9 +66,14 @@ const ProductCard = ({ className, product, cart }: ProductCardProps) => {
     );
   };
 
+  const navigateToProductDetails = (): void => {
+    router.push(`/bikes/${product?.idProduct}`);
+  };
+
   return (
     <div
       className={`${className} ${styles.card} w-full max-w-sm bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 py-4 px-2 relative hover:scale-105 cursor-pointer`}
+      onClick={navigateToProductDetails}
     >
       <div className="absolute right-4 top-2 flex items-center mt-2.5 mb-5">
         <svg
@@ -116,11 +117,11 @@ const ProductCard = ({ className, product, cart }: ProductCardProps) => {
           <div
             className={declassify(
               `p-1 pl-4 pr-4 h-8 rounded-lg text-white font-thin`,
-              { bg_blue: isAvailable() },
-              { "bg-red-400": !isAvailable() }
+              { bg_blue: isProductAvailable(product!) },
+              { "bg-red-400": !isProductAvailable(product!) }
             )}
           >
-            {isAvailable()
+            {isProductAvailable(product!)
               ? `${product?.availableQuantity} available`
               : "Out of Stock"}
           </div>
@@ -151,12 +152,13 @@ const ProductCard = ({ className, product, cart }: ProductCardProps) => {
           <div className="flex items-center space-x-4">
             <Icon
               icon="las la-minus text-black"
-              isDisabled={!isAvailable() || inCart}
+              isDisabled={!isProductAvailable(product!) || inCart}
               className={declassify(
                 `p-2 rounded-md bg_blue-lighter cursor-pointer`,
                 { "cursor-not-allowed": quantity === 1 }
               )}
-              onClick={() => {
+              onClick={(event: any) => {
+                event.stopPropagation();
                 if (quantity !== 1) {
                   setQuantity(quantity - 1);
                 }
@@ -164,15 +166,16 @@ const ProductCard = ({ className, product, cart }: ProductCardProps) => {
             />
             <div className={`${styles.min_w_12} text-xl`}>{quantity}</div>
             <Icon
-              icon="las la-plus"
-              isDisabled={!isAvailable() || inCart}
+              icon="las la-plus text-black"
+              isDisabled={!isProductAvailable(product!) || inCart}
               className={declassify(
                 `p-2 rounded-md bg_blue-lighter cursor-pointer`,
                 {
                   "cursor-not-allowed": quantity === product?.availableQuantity,
                 }
               )}
-              onClick={() => {
+              onClick={(event: any) => {
+                event.stopPropagation();
                 if (quantity !== product?.availableQuantity) {
                   setQuantity(quantity + 1);
                 }
@@ -192,9 +195,13 @@ const ProductCard = ({ className, product, cart }: ProductCardProps) => {
               className="pt-1 pb-1"
               appendIcon="las la-cart-plus ml-2"
               iconSize="text-2xl"
-              isDisabled={!isAvailable()}
+              loaderWithLabel={false}
+              isDisabled={!isProductAvailable(product!)}
               isLoading={isLoading}
-              onClick={onAddToCartButtonClick}
+              onClick={(event: any) => {
+                event.stopPropagation();
+                onAddToCartButtonClick();
+              }}
             />
           ) : (
             <Button
@@ -203,8 +210,12 @@ const ProductCard = ({ className, product, cart }: ProductCardProps) => {
               type={ButtonType.DANGER}
               appendIcon="las la-cart-arrow-down ml-2"
               iconSize="text-2xl"
+              loaderWithLabel={false}
               isLoading={isLoading}
-              onClick={onRemoveFromCartButtonClick}
+              onClick={(event: any) => {
+                event.stopPropagation();
+                onRemoveFromCartButtonClick();
+              }}
             />
           )}
         </div>

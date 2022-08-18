@@ -1,14 +1,18 @@
 import { LocalStorageKeys } from "@enums/local-storage-keys";
 
-import { CartItem } from "@features/cart/cart-slice";
+import { CartItem, CartState } from "@features/cart/cart-slice";
 import { SHIPPING_COST } from "@features/cart/constants";
 
 import Product from "@models/product/product.model";
 
 import { getValueByKey, setValue } from "./local-storage";
 
+const getCart = (): CartState => {
+  return JSON.parse(getValueByKey(LocalStorageKeys.CART)!);
+};
+
 export const addItemToCart = (cartItem: CartItem): void => {
-  const cart = JSON.parse(getValueByKey(LocalStorageKeys.CART)!) || [];
+  const cart = getCart();
 
   setValue(
     LocalStorageKeys.CART,
@@ -17,7 +21,7 @@ export const addItemToCart = (cartItem: CartItem): void => {
 };
 
 export const removeItemToCart = (product: Product): void => {
-  const cart = JSON.parse(getValueByKey(LocalStorageKeys.CART)!) || [];
+  const cart = getCart();
 
   setValue(
     LocalStorageKeys.CART,
@@ -31,7 +35,7 @@ export const removeItemToCart = (product: Product): void => {
 };
 
 export const updateItemInCart = (cartItem: CartItem): void => {
-  const cart = JSON.parse(getValueByKey(LocalStorageKeys.CART)!) || [];
+  const cart = getCart();
 
   const itemIndex = cart.items.findIndex(
     (item: CartItem) => item.idProduct === cartItem.idProduct
@@ -52,12 +56,30 @@ export const removeAllItemsFromCart = (idUser: number) => {
 };
 
 export const calculateSubtotal = (): number => {
-  const cart = JSON.parse(getValueByKey(LocalStorageKeys.CART)!) || [];
+  const cart = getCart();
 
   return cart?.items?.reduce(
     (accumulator: number, cartItem: CartItem) =>
       accumulator + cartItem.quantity * cartItem.price,
     0
+  );
+};
+
+export const getCartItemByIdProduct = (idProduct: number): CartItem | null => {
+  const cart = getCart();
+
+  return (
+    cart?.items?.find(
+      (cartItem: CartItem) => cartItem?.idProduct === idProduct
+    ) || null
+  );
+};
+
+export const isProductInCart = (product: Product): boolean => {
+  const cart = getCart();
+
+  return cart?.items?.some(
+    (item: CartItem) => item.idProduct === product?.idProduct
   );
 };
 

@@ -14,6 +14,7 @@ interface ButtonProps {
   prependIcon?: string;
   appendIcon?: string;
   iconSize?: string;
+  loaderWithLabel?: boolean;
   isLoading?: boolean;
   isDisabled?: boolean;
   isHidden?: boolean;
@@ -28,6 +29,7 @@ const Button = ({
   prependIcon,
   appendIcon,
   iconSize = "text-lg",
+  loaderWithLabel = true,
   isLoading = false,
   isDisabled = false,
   isHidden = false,
@@ -109,7 +111,7 @@ const Button = ({
           </span>
         )
       ) : (
-        <Loader className="mr-2 ml-3" />
+        <Loader className="mr-2 ml-3" withLabel={loaderWithLabel} />
       )}
     </button>
   );
