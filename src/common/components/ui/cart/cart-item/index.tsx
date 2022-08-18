@@ -11,6 +11,7 @@ import { declassify } from "@utils/common";
 import { CartItem, updateItem } from "@features/cart/cart-slice";
 
 import styles from "./cart-item.module.scss";
+import { formatNumberToCurrency } from "@utils/currency";
 
 interface CartItemProps {
   className?: string;
@@ -92,7 +93,9 @@ const CartItem = ({ className, cartItem }: CartItemProps) => {
             </div>
           </div>
         </div>
-        <div className="text-2xl">{`${cartItem?.quantity} x $${cartItem?.price}`}</div>
+        <div className="text-2xl">
+          {formatNumberToCurrency(cartItem?.quantity * cartItem?.price)}
+        </div>
       </div>
       <hr className="border-1 w-full text-white bg_white" />
     </div>

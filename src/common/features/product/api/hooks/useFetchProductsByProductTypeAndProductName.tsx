@@ -14,7 +14,7 @@ const useFetchProductsByProductTypeAndProductName = (
     FETCH_PRODUCTS_BY_PRODUCT_TYPE_AND_PRODUCT_NAME,
     fetchProductsByProductTypeAndProductName(
       getProductTypeValue(productType)!,
-      productName!
+      productName || null
     ),
     {
       enabled: false,

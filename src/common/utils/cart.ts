@@ -50,7 +50,7 @@ export const updateItemInCart = (cartItem: CartItem): void => {
 export const calculateSubtotal = (): number => {
   const cart = JSON.parse(getValueByKey(LocalStorageKeys.CART)!) || [];
 
-  return cart?.items.reduce(
+  return cart?.items?.reduce(
     (accumulator: number, cartItem: CartItem) =>
       accumulator + cartItem.quantity * cartItem.price,
     0

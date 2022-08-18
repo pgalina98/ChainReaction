@@ -5,17 +5,18 @@ import { useDispatch } from "react-redux";
 import Image from "next/image";
 
 import { ProductColor } from "@enums/product-color";
+import { ButtonType } from "@enums/button-type";
 
 import Product from "@models/product/product.model";
 
 import { Button, Icon, ColorPickerIcon } from "@components";
 
 import { declassify } from "@utils/common";
+import { formatNumberToCurrency } from "@utils/currency";
 
 import { addItem, removeItem } from "@features/cart/cart-slice";
 
 import styles from "./product-card.module.scss";
-import { ButtonType } from "@enums/button-type";
 
 interface ProductCardProps {
   className?: string;
@@ -180,12 +181,14 @@ const ProductCard = ({ className, product, cart }: ProductCardProps) => {
           </div>
         </div>
         <div className="flex justify-between items-center mt-8">
-          <span className="text-3xl font-semibold text-gray-900 dark:text-white">
-            ${product?.price}
+          <span
+            className={`${styles.price} font-semibold text-gray-900 dark:text-white`}
+          >
+            {formatNumberToCurrency(product?.price!)}
           </span>
           {!inCart ? (
             <Button
-              label="Add to cart"
+              label="Add item"
               className="pt-1 pb-1"
               appendIcon="las la-cart-plus ml-2"
               iconSize="text-2xl"
@@ -195,7 +198,7 @@ const ProductCard = ({ className, product, cart }: ProductCardProps) => {
             />
           ) : (
             <Button
-              label="Remove item"
+              label="Remove"
               className="pt-1 pb-1 "
               type={ButtonType.DANGER}
               appendIcon="las la-cart-arrow-down ml-2"

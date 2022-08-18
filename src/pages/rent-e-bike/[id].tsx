@@ -27,6 +27,7 @@ import {
   Toast,
 } from "@components";
 import { useToast } from "@components/hooks/useToast";
+import authenticatedBoundaryRoute from "@components/hoc/route-guards/authenticatedBoundaryRoute";
 
 import { messages } from "@constants/messages";
 
@@ -50,6 +51,7 @@ import { alert } from "@constants/alert";
 
 import { declassify, isEmpty, isNullOrUndefined } from "@utils/common";
 import { getMirroredImagePath } from "@utils/shared";
+import { formatNumberToCurrency } from "@utils/currency";
 
 import {
   useFadeInOutLeftVariants,
@@ -329,7 +331,11 @@ const RentSummary = ({ rentForm }) => {
                 {rentForm.product.color.value}
               </div>
             </div>
-            <div className="text-black text-xl font-medium ml-auto self-center">{`${rentForm.timeslots.length}h x ${rentForm.product.rentPricePerHour}$`}</div>
+            <div className="text-black text-xl font-medium ml-auto self-center">{`${
+              rentForm.timeslots.length
+            }h x ${formatNumberToCurrency(
+              rentForm.product.rentPricePerHour
+            )}`}</div>
           </div>
           <div className="flex mt-8">
             <div className="w-24">
@@ -353,14 +359,14 @@ const RentSummary = ({ rentForm }) => {
               </div>
             </div>
             <div className="text-black text-xl font-medium ml-auto self-center">
-              0$
+              {formatNumberToCurrency(0)}
             </div>
           </div>
           <hr className="mt-4 mb-4" />
           <div className="flex">
             <div className="text-gray-600 text-lg">Subtotal</div>
             <div className="text-black text-xl font-medium ml-auto self-center">
-              {`${calculateSubtotal()}$`}
+              {`${formatNumberToCurrency(calculateSubtotal())}`}
             </div>
           </div>
           <hr className="mt-4 mb-4" />
@@ -369,7 +375,7 @@ const RentSummary = ({ rentForm }) => {
             <div className="ml-auto self-center flex items-center">
               <div className="text-gray-500 font-thin text-sm mr-2">USD</div>
               <div className="text-black text-xl font-medium">
-                {`${calculateTotal()}$`}
+                {`${formatNumberToCurrency(calculateTotal())}`}
               </div>
             </div>
           </div>
@@ -565,7 +571,7 @@ const RentEBike: NextPage<RootState> = ({ authentication }: RootState) => {
             >
               <span className="mt-6 flex">
                 <p className="text-3xl font_secondary">
-                  ${selectedBike?.rentPricePerHour}
+                  {formatNumberToCurrency(selectedBike?.rentPricePerHour!)}
                 </p>
                 <p className="self-end mb-1 ml-1">/ hour</p>
               </span>
@@ -750,4 +756,4 @@ const mapStateToProps = ({ authentication }: RootState) => ({
   authentication,
 });
 
-export default connect(mapStateToProps)(RentEBike);
+export default authenticatedBoundaryRoute(connect(mapStateToProps)(RentEBike));

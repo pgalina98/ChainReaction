@@ -7,7 +7,7 @@ import Pagination from "@models/pagination/pagination.model";
 
 export const fetchProductsByProductTypeAndProductName = (
   productType: string,
-  productName?: string
+  productName?: string | null
 ) => {
   return async () =>
     await axios.get<Product[]>(

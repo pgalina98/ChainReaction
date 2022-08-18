@@ -27,6 +27,7 @@ import { ProductColor, getProductColorValue } from "@enums/product-color";
 import { isNullOrUndefined } from "@utils/common";
 import { getMirroredImagePath } from "@utils/shared";
 import { clearActiveTab } from "@utils/local-storage";
+import { formatNumberToCurrency } from "@utils/currency";
 
 import Product from "@models/product/product.model";
 
@@ -194,7 +195,7 @@ const Home: NextPage = () => {
               />
               <span className="flex ml-6">
                 <p className="text-3xl font_secondary">
-                  ${selectedBike?.rentPricePerHour}
+                  {formatNumberToCurrency(selectedBike?.rentPricePerHour!)}
                 </p>
                 <p className="self-end mb-1 ml-1">/ hour</p>
               </span>
@@ -280,14 +281,14 @@ const Home: NextPage = () => {
               <Image
                 src="/assets/shared/splash_white.png"
                 alt="Splash white"
-                width={180}
-                height={100}
+                width={200}
+                height={111}
                 priority
               />
               <div className="flex absolute mb-2 text-black">
                 <div className="text-xl">$</div>
                 <div className="text-4xl font-medium">
-                  {selectedBike?.price}
+                  {formatNumberToCurrency(selectedBike?.price!, false)}
                 </div>
               </div>
             </motion.div>
