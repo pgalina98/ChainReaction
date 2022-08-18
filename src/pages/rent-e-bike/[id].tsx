@@ -179,7 +179,7 @@ const ChooseLocation = ({ selectedLocation, setSelectedLocation }) => {
             key={index}
             className="pt-3 pl-5 pb-3 flex items-center hover:cursor-pointer hover:scale-105"
             withCheckIcon={false}
-            isSelected={selectedLocation?.idLocation === location.idLocation}
+            isSelected={selectedLocation?.idLocation === location?.idLocation}
             onClick={() => setSelectedLocation(location)}
           >
             <div className="w-6 h-6 p-5 rounded-2xl bg_primary flex items-center justify-center">
@@ -197,11 +197,12 @@ const ChooseLocation = ({ selectedLocation, setSelectedLocation }) => {
               className={declassify(
                 `w-4 h-4 p-5 rounded-full bg_primary flex items-center justify-center ml-auto mr-5`,
                 {
-                  visible: selectedLocation?.idLocation === location.idLocation,
+                  visible:
+                    selectedLocation?.idLocation === location?.idLocation,
                 },
                 {
                   invisible:
-                    selectedLocation?.idLocation !== location.idLocation,
+                    selectedLocation?.idLocation !== location?.idLocation,
                 }
               )}
             >
@@ -298,11 +299,11 @@ const PickupDate = ({
 
 const RentSummary = ({ rentForm }) => {
   const calculateSubtotal = (): number => {
-    return rentForm.product.rentPricePerHour * rentForm.timeslots.length;
+    return rentForm?.product?.rentPricePerHour * rentForm?.timeslots?.length;
   };
 
   const calculateTotal = (): number => {
-    return rentForm.product.rentPricePerHour * rentForm.timeslots.length;
+    return rentForm?.product?.rentPricePerHour * rentForm?.timeslots?.length;
   };
 
   return (
@@ -313,7 +314,7 @@ const RentSummary = ({ rentForm }) => {
           <div className="flex">
             <div className="w-24">
               <Image
-                src={getMirroredImagePath(rentForm.product?.imagePath!)}
+                src={getMirroredImagePath(rentForm?.product?.imagePath!)}
                 alt="Cowboy 4"
                 width={90}
                 height={50}
@@ -322,25 +323,25 @@ const RentSummary = ({ rentForm }) => {
             </div>
             <div className="text-black ml-6 self-center">
               <div className="flex items-center">
-                <div className="text-lg font-medium">{`${rentForm.product.name} ${rentForm.product.model}`}</div>
+                <div className="text-lg font-medium">{`${rentForm?.product.name} ${rentForm?.product.model}`}</div>
                 <div className="text-lg font-thin">
-                  {`, ${rentForm.product.description}`}
+                  {`, ${rentForm?.product?.description}`}
                 </div>
               </div>
               <div className="text-base font-thin">
-                {rentForm.product.color.value}
+                {rentForm?.product.color.value}
               </div>
             </div>
             <div className="text-black text-xl font-medium ml-auto self-center">{`${
               rentForm.timeslots.length
             }h x ${formatNumberToCurrency(
-              rentForm.product.rentPricePerHour
+              rentForm?.product?.rentPricePerHour
             )}`}</div>
           </div>
           <div className="flex mt-8">
             <div className="w-24">
               <Image
-                src={rentForm.helmet?.imagePath!}
+                src={rentForm?.helmet?.imagePath!}
                 alt="Cowboy 4"
                 width={65}
                 height={65}
@@ -349,13 +350,13 @@ const RentSummary = ({ rentForm }) => {
             </div>
             <div className="text-black ml-6 self-center">
               <div className="flex items-center">
-                <div className="text-lg font-medium">{`${rentForm.helmet.name} ${rentForm.helmet.model}`}</div>
+                <div className="text-lg font-medium">{`${rentForm?.helmet.name} ${rentForm?.helmet.model}`}</div>
                 <div className="text-lg font-thin">
-                  {`, ${getProductSizeValue(rentForm.helmetSize)}`}
+                  {`, ${getProductSizeValue(rentForm?.helmetSize)}`}
                 </div>
               </div>
               <div className="text-lg font-thin">
-                {rentForm.helmet.color.value}
+                {rentForm?.helmet.color.value}
               </div>
             </div>
             <div className="text-black text-xl font-medium ml-auto self-center">
