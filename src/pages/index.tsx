@@ -189,7 +189,7 @@ const Home: NextPage = () => {
             >
               <Button
                 label="Book a test ride"
-                type={ButtonType.LIGHT}
+                type={ButtonType.WHITE}
                 rounded
                 onClick={navigateToRentABikePage}
               />
@@ -281,13 +281,13 @@ const Home: NextPage = () => {
               <Image
                 src="/assets/shared/splash_white.png"
                 alt="Splash white"
-                width={200}
-                height={111}
+                width={180}
+                height={100}
                 priority
               />
               <div className="flex absolute mb-2 text-black">
                 <div className="text-xl">$</div>
-                <div className="text-4xl font-medium">
+                <div className={`${styles.price} font-medium`}>
                   {formatNumberToCurrency(selectedBike?.price!, false)}
                 </div>
               </div>

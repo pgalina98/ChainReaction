@@ -328,7 +328,7 @@ const BikeDetails = ({ cart }: BikeDetailsProps) => {
               {isNullOrUndefined(cartItem) ? (
                 <div
                   className={declassify(
-                    `flex items-center justify-center w-1/4 uppercase cursor-pointer`,
+                    `flex items-center justify-center w-1/4 uppercase cursor-pointer hover:bg-gray-200`,
                     { hidden: isProcessing }
                   )}
                   onClick={onAddToCartButtonClick}

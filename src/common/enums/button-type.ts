@@ -6,4 +6,5 @@ export enum ButtonType {
   INFO = "info",
   DARK = "dark",
   LIGHT = "light",
+  WHITE = "white",
 }

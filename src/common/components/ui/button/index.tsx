@@ -76,6 +76,11 @@ const Button = ({
           isButtonDisabled() && "border-gray-100 bg-gray-100"
         } ${!isButtonDisabled() && "hover:bg-gray-300"} text-black`;
 
+      case ButtonType.WHITE:
+        return `border-white bg-white ${
+          isButtonDisabled() && "border-gray-100 bg-gray-100"
+        } ${!isButtonDisabled() && "hover:bg-gray-200"} text-black`;
+
       default:
         return `border-blue-500 bg-blue-500 ${
           isButtonDisabled() && "border-blue-400 bg-gray-400"

@@ -691,7 +691,8 @@ const RentEBike: NextPage<RootState> = ({ authentication }: RootState) => {
               className={declassify(
                 "flex items-center justify-center w-1/4",
                 {
-                  "bg_white cursor-pointer": !isNextButtonDisabled(),
+                  "bg_white cursor-pointer hover:bg-gray-200":
+                    !isNextButtonDisabled(),
                 },
                 { "bg_gray cursor-not-allowed": isNextButtonDisabled() }
               )}
