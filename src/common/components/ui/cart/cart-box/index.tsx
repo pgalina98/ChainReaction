@@ -70,7 +70,11 @@ export const CartBox = ({
       </span>
       <hr className="border-1 w-screen text-white bg_white" />
       <div
-        className={`${styles.cart_items_container} mt-4 w-full p-4 pt-0 pb-2 normal-case overflow-y-auto`}
+        className={`${
+          isCartSummaryOpen && styles.cart_items_container_summary_opened
+        } ${
+          !isCartSummaryOpen && styles.cart_items_container_summary_closed
+        } mt-4 w-full p-4 pt-0 pb-2 normal-case overflow-y-auto`}
       >
         {isEmpty(cart) && (
           <Alert
@@ -82,11 +86,13 @@ export const CartBox = ({
         {cart?.items.map((cartItem, index) => (
           <CartItem key={index} cartItem={cartItem} />
         ))}
-        <CartSummary
-          isOpen={isCartSummaryOpen}
-          toggleCartSummary={setIsCartSummaryOpen}
-          cart={cart}
-        />
+        {!isEmpty(cart) && (
+          <CartSummary
+            isOpen={isCartSummaryOpen}
+            toggleCartSummary={setIsCartSummaryOpen}
+            cart={cart}
+          />
+        )}
       </div>
     </motion.div>
   );

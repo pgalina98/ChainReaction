@@ -3,7 +3,12 @@
   height: 100vh;
 }
 
-.cart_items_container {
+.cart_items_container_summary_opened {
   max-height: 58%;
   min-height: 58%;
+}
+
+.cart_items_container_summary_closed {
+  max-height: 76%;
+  min-height: 76%;
 }
