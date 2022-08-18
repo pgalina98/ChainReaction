@@ -12,12 +12,17 @@ import Product from "@models/product/product.model";
 
 import { Button, Icon, ColorPickerIcon } from "@components";
 
-import { declassify } from "@utils/common";
+import { declassify, isNullOrUndefined } from "@utils/common";
 import { formatNumberToCurrency } from "@utils/currency";
 import { isProductAvailable } from "@utils/shared";
-import { isProductInCart } from "@utils/cart";
+import { getCartItemByIdProduct } from "@utils/cart";
 
-import { addItem, removeItem } from "@features/cart/cart-slice";
+import {
+  addItem,
+  CartItem,
+  removeItem,
+  updateItem,
+} from "@features/cart/cart-slice";
 
 import styles from "./product-card.module.scss";
 
@@ -32,14 +37,17 @@ const ProductCard = ({ className, product, cart }: ProductCardProps) => {
   const router = useRouter();
 
   const [quantity, setQuantity] = useState<number>(1);
-  const [inCart, setInCart] = useState<boolean>(false);
+  const [cartItem, setCartItem] = useState<CartItem>();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    setInCart(isProductInCart(product!));
-    setQuantity(determineCartItemQuantity());
-  }, [cart]);
+    setCartItem(getCartItemByIdProduct(product?.idProduct!)!);
+  }, [cart, product]);
+
+  useEffect(() => {
+    setQuantity(cartItem?.quantity || 1);
+  }, [cartItem]);
 
   const onAddToCartButtonClick = (): void => {
     dispatch(addItem({ ...product!, quantity }));
@@ -51,6 +59,22 @@ const ProductCard = ({ className, product, cart }: ProductCardProps) => {
     showLoader();
   };
 
+  const onMinusButtonClick = (): void => {
+    if (isNullOrUndefined(cartItem)) {
+      setQuantity(quantity - 1);
+    } else {
+      dispatch(updateItem({ ...cartItem!, quantity: cartItem?.quantity! - 1 }));
+    }
+  };
+
+  const onPlusButtonClick = (): void => {
+    if (isNullOrUndefined(cartItem)) {
+      setQuantity(quantity + 1);
+    } else {
+      dispatch(updateItem({ ...cartItem!, quantity: cartItem?.quantity! + 1 }));
+    }
+  };
+
   const showLoader = (): void => {
     setIsLoading(true);
 
@@ -59,11 +83,12 @@ const ProductCard = ({ className, product, cart }: ProductCardProps) => {
     }, 500);
   };
 
-  const determineCartItemQuantity = (): number => {
-    return (
-      cart?.items?.find((item) => item.idProduct === product?.idProduct)
-        ?.quantity || 1
-    );
+  const isMinusButtonDisabled = (): boolean => {
+    return quantity === 1;
+  };
+
+  const isPlusButtonDisabled = (): boolean => {
+    return quantity === product?.availableQuantity;
   };
 
   const navigateToProductDetails = (): void => {
@@ -152,32 +177,36 @@ const ProductCard = ({ className, product, cart }: ProductCardProps) => {
           <div className="flex items-center space-x-4">
             <Icon
               icon="las la-minus text-black"
-              isDisabled={!isProductAvailable(product!) || inCart}
+              isDisabled={
+                !isProductAvailable(product!) || isMinusButtonDisabled()
+              }
               className={declassify(
                 `p-2 rounded-md bg_blue-lighter cursor-pointer`,
-                { "cursor-not-allowed": quantity === 1 }
+                { "cursor-not-allowed": isMinusButtonDisabled() }
               )}
               onClick={(event: any) => {
                 event.stopPropagation();
-                if (quantity !== 1) {
-                  setQuantity(quantity - 1);
+                if (!isMinusButtonDisabled()) {
+                  onMinusButtonClick();
                 }
               }}
             />
             <div className={`${styles.min_w_12} text-xl`}>{quantity}</div>
             <Icon
               icon="las la-plus text-black"
-              isDisabled={!isProductAvailable(product!) || inCart}
+              isDisabled={
+                !isProductAvailable(product!) || isPlusButtonDisabled()
+              }
               className={declassify(
                 `p-2 rounded-md bg_blue-lighter cursor-pointer`,
                 {
-                  "cursor-not-allowed": quantity === product?.availableQuantity,
+                  "cursor-not-allowed": isPlusButtonDisabled(),
                 }
               )}
               onClick={(event: any) => {
                 event.stopPropagation();
-                if (quantity !== product?.availableQuantity) {
-                  setQuantity(quantity + 1);
+                if (!isPlusButtonDisabled()) {
+                  onPlusButtonClick();
                 }
               }}
             />
@@ -189,9 +218,9 @@ const ProductCard = ({ className, product, cart }: ProductCardProps) => {
           >
             {formatNumberToCurrency(product?.price!)}
           </span>
-          {!inCart ? (
+          {isNullOrUndefined(cartItem) ? (
             <Button
-              label="Add item"
+              label="Add"
               className="pt-1 pb-1"
               appendIcon="las la-cart-plus ml-2"
               iconSize="text-2xl"
