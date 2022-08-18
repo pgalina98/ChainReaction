@@ -16,7 +16,7 @@ import { Icon, Alert, CartItem, CartSummary } from "@components";
 
 import { useFadeInOutRightVariants } from "@animations";
 
-import { clearCart } from "@features/cart/cart-slice";
+import { clearCart, removeItem } from "@features/cart/cart-slice";
 
 import styles from "./cart-box.module.scss";
 
@@ -39,6 +39,10 @@ export const CartBox = ({
 
   const onDeleteAllButtonClick = (): void => {
     dispatch(clearCart(authentication?.id!));
+  };
+
+  const onDeleteSingleButtonClick = (cartItem: any): void => {
+    dispatch(removeItem(cartItem));
   };
 
   return (
@@ -91,7 +95,11 @@ export const CartBox = ({
           />
         )}
         {cart?.items.map((cartItem, index) => (
-          <CartItem key={index} cartItem={cartItem} />
+          <CartItem
+            key={index}
+            cartItem={cartItem}
+            onDeleteSingleButtonClick={onDeleteSingleButtonClick}
+          />
         ))}
         {!isEmpty(cart) && (
           <CartSummary

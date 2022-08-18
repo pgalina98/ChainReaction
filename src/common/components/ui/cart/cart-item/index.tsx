@@ -16,9 +16,14 @@ import { formatNumberToCurrency } from "@utils/currency";
 interface CartItemProps {
   className?: string;
   cartItem: CartItem;
+  onDeleteSingleButtonClick: any;
 }
 
-const CartItem = ({ className, cartItem }: CartItemProps) => {
+const CartItem = ({
+  className,
+  cartItem,
+  onDeleteSingleButtonClick,
+}: CartItemProps) => {
   const dispatch = useDispatch();
 
   const onQuantityChangeButtonClick = (cartItem: CartItem): void => {
@@ -28,8 +33,15 @@ const CartItem = ({ className, cartItem }: CartItemProps) => {
   return (
     <div className="mt-4">
       <div
-        className={`${className} w_full h-20 flex items-center justify-between mb-4`}
+        className={`${className} w_full h-20 flex items-center justify-between relative mb-4`}
       >
+        <div className="absolute right-0 -top-2">
+          <Icon
+            className="text-2xl cursor-pointer text-white"
+            icon="las la-times"
+            onClick={() => onDeleteSingleButtonClick(cartItem)}
+          />
+        </div>
         <div className="flex">
           <div className="p-2 pt-3 pb-3 rounded-xl bg_white flex items-center relative">
             <div className="absolute rounded-full bg_white text-black font-medium pl-3 pr-3 -top-2 -right-3">
