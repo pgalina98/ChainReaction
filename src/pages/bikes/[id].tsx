@@ -12,7 +12,12 @@ import { ToastType } from "@enums/toast-type";
 import { ProductColor } from "@enums/product-color";
 
 import Product from "@models/product/product.model";
-import { CartItem, updateItem } from "@features/cart/cart-slice";
+import {
+  addItem,
+  CartItem,
+  removeItem,
+  updateItem,
+} from "@features/cart/cart-slice";
 import { RootState } from "@store/index";
 
 import { messages } from "@constants/messages";
@@ -38,6 +43,7 @@ import {
   ColorPickerIcon,
   Header,
   Icon,
+  Loader,
   LoadingOverlay,
   ProgressBar,
   Toast,
@@ -61,6 +67,8 @@ const BikeDetails = ({ cart }: BikeDetailsProps) => {
   const [product, setProduct] = useState<Product>();
   const [quantity, setQuantity] = useState<number>(1);
   const [cartItem, setCartItem] = useState<CartItem>();
+
+  const [isProcessing, setIsProcessing] = useState<boolean>(false);
 
   const { isLoading, isError, data, error, refetch } = useFetchProductById(
     idProduct as string
@@ -112,6 +120,24 @@ const BikeDetails = ({ cart }: BikeDetailsProps) => {
     }
   };
 
+  const onAddToCartButtonClick = (): void => {
+    dispatch(addItem({ ...product!, quantity }));
+    showLoader();
+  };
+
+  const onRemoveFromCartButtonClick = (): void => {
+    dispatch(removeItem(product!));
+    showLoader();
+  };
+
+  const showLoader = (): void => {
+    setIsProcessing(true);
+
+    setTimeout(() => {
+      setIsProcessing(false);
+    }, 500);
+  };
+
   const navigateToPreviousPage = () => {
     router.back();
   };
@@ -151,7 +177,7 @@ const BikeDetails = ({ cart }: BikeDetailsProps) => {
             variants={useFadeInOutVariants({ duration: 0.5 })}
             className="ml-12 max-w-xl"
           >
-            <p className=" text-6xl font_secondary">{`${product?.name}. ${product?.model}`}</p>
+            <p className="text-6xl font_secondary">{`${product?.name}. ${product?.model}`}</p>
             <p className="text-4xl mt-2">{product?.description}</p>
             <motion.div
               initial="initial"
@@ -190,7 +216,7 @@ const BikeDetails = ({ cart }: BikeDetailsProps) => {
             animate="animate"
             exit="exit"
             variants={useFadeInOutVariants({ duration: 0.5, delay: 1 })}
-            className="p-8 pt-10"
+            className="p-8 pt-16"
           >
             <div className="pl-6 pr-6 text-2xl mb-4">Specifications</div>
             <div className="flex justify-center space-x-12">
@@ -287,6 +313,41 @@ const BikeDetails = ({ cart }: BikeDetailsProps) => {
                   }}
                 />
               </div>
+            </div>
+            <div className="flex absolute bottom-0 left-1/2 w-full h-16 text-black text-lg bg_white">
+              <div className="flex items-center justify-center w-1/4 text-black uppercase bg_gray">
+                {`Only ${product?.availableQuantity} products available`}
+                <Icon icon="las la-exclamation text-2xl" />
+                <Icon icon="las la-shipping-fast text-2xl" />
+              </div>
+              {isProcessing && (
+                <div className="flex items-center justify-center w-1/4">
+                  <Loader withLabel={false} />
+                </div>
+              )}
+              {isNullOrUndefined(cartItem) ? (
+                <div
+                  className={declassify(
+                    `flex items-center justify-center w-1/4 uppercase cursor-pointer`,
+                    { hidden: isProcessing }
+                  )}
+                  onClick={onAddToCartButtonClick}
+                >
+                  Add to cart
+                  <Icon icon="las la-cart-plus ml-3 text-2xl" />
+                </div>
+              ) : (
+                <div
+                  className={declassify(
+                    `flex items-center justify-center w-1/4 uppercase cursor-pointer bg-red-400 hover:bg-red-500 text-white`,
+                    { hidden: isProcessing }
+                  )}
+                  onClick={onRemoveFromCartButtonClick}
+                >
+                  Remove from cart
+                  <Icon icon="las la-cart-plus ml-3 text-2xl" />
+                </div>
+              )}
             </div>
           </motion.div>
         </div>

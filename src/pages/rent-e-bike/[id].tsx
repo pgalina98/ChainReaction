@@ -555,7 +555,7 @@ const RentEBike: NextPage<RootState> = ({ authentication }: RootState) => {
             variants={useFadeInOutVariants({ duration: 0.5 })}
             className="ml-12 max-w-xl"
           >
-            <p className=" text-6xl font_secondary">{`${selectedBike?.name}. ${selectedBike?.model}`}</p>
+            <p className="text-6xl font_secondary">{`${selectedBike?.name}. ${selectedBike?.model}`}</p>
             <p className="text-4xl mt-2">{selectedBike?.description}</p>
             <motion.div
               initial="initial"

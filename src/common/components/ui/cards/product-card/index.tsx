@@ -39,7 +39,7 @@ const ProductCard = ({ className, product, cart }: ProductCardProps) => {
   const [quantity, setQuantity] = useState<number>(1);
   const [cartItem, setCartItem] = useState<CartItem>();
 
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isProcessing, setIsProcessing] = useState<boolean>(false);
 
   useEffect(() => {
     setCartItem(getCartItemByIdProduct(product?.idProduct!)!);
@@ -76,10 +76,10 @@ const ProductCard = ({ className, product, cart }: ProductCardProps) => {
   };
 
   const showLoader = (): void => {
-    setIsLoading(true);
+    setIsProcessing(true);
 
     setTimeout(() => {
-      setIsLoading(false);
+      setIsProcessing(false);
     }, 500);
   };
 
@@ -226,7 +226,7 @@ const ProductCard = ({ className, product, cart }: ProductCardProps) => {
               iconSize="text-2xl"
               loaderWithLabel={false}
               isDisabled={!isProductAvailable(product!)}
-              isLoading={isLoading}
+              isLoading={isProcessing}
               onClick={(event: any) => {
                 event.stopPropagation();
                 onAddToCartButtonClick();
@@ -235,12 +235,12 @@ const ProductCard = ({ className, product, cart }: ProductCardProps) => {
           ) : (
             <Button
               label="Remove"
-              className="pt-1 pb-1 "
+              className="pt-1 pb-1"
               type={ButtonType.DANGER}
               appendIcon="las la-cart-arrow-down ml-2"
               iconSize="text-2xl"
               loaderWithLabel={false}
-              isLoading={isLoading}
+              isLoading={isProcessing}
               onClick={(event: any) => {
                 event.stopPropagation();
                 onRemoveFromCartButtonClick();
