@@ -1,7 +1,5 @@
 import React from "react";
 
-import styles from "./bars-icon.module.scss";
-
 interface BackIconProps {
   className?: string;
   onClick?: any;

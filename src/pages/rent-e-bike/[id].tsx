@@ -544,7 +544,7 @@ const RentEBike: NextPage<RootState> = ({ authentication }: RootState) => {
             variants={useFadeInOutVariants({ duration: 0.5 })}
           >
             <BackIcon
-              className="flex justify-end mt-4 mr-12"
+              className="flex justify-end mt-4 mr-12 text-xl"
               onClick={navigateToPreviousPage}
             />
           </motion.div>
