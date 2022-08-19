@@ -5,6 +5,7 @@ import { connect, useDispatch } from "react-redux";
 import { alert } from "@constants/alert";
 
 import { AlertType } from "@enums/alert-type";
+import { CheckoutStep } from "@enums/checkout-step";
 
 import { motion } from "framer-motion";
 
@@ -16,7 +17,7 @@ import { formatNumberToCurrency } from "@utils/currency";
 
 import { useFadeInOutVariants } from "@animations";
 
-import { Alert, CartItem, ColorPickerIcon, Header, Icon } from "@components";
+import { Alert, CartItem, CheckoutStepper, Header, Icon } from "@components";
 import authenticatedBoundaryRoute from "@components/hoc/route-guards/authenticatedBoundaryRoute";
 
 import { clearCart, removeItem } from "@features/cart/cart-slice";
@@ -85,11 +86,13 @@ const Cart = ({ authentication, cart }: CartProps) => {
             ))}
           </motion.div>
         </div>
-        <div
-          className={`${styles.h_full} bg_brown pl-12 pr-12 pt-8 pb-8 text-white relative`}
-        >
+        <div className={`${styles.h_full} bg_brown text-white relative`}>
+          <CheckoutStepper
+            className="pt-8"
+            currentStep={CheckoutStep.DELIVERY_DETAILS}
+          />
           {!isEmpty(cart) && (
-            <div className="absolute w-full pr-24 bottom-10">
+            <div className="absolute w-full pl-12 pr-12 bottom-10">
               <hr className="border-1 text-white bg-gray-600 mb-3" />
               <div className="flex justify-between">
                 <div className="text-md font-medium">Subtotal</div>
@@ -100,7 +103,7 @@ const Cart = ({ authentication, cart }: CartProps) => {
               <div className="flex justify-between mt-1 pb-2">
                 <div className="text-md font-medium">Shipping</div>
                 <div className="text-xl font-semibold">
-                  {formatNumberToCurrency(SHIPPING_COST)}
+                  + {formatNumberToCurrency(SHIPPING_COST)}
                 </div>
               </div>
               <hr className="border-1 text-white bg-gray-600" />

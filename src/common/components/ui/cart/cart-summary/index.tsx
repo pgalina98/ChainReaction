@@ -75,7 +75,7 @@ const CartSummary = ({
           <div className="flex justify-between text-gray-500 mt-1 pb-2">
             <div className="text-md font-medium">Shipping</div>
             <div className="text-xl font-semibold">
-              {formatNumberToCurrency(SHIPPING_COST)}
+              + {formatNumberToCurrency(SHIPPING_COST)}
             </div>
           </div>
           <hr className="border-1 text-white bg-gray-600" />

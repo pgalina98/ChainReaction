@@ -23,7 +23,7 @@ import {
   Loader,
   LoadingOverlay,
   ProgressBar,
-  Stepper,
+  RentEBikeStepper,
   Toast,
 } from "@components";
 import { useToast } from "@components/hooks/useToast";
@@ -623,7 +623,7 @@ const RentEBike: NextPage<RootState> = ({ authentication }: RootState) => {
             exit="exit"
             variants={useFadeInOutTopVariants({ duration: 0.5, delay: 0.5 })}
           >
-            <Stepper className="pt-8" currentStep={currentStep!} />
+            <RentEBikeStepper className="pt-8" currentStep={currentStep!} />
           </motion.div>
           <motion.div
             key={currentStep}

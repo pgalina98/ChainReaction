@@ -9,7 +9,7 @@ interface StepperProps {
   currentStep: RentABikeStep;
 }
 
-const Stepper = ({
+const RentEBikeStepper = ({
   className,
   currentStep = RentABikeStep.SELECT_GEAR,
 }: StepperProps) => {
@@ -20,7 +20,7 @@ const Stepper = ({
           <div className="relative mb-2">
             <div className="w-10 h-10 mx-auto bg-green-500 rounded-full text-lg text-white flex items-center">
               <span className="text-center text-white w-full">
-                <i className="las la-sliders-h text-xl" />
+                <i className="las la-sliders-h text-2xl" />
               </span>
             </div>
           </div>
@@ -135,7 +135,7 @@ const Stepper = ({
               } rounded-full text-lg flex items-center`}
             >
               <span className="text-center w-full">
-                <i className="las la-check text-xl" />
+                <i className="las la-check text-2xl" />
               </span>
             </div>
           </div>
@@ -147,4 +147,4 @@ const Stepper = ({
   );
 };
 
-export default Stepper;
+export default RentEBikeStepper;
