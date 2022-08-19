@@ -20,6 +20,7 @@ import { getCartItemByIdProduct } from "@utils/cart";
 import {
   addItem,
   CartItem,
+  CartState,
   removeItem,
   updateItem,
 } from "@features/cart/cart-slice";
@@ -29,7 +30,7 @@ import styles from "./product-card.module.scss";
 interface ProductCardProps {
   className?: string;
   product?: Product;
-  cart: any;
+  cart: CartState;
 }
 
 const ProductCard = ({ className, product, cart }: ProductCardProps) => {

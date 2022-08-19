@@ -45,7 +45,7 @@ const CartItem = ({
         <div className="flex">
           <div className="p-2 pt-3 pb-3 rounded-xl bg_white flex items-center relative">
             <div className="absolute rounded-full bg_white text-black font-medium pl-3 pr-3 -top-2 -right-3">
-              1
+              {cartItem?.quantity}
             </div>
             {cartItem?.imagePath && (
               <Image

@@ -1,30 +1,38 @@
 import React from "react";
 
+import { useRouter } from "next/router";
+
 import { motion } from "framer-motion";
 
 import { declassify, toString } from "@utils/common";
 import { calculateSubtotal, calculateTotal } from "@utils/cart";
+import { clearActiveTab } from "@utils/local-storage";
+import { formatNumberToCurrency } from "@utils/currency";
 
 import { useFadeInOutBottomVariants } from "@animations";
 
 import { Icon } from "@components";
 
-import { CartState } from "@features/cart/cart-slice";
 import { SHIPPING_COST } from "@features/cart/constants";
 
 interface CartSummaryProps {
   className?: string;
   isOpen: boolean;
   toggleCartSummary: any;
-  cart: CartState;
 }
 
 const CartSummary = ({
   className,
   isOpen,
   toggleCartSummary,
-  cart,
 }: CartSummaryProps) => {
+  const router = useRouter();
+
+  const navigateToCart = (): void => {
+    router.push("/cart");
+    clearActiveTab();
+  };
+
   return (
     <motion.div
       key={toString(isOpen)}
@@ -60,21 +68,30 @@ const CartSummary = ({
         <div className="p-6 pt-0 pb-4">
           <div className="flex justify-between text-gray-500">
             <div className="text-md font-medium">Subtotal</div>
-            <div className="text-xl font-semibold">${calculateSubtotal()}</div>
+            <div className="text-xl font-semibold">
+              {formatNumberToCurrency(calculateSubtotal())}
+            </div>
           </div>
           <div className="flex justify-between text-gray-500 mt-1 pb-2">
             <div className="text-md font-medium">Shipping</div>
-            <div className="text-xl font-semibold">${SHIPPING_COST}</div>
+            <div className="text-xl font-semibold">
+              {formatNumberToCurrency(SHIPPING_COST)}
+            </div>
           </div>
           <hr className="border-1 text-white bg-gray-600" />
           <div className="flex justify-between text-gray-500 mt-2 pt-2">
             <div className="text-md font-semibold">Total</div>
             <div className="flex items-end">
               <div className="text-sm mb-1 mr-2">USD</div>
-              <div className="text-2xl font-semibold">${calculateTotal()}</div>
+              <div className="text-2xl font-semibold">
+                {formatNumberToCurrency(calculateTotal())}
+              </div>
             </div>
           </div>
-          <div className="w-full h-10 bg-blue-500 hover:bg-blue-600 rounded-md flex items-center justify-center cursor-pointer mt-2 text-md">
+          <div
+            className="w-full h-10 bg-blue-500 hover:bg-blue-600 rounded-md flex items-center justify-center cursor-pointer mt-2 text-md"
+            onClick={navigateToCart}
+          >
             Place order
           </div>
         </div>
@@ -84,7 +101,9 @@ const CartSummary = ({
             <div className="text-md font-semibold">Total</div>
             <div className="flex items-end">
               <div className="text-sm mb-1 mr-2">USD</div>
-              <div className="text-2xl font-semibold">${calculateTotal()}</div>
+              <div className="text-2xl font-semibold">
+                {formatNumberToCurrency(calculateTotal())}
+              </div>
             </div>
           </div>
         </div>

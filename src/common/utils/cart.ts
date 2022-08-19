@@ -65,6 +65,10 @@ export const calculateSubtotal = (): number => {
   );
 };
 
+export const calculateTotal = (): number => {
+  return calculateSubtotal() + SHIPPING_COST;
+};
+
 export const getCartItemByIdProduct = (idProduct: number): CartItem | null => {
   const cart = getCart();
 
@@ -81,10 +85,6 @@ export const isProductInCart = (product: Product): boolean => {
   return cart?.items?.some(
     (item: CartItem) => item.idProduct === product?.idProduct
   );
-};
-
-export const calculateTotal = (): number => {
-  return calculateSubtotal() + SHIPPING_COST;
 };
 
 export const createInitCart = (idUser: number) => {

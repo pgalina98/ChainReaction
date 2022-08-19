@@ -4,7 +4,6 @@ import { connect, useDispatch } from "react-redux";
 
 import { motion } from "framer-motion";
 
-import { NextPage } from "next";
 import { useRouter } from "next/router";
 import Image from "next/image";
 
@@ -31,11 +30,7 @@ import {
 import { declassify, isNullOrUndefined } from "@utils/common";
 import { getCartItemByIdProduct } from "@utils/cart";
 
-import {
-  useFadeInOutLeftVariants,
-  useFadeInOutRightVariants,
-  useFadeInOutVariants,
-} from "@animations";
+import { useFadeInOutRightVariants, useFadeInOutVariants } from "@animations";
 
 import {
   BackIcon,
@@ -47,6 +42,7 @@ import {
   LoadingOverlay,
   ProgressBar,
   Toast,
+  Tooltip,
 } from "@components";
 import { useToast } from "@components/hooks/useToast";
 import authenticatedBoundaryRoute from "@components/hoc/route-guards/authenticatedBoundaryRoute";
@@ -69,6 +65,9 @@ const BikeDetails = ({ cart }: BikeDetailsProps) => {
   const [cartItem, setCartItem] = useState<CartItem>();
 
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
+
+  // TO-DO -> sending notifications will be implemented later
+  const [sendNotification, setSendNotification] = useState<boolean>(false);
 
   const { isLoading, isError, data, error, refetch } = useFetchProductById(
     idProduct as string
@@ -102,6 +101,10 @@ const BikeDetails = ({ cart }: BikeDetailsProps) => {
 
   const isPlusButtonDisabled = (): boolean => {
     return quantity === product?.availableQuantity;
+  };
+
+  const isProductOutOfStock = (): boolean => {
+    return product?.availableQuantity === 0;
   };
 
   const onMinusButtonClick = (): void => {
@@ -207,6 +210,39 @@ const BikeDetails = ({ cart }: BikeDetailsProps) => {
                 height={1064}
                 priority
               />
+            )}
+          </motion.div>
+          <motion.div
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            variants={useFadeInOutVariants({ duration: 0.5 })}
+            className={declassify("absolute bottom-0 left-0 mb-8 ml-8", {
+              hidden: !isProductOutOfStock(),
+            })}
+          >
+            {sendNotification ? (
+              <Tooltip message={"Don't notify me"}>
+                <div
+                  className="w-11 h-11 bg_white rounded-full flex items-center justify-center cursor-pointer"
+                  onClick={() => setSendNotification(false)}
+                >
+                  <Icon icon="las la-bell-slash text-3xl text-black" />
+                </div>
+              </Tooltip>
+            ) : (
+              <Tooltip message={"Notify me"}>
+                <div
+                  className="w-11 h-11 bg_white rounded-full flex items-center justify-center cursor-pointer"
+                  onClick={() => setSendNotification(true)}
+                >
+                  <span className="absolute flex h-3 w-3 top-2 right-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-3 w-3 bg-sky-500"></span>
+                  </span>
+                  <Icon icon="las la-bell text-3xl text-black" />
+                </div>
+              </Tooltip>
             )}
           </motion.div>
         </div>
@@ -316,9 +352,18 @@ const BikeDetails = ({ cart }: BikeDetailsProps) => {
             </div>
             <div className="flex absolute bottom-0 left-1/2 w-full h-16 text-black text-lg bg_white">
               <div className="flex items-center justify-center w-1/4 text-black uppercase bg_gray">
-                {`Only ${product?.availableQuantity} products available`}
-                <Icon icon="las la-exclamation text-2xl" />
-                <Icon icon="las la-shipping-fast text-2xl" />
+                {isProductOutOfStock() ? (
+                  <React.Fragment>
+                    <div>Out of Stock</div>
+                    <Icon icon="las la-exclamation text-2xl" />
+                  </React.Fragment>
+                ) : (
+                  <React.Fragment>
+                    <div>{`Only ${product?.availableQuantity} products available`}</div>
+                    <Icon icon="las la-exclamation text-2xl" />
+                    <Icon icon="las la-shipping-fast text-2xl" />
+                  </React.Fragment>
+                )}
               </div>
               {isProcessing && (
                 <div className="flex items-center justify-center w-1/4">
@@ -329,9 +374,16 @@ const BikeDetails = ({ cart }: BikeDetailsProps) => {
                 <div
                   className={declassify(
                     `flex items-center justify-center w-1/4 uppercase cursor-pointer hover:bg-gray-200`,
-                    { hidden: isProcessing }
+                    { hidden: isProcessing },
+                    {
+                      "cursor-not-allowed bg-gray-200": isProductOutOfStock(),
+                    }
                   )}
-                  onClick={onAddToCartButtonClick}
+                  onClick={() => {
+                    if (!isProductOutOfStock()) {
+                      onAddToCartButtonClick();
+                    }
+                  }}
                 >
                   Add to cart
                   <Icon icon="las la-cart-plus ml-3 text-2xl" />

@@ -23,11 +23,11 @@ import { getAuthorityByKey } from "@enums/authority";
 import { clearAuthenticationToken, getValueByKey } from "@utils/local-storage";
 
 import { login } from "@features/authentication/authentication-slice";
+import { CartState, setItems } from "@features/cart/cart-slice";
 
 import mapJwtClaimsToUserObject from "@mappers/mapJwtClaimsToUserObject";
 
 import "common/styles/globals.scss";
-import { setItems } from "@features/cart/cart-slice";
 
 const queryClient = new QueryClient();
 
@@ -57,7 +57,7 @@ const ComponentWrapper = ({ children }) => {
     }
 
     if (!!getValueByKey(LocalStorageKeys.CART)) {
-      const cart: any = JSON.parse(getValueByKey(LocalStorageKeys.CART)!);
+      const cart: CartState = JSON.parse(getValueByKey(LocalStorageKeys.CART)!);
 
       dispatch(setItems(cart));
     }

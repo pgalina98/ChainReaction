@@ -105,7 +105,6 @@ export const CartBox = ({
           <CartSummary
             isOpen={isCartSummaryOpen}
             toggleCartSummary={setIsCartSummaryOpen}
-            cart={cart}
           />
         )}
       </div>
