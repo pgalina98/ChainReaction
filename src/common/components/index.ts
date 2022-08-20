@@ -26,3 +26,4 @@ export { default as Pagination } from "common/components/ui/pagination";
 export { default as CartBox } from "common/components/ui/cart/cart-box";
 export { default as CartItem } from "common/components/ui/cart/cart-item";
 export { default as CartSummary } from "common/components/ui/cart/cart-summary";
+export { default as Radio } from "common/components/ui/radio";
