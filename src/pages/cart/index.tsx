@@ -54,6 +54,13 @@ import authenticatedBoundaryRoute from "@components/hoc/route-guards/authenticat
 
 import { clearCart, removeItem } from "@features/cart/cart-slice";
 import { SHIPPING_COST } from "@features/cart/constants";
+import {
+  useValidateAddress,
+  useValidateCity,
+  useValidateFullname,
+  useValidatePhoneNumber,
+  useValidateZipCode,
+} from "@features/registration/validators";
 
 import styles from "./cart.module.scss";
 
@@ -63,6 +70,7 @@ const DeliveryDetails = ({
   onPhoneNumberChange,
   onDeliveryTypeChange,
   onDeliveryAddressChange,
+  setIsFormInvalid,
 }) => {
   const [isDeliveryDetailsSectionOpen, setIsDeliveryDetailsSectionOpen] =
     useState<boolean>(false);
@@ -80,6 +88,11 @@ const DeliveryDetails = ({
             prependIcon="las la-id-card"
             value={orderForm?.buyer}
             onChange={onFullnameChange}
+            validate
+            validator={useValidateFullname}
+            onValidationStateChange={(isInvalid: boolean) => {
+              setIsFormInvalid(isInvalid);
+            }}
           />
           <Input
             id="phoneNumber"
@@ -89,6 +102,11 @@ const DeliveryDetails = ({
             prependIcon="las la-mobile"
             value={orderForm?.phoneNumber}
             onChange={onPhoneNumberChange}
+            validate
+            validator={useValidatePhoneNumber}
+            onValidationStateChange={(isInvalid: boolean) => {
+              setIsFormInvalid(isInvalid);
+            }}
           />
         </div>
       </div>
@@ -162,6 +180,11 @@ const DeliveryDetails = ({
             prependIcon="las la-city"
             value={orderForm?.deliveryAddress?.city}
             onChange={(value) => onDeliveryAddressChange("city", value)}
+            validate
+            validator={useValidateCity}
+            onValidationStateChange={(isInvalid: boolean) => {
+              setIsFormInvalid(isInvalid);
+            }}
           />
           <Input
             id="address"
@@ -171,6 +194,11 @@ const DeliveryDetails = ({
             prependIcon="las la-map-marked-alt"
             value={orderForm?.deliveryAddress?.address}
             onChange={(value) => onDeliveryAddressChange("address", value)}
+            validate
+            validator={useValidateAddress}
+            onValidationStateChange={(isInvalid: boolean) => {
+              setIsFormInvalid(isInvalid);
+            }}
           />
           <Input
             id="zipCode"
@@ -180,6 +208,11 @@ const DeliveryDetails = ({
             prependIcon="las la-archive"
             value={orderForm?.deliveryAddress?.zipCode}
             onChange={(value) => onDeliveryAddressChange("zipCode", value)}
+            validate
+            validator={useValidateZipCode}
+            onValidationStateChange={(isInvalid: boolean) => {
+              setIsFormInvalid(isInvalid);
+            }}
           />
         </div>
         <div className="mt-6">
@@ -206,12 +239,17 @@ const DeliveryDetails = ({
   );
 };
 
+const PaymentMethod = ({ orderForm }) => {
+  return <div></div>;
+};
+
 interface CartProps extends StateProps {}
 
 const Cart = ({ authentication, cart }: CartProps) => {
   const dispatch = useDispatch();
 
   const [orderForm, setOrderForm] = useState<OrderForm>();
+  const [isFormInvalid, setIsFormInvalid] = useState<boolean>(false);
   const [currentStep, setCurrentStep] = useState<CheckoutStep>(
     CheckoutStep.DELIVERY_DETAILS
   );
@@ -263,6 +301,10 @@ const Cart = ({ authentication, cart }: CartProps) => {
   };
 
   const isNextButtonDisabled = (): boolean => {
+    if (isFormInvalid) {
+      return true;
+    }
+
     switch (currentStep) {
       case CheckoutStep.DELIVERY_DETAILS:
         return (
@@ -293,6 +335,8 @@ const Cart = ({ authentication, cart }: CartProps) => {
   const onPreviousButtonClick = (): void => {
     setCurrentStep(determinePreviousStep(currentStep));
   };
+
+  console.log("currentStep: ", currentStep);
 
   return (
     <div className="h-full">
@@ -349,10 +393,7 @@ const Cart = ({ authentication, cart }: CartProps) => {
             exit="exit"
             variants={useFadeInOutTopVariants({ duration: 0.5, delay: 0.5 })}
           >
-            <CheckoutStepper
-              className="pt-8"
-              currentStep={CheckoutStep.DELIVERY_DETAILS}
-            />
+            <CheckoutStepper className="pt-8" currentStep={currentStep!} />
           </motion.div>
           <motion.div
             key={currentStep}
@@ -369,7 +410,11 @@ const Cart = ({ authentication, cart }: CartProps) => {
                 onPhoneNumberChange={onPhoneNumberChange}
                 onDeliveryTypeChange={onDeliveryTypeChange}
                 onDeliveryAddressChange={onDeliveryAddressChange}
+                setIsFormInvalid={setIsFormInvalid}
               />
+            )}
+            {currentStep === CheckoutStep.PAYMENT_METHOD && (
+              <PaymentMethod orderForm={orderForm} />
             )}
           </motion.div>
 
@@ -463,7 +508,11 @@ const Cart = ({ authentication, cart }: CartProps) => {
                   "bg_gray cursor-not-allowed": isNextButtonDisabled(),
                 }
               )}
-              onClick={() => {}}
+              onClick={() => {
+                if (!isNextButtonDisabled()) {
+                  onNextButtonClick();
+                }
+              }}
             >
               <div
                 className={declassify(

@@ -21,6 +21,14 @@ export const messages = {
     "Confirmation password must contain at least 8 characters!",
   CONFIRMATION_PASSWORD_NOT_MATCH:
     "Confirmation password must be equal as password!",
+  PHONE_NUMBER_IS_REQUIRED: "Phone number is required field!",
+  INVALID_FORMAT: "Invalid format!",
+  CITY_IS_REQUIRED: "City is required field!",
+  CITY_IS_INVALID: "City can contain only letters and spaces!",
+  ADDRESS_IS_REQUIRED: "Address is required field!",
+  ADDRESS_IS_INVALID: "Address can contain only letters, spaces and numbers!",
+  ZIP_CODE_IS_REQUIRED: "ZIP code is required field!",
+  ZIP_CODE_IS_IS_INVALID: "ZIP code is invalid!",
   ACCOUNT_SUCCESSFULLY_CREATED:
     "Account has been successfully created! Please check your email for a confirmation link.",
   RENT_SUCCESSFULLY_CREATED: "Rent has been successfully created!",

@@ -3,3 +3,7 @@ export { default as useValidateUsername } from "@features/registration/validator
 export { default as useValidateEmail } from "@features/registration/validators/hooks/useValidateEmail";
 export { default as useValidatePassword } from "@features/registration/validators/hooks/useValidatePassword";
 export { default as useValidateConfirmationPassword } from "@features/registration/validators/hooks/useValidateConfirmationPassword";
+export { default as useValidatePhoneNumber } from "@features/registration/validators/hooks/useValidatePhoneNumber";
+export { default as useValidateCity } from "@features/registration/validators/hooks/useValidateCity";
+export { default as useValidateAddress } from "@features/registration/validators/hooks/useValidateAddress";
+export { default as useValidateZipCode } from "@features/registration/validators/hooks/useValidateZipCode";
