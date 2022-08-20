@@ -1,4 +1,5 @@
 import { DeliveryType } from "@enums/delivery-type";
+import { PaymentMethod } from "@enums/payment-method";
 
 import { CartItem } from "@features/cart/cart-slice";
 
@@ -11,6 +12,7 @@ export default interface OrderForm {
   phoneNumber: string;
   deliveryType: DeliveryType;
   deliveryAddress: Address;
+  paymentMethod: PaymentMethod;
 }
 
 export const createEmptyOrderFormObject = (): OrderForm => {
@@ -21,5 +23,6 @@ export const createEmptyOrderFormObject = (): OrderForm => {
     phoneNumber: null as any,
     deliveryType: null as any,
     deliveryAddress: createEmptyAddressObject(),
+    paymentMethod: PaymentMethod.CASH,
   };
 };

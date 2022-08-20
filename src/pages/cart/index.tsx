@@ -14,6 +14,7 @@ import {
 import { motion } from "framer-motion";
 
 import { DeliveryType } from "@enums/delivery-type";
+import { PaymentMethod } from "@enums/payment-method";
 
 import OrderForm, {
   createEmptyOrderFormObject,
@@ -42,6 +43,7 @@ import {
 
 import {
   Alert,
+  Card,
   CartItem,
   CheckoutStepper,
   Header,
@@ -239,8 +241,65 @@ const DeliveryDetails = ({
   );
 };
 
-const PaymentMethod = ({ orderForm }) => {
-  return <div></div>;
+const ChoosePaymentMethod = ({ orderForm, onPaymentMethodChange }) => {
+  return (
+    <div>
+      <div className="text-xl font-thin">Choose payment method</div>
+      <div className="mt-4">
+        <Radio
+          helper="Cash"
+          helperText="Pay with Cash when package arrives."
+          isChecked={orderForm?.paymentMethod === PaymentMethod.CASH}
+          onChange={() => {
+            onPaymentMethodChange(PaymentMethod.CASH);
+          }}
+        />
+        <Radio
+          className="mt-4"
+          helper="Credit card"
+          helperText="Pay with Credit card without additional fee."
+          isChecked={orderForm?.paymentMethod === PaymentMethod.CREDIT_CART}
+          onChange={() => {
+            onPaymentMethodChange(PaymentMethod.CREDIT_CART);
+          }}
+        />
+        <Radio
+          className="mt-4"
+          helper="PayPal"
+          helperText="Pay with PayPal without additional fee."
+          isChecked={orderForm?.paymentMethod === PaymentMethod.PAY_PAL}
+          onChange={() => {
+            onPaymentMethodChange(PaymentMethod.PAY_PAL);
+          }}
+        />
+        <Radio
+          className="mt-4"
+          helper="Apple pay"
+          helperText="Pay with Apple pay without additional fee."
+          isChecked={orderForm?.paymentMethod === PaymentMethod.APPLE_PAY}
+          onChange={() => {
+            onPaymentMethodChange(PaymentMethod.APPLE_PAY);
+          }}
+        />
+        <div className="mt-28">
+          <Card className="p-4 pl-6 pr-6 text-black">
+            <div className="text-base font-thin">
+              Acceptable payment methods
+            </div>
+            <div className="mt-4 flex space-x-4">
+              <Icon icon="las la-coins text-4xl" />
+              <Icon icon="lab la-cc-visa text-4xl" />
+              <Icon icon="lab la-cc-amex text-4xl" />
+              <Icon icon="lab la-cc-diners-club text-4xl" />
+              <Icon icon="lab la-cc-mastercard text-4xl" />
+              <Icon icon="lab la-cc-paypal text-4xl" />
+              <Icon icon="lab la-cc-apple-pay text-4xl" />
+            </div>
+          </Card>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 interface CartProps extends StateProps {}
@@ -251,7 +310,7 @@ const Cart = ({ authentication, cart }: CartProps) => {
   const [orderForm, setOrderForm] = useState<OrderForm>();
   const [isFormInvalid, setIsFormInvalid] = useState<boolean>(false);
   const [currentStep, setCurrentStep] = useState<CheckoutStep>(
-    CheckoutStep.DELIVERY_DETAILS
+    CheckoutStep.PAYMENT_METHOD
   );
 
   useEffect(() => {
@@ -278,6 +337,10 @@ const Cart = ({ authentication, cart }: CartProps) => {
       ...orderForm!,
       deliveryAddress: { ...orderForm?.deliveryAddress!, [key]: value },
     });
+  };
+
+  const onPaymentMethodChange = (paymentMethod: PaymentMethod): void => {
+    setOrderForm({ ...orderForm!, paymentMethod });
   };
 
   const onDeleteAllButtonClick = (): void => {
@@ -322,6 +385,9 @@ const Cart = ({ authentication, cart }: CartProps) => {
               isNullOrUndefined(orderForm?.deliveryAddress?.zipCode) ||
               isEmpty(orderForm?.deliveryAddress?.zipCode)))
         );
+
+      case CheckoutStep.PAYMENT_METHOD:
+        return isNullOrUndefined(orderForm?.paymentMethod);
 
       default:
         return true;
@@ -414,7 +480,10 @@ const Cart = ({ authentication, cart }: CartProps) => {
               />
             )}
             {currentStep === CheckoutStep.PAYMENT_METHOD && (
-              <PaymentMethod orderForm={orderForm} />
+              <ChoosePaymentMethod
+                orderForm={orderForm}
+                onPaymentMethodChange={onPaymentMethodChange}
+              />
             )}
           </motion.div>
 
@@ -458,7 +527,8 @@ const Cart = ({ authentication, cart }: CartProps) => {
                 "cursor-not-allowed bg_gray": isPreviousButtonDisabled(),
               },
               {
-                "cursor-pointer hover:bg-gray-200": !isPreviousButtonDisabled(),
+                "cursor-pointer bg_white hover:bg-gray-200":
+                  !isPreviousButtonDisabled(),
               }
             )}
             onClick={() => {
