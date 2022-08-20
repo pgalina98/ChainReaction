@@ -42,7 +42,7 @@ import { ToastType } from "@enums/toast-type";
 import { AlertType } from "@enums/alert-type";
 
 import Product from "@models/product/product.model";
-import Rent, { createEmptyRentFormObject } from "@models/rent/rent.model";
+import RentForm, { createEmptyRentFormObject } from "@models/rent/rent.model";
 import Location from "@models/location/location.model";
 
 import { RootState } from "@store/index";
@@ -393,7 +393,7 @@ const RentEBike: NextPage<RootState> = ({ authentication }: RootState) => {
   const { id: idProduct } = router?.query;
 
   const [selectedBike, setSelectedBike] = useState<Product>();
-  const [rentForm, setRentForm] = useState<Rent>();
+  const [rentForm, setRentForm] = useState<RentForm>();
   const [currentStep, setCurrentStep] = useState<RentABikeStep>(
     RentABikeStep.SELECT_GEAR
   );
@@ -439,10 +439,6 @@ const RentEBike: NextPage<RootState> = ({ authentication }: RootState) => {
       }, 2000);
     }
   }, [isSavingSuccess]);
-
-  const navigateToPreviousPage = () => {
-    router.back();
-  };
 
   const onHelmetChange = (helmet: Product): void => {
     setRentForm({ ...rentForm!, helmet });
@@ -500,6 +496,10 @@ const RentEBike: NextPage<RootState> = ({ authentication }: RootState) => {
 
   const isConfirmButtonHidden = (): boolean => {
     return currentStep !== RentABikeStep.RENT_SUMMARY;
+  };
+
+  const navigateToPreviousPage = () => {
+    router.back();
   };
 
   if (isLoading) return <LoadingOverlay />;

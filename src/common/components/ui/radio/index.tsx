@@ -4,11 +4,19 @@ interface RadioProps {
   className?: string;
   helper?: string;
   helperText?: string;
+  isChecked: boolean;
+  onChange: any;
 }
 
-const Radio = ({ className, helper, helperText }: RadioProps) => {
+const Radio = ({
+  className,
+  helper,
+  helperText,
+  isChecked,
+  onChange,
+}: RadioProps) => {
   return (
-    <div className="flex">
+    <div className={`${className} flex`}>
       <div className="flex items-center h-5">
         <input
           id="helper-radio"
@@ -16,6 +24,8 @@ const Radio = ({ className, helper, helperText }: RadioProps) => {
           type="radio"
           value=""
           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+          checked={isChecked}
+          onChange={() => onChange()}
         />
       </div>
       <div className="ml-2 text-sm">
@@ -23,13 +33,13 @@ const Radio = ({ className, helper, helperText }: RadioProps) => {
           htmlFor="helper-radio"
           className="font-medium text-gray-100 dark:text-gray-100"
         >
-          Free shipping via Flowbite
+          {helper}
         </label>
         <p
           id="helper-radio-text"
-          className="text-xs font-normal text-gray-500 dark:text-gray-300"
+          className="text-xs font-normal text-gray-400 dark:text-gray-300"
         >
-          For orders shipped from $25 in books or $29 in other categories
+          {helperText}
         </p>
       </div>
     </div>

@@ -14,6 +14,7 @@ interface InputProps {
   id: string;
   className?: string;
   label?: string;
+  labelColor?: string;
   type?: InputType;
   placeholder?: string;
   prependIcon?: string;
@@ -35,6 +36,7 @@ const Input = ({
   id,
   className,
   label,
+  labelColor = "text-gray-700",
   type = InputType.TEXT,
   placeholder,
   prependIcon,
@@ -90,7 +92,7 @@ const Input = ({
     <div className={className}>
       <label
         htmlFor={`inputField_${label}`}
-        className="block text-sm font-medium text-gray-700"
+        className={`${labelColor} block text-sm font-medium`}
       >
         {label}
       </label>
@@ -117,7 +119,7 @@ const Input = ({
               : "text"
           }
           className={declassify(
-            `focus:ring-gray-500 focus:border-gray-500 block w-full pr-12 sm:text-sm border-gray-300 rounded-md ${
+            `focus:ring-gray-500 focus:border-gray-500 block w-full pr-12 sm:text-sm border-gray-300 rounded-md text-black ${
               styles.input
             } ${isInvalid && styles.invalid_input}`,
             { "pl-10": !isNullOrUndefined(prependIcon) }
