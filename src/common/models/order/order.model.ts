@@ -13,6 +13,8 @@ export default interface OrderForm {
   deliveryType: DeliveryType;
   deliveryAddress: Address;
   paymentMethod: PaymentMethod;
+  useDiscountCode: boolean;
+  discountCode: string;
 }
 
 export const createEmptyOrderFormObject = (): OrderForm => {
@@ -24,5 +26,7 @@ export const createEmptyOrderFormObject = (): OrderForm => {
     deliveryType: null as any,
     deliveryAddress: createEmptyAddressObject(),
     paymentMethod: PaymentMethod.CASH,
+    useDiscountCode: true,
+    discountCode: null as any,
   };
 };

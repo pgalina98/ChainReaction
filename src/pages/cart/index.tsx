@@ -43,6 +43,7 @@ import {
 
 import {
   Alert,
+  Button,
   Card,
   CartItem,
   CheckoutStepper,
@@ -302,6 +303,76 @@ const ChoosePaymentMethod = ({ orderForm, onPaymentMethodChange }) => {
   );
 };
 
+const DiscountCode = ({
+  orderForm,
+  onUseDiscountCodeChange,
+  onDiscountCodeChange,
+}) => {
+  const isValidateButtonDisabled = (): boolean => {
+    return (
+      isNullOrUndefined(orderForm?.discountCode) ||
+      isEmpty(orderForm?.discountCode)
+    );
+  };
+
+  return (
+    <div>
+      <div className="text-xl font-thin">Enter discount code</div>
+      <div className="mt-4">
+        <Radio
+          helper="With discount code"
+          helperText="Check this option if you have valid discount code."
+          isChecked={orderForm?.useDiscountCode}
+          onChange={() => {
+            onUseDiscountCodeChange(true);
+          }}
+        />
+        <Radio
+          className="mt-4"
+          helper="Without discount code"
+          helperText="Check this option if you don't have discount code."
+          isChecked={!orderForm?.useDiscountCode}
+          onChange={() => {
+            onUseDiscountCodeChange(false);
+          }}
+        />
+      </div>
+      <div className="mt-8">
+        <motion.div
+          key={toString(orderForm?.useDiscountCode)}
+          initial="initial"
+          animate="animate"
+          exit="exit"
+          variants={useFadeInOutVariants({ duration: 0.4 })}
+          className={declassify("flex items-center", {
+            hidden: !orderForm?.useDiscountCode,
+          })}
+        >
+          <Input
+            id="discountCode"
+            className="w-1/2"
+            label="Discount code"
+            labelColor="text-white"
+            placeholder="Enter discount code"
+            prependIcon="las la-tag"
+            value={orderForm?.discountCode}
+            onChange={onDiscountCodeChange}
+          />
+          <Button
+            label="Validate code"
+            className="pt-1 pb-1 ml-12 mt-6"
+            appendIcon="las la-sync ml-2"
+            iconSize="text-2xl"
+            loaderWithLabel={false}
+            isDisabled={!isValidateButtonDisabled}
+            onClick={() => {}}
+          />
+        </motion.div>
+      </div>
+    </div>
+  );
+};
+
 interface CartProps extends StateProps {}
 
 const Cart = ({ authentication, cart }: CartProps) => {
@@ -310,7 +381,7 @@ const Cart = ({ authentication, cart }: CartProps) => {
   const [orderForm, setOrderForm] = useState<OrderForm>();
   const [isFormInvalid, setIsFormInvalid] = useState<boolean>(false);
   const [currentStep, setCurrentStep] = useState<CheckoutStep>(
-    CheckoutStep.PAYMENT_METHOD
+    CheckoutStep.DISCOUNT_CODE
   );
 
   useEffect(() => {
@@ -341,6 +412,14 @@ const Cart = ({ authentication, cart }: CartProps) => {
 
   const onPaymentMethodChange = (paymentMethod: PaymentMethod): void => {
     setOrderForm({ ...orderForm!, paymentMethod });
+  };
+
+  const onUseDiscountCodeChange = (useDiscountCode: boolean): void => {
+    setOrderForm({ ...orderForm!, useDiscountCode });
+  };
+
+  const onDiscountCodeChange = (discountCode: string): void => {
+    setOrderForm({ ...orderForm!, discountCode });
   };
 
   const onDeleteAllButtonClick = (): void => {
@@ -389,6 +468,17 @@ const Cart = ({ authentication, cart }: CartProps) => {
       case CheckoutStep.PAYMENT_METHOD:
         return isNullOrUndefined(orderForm?.paymentMethod);
 
+      case CheckoutStep.DISCOUNT_CODE: {
+        if (!orderForm?.useDiscountCode) {
+          return false;
+        }
+
+        return (
+          isNullOrUndefined(orderForm?.discountCode) ||
+          isEmpty(orderForm?.discountCode)
+        );
+      }
+
       default:
         return true;
     }
@@ -401,8 +491,6 @@ const Cart = ({ authentication, cart }: CartProps) => {
   const onPreviousButtonClick = (): void => {
     setCurrentStep(determinePreviousStep(currentStep));
   };
-
-  console.log("currentStep: ", currentStep);
 
   return (
     <div className="h-full">
@@ -483,6 +571,13 @@ const Cart = ({ authentication, cart }: CartProps) => {
               <ChoosePaymentMethod
                 orderForm={orderForm}
                 onPaymentMethodChange={onPaymentMethodChange}
+              />
+            )}
+            {currentStep === CheckoutStep.DISCOUNT_CODE && (
+              <DiscountCode
+                orderForm={orderForm}
+                onUseDiscountCodeChange={onUseDiscountCodeChange}
+                onDiscountCodeChange={onDiscountCodeChange}
               />
             )}
           </motion.div>
