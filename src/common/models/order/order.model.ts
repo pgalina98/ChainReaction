@@ -1,6 +1,11 @@
 import { DeliveryType } from "@enums/delivery-type";
 import { PaymentMethod } from "@enums/payment-method";
 
+import {
+  createEmptyDiscountCodeObject,
+  DiscountCode,
+} from "@models/discount-code/discount-code.model";
+
 import { CartItem } from "@features/cart/cart-slice";
 
 import Address, { createEmptyAddressObject } from "./address.model";
@@ -14,7 +19,7 @@ export default interface OrderForm {
   deliveryAddress: Address;
   paymentMethod: PaymentMethod;
   useDiscountCode: boolean;
-  discountCode: string;
+  discountCode: DiscountCode;
 }
 
 export const createEmptyOrderFormObject = (): OrderForm => {
@@ -27,6 +32,6 @@ export const createEmptyOrderFormObject = (): OrderForm => {
     deliveryAddress: createEmptyAddressObject(),
     paymentMethod: PaymentMethod.CASH,
     useDiscountCode: true,
-    discountCode: null as any,
+    discountCode: createEmptyDiscountCodeObject(),
   };
 };

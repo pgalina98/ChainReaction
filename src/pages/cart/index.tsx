@@ -15,12 +15,15 @@ import { motion } from "framer-motion";
 
 import { DeliveryType } from "@enums/delivery-type";
 import { PaymentMethod } from "@enums/payment-method";
+import { ToastType } from "@enums/toast-type";
 
 import OrderForm, {
   createEmptyOrderFormObject,
 } from "@models/order/order.model";
 
 import { RootState } from "@store/index";
+
+import { messages } from "@constants/messages";
 
 import {
   declassify,
@@ -52,8 +55,10 @@ import {
   Input,
   Loader,
   Radio,
+  Toast,
 } from "@components";
 import authenticatedBoundaryRoute from "@components/hoc/route-guards/authenticatedBoundaryRoute";
+import { useToast } from "@components/hooks/useToast";
 
 import { clearCart, removeItem } from "@features/cart/cart-slice";
 import { SHIPPING_COST } from "@features/cart/constants";
@@ -64,6 +69,7 @@ import {
   useValidatePhoneNumber,
   useValidateZipCode,
 } from "@features/registration/validators";
+import useValidateDiscountCode from "@features/discount-code/api/hooks/useValidateDiscountCode";
 
 import styles from "./cart.module.scss";
 
@@ -306,14 +312,18 @@ const ChoosePaymentMethod = ({ orderForm, onPaymentMethodChange }) => {
 const DiscountCode = ({
   orderForm,
   onUseDiscountCodeChange,
-  onDiscountCodeChange,
+  onValidateCodeButtonClick,
 }) => {
+  const [discountCode, setDiscountCode] = useState<string>();
+
   const isValidateButtonDisabled = (): boolean => {
     return (
       isNullOrUndefined(orderForm?.discountCode) ||
       isEmpty(orderForm?.discountCode)
     );
   };
+
+  console.log("orderForm: ", orderForm);
 
   return (
     <div>
@@ -355,8 +365,8 @@ const DiscountCode = ({
             labelColor="text-white"
             placeholder="Enter discount code"
             prependIcon="las la-tag"
-            value={orderForm?.discountCode}
-            onChange={onDiscountCodeChange}
+            value={discountCode}
+            onChange={setDiscountCode}
           />
           <Button
             label="Validate code"
@@ -365,8 +375,27 @@ const DiscountCode = ({
             iconSize="text-2xl"
             loaderWithLabel={false}
             isDisabled={!isValidateButtonDisabled}
-            onClick={() => {}}
+            onClick={() => onValidateCodeButtonClick(discountCode)}
           />
+        </motion.div>
+
+        <motion.div
+          key={orderForm?.discountCode?.discount}
+          initial="initial"
+          animate="animate"
+          exit="exit"
+          variants={useFadeInOutVariants({ duration: 0.1 })}
+          className={declassify(
+            "flex items-center text-xs font-normal text-gray-400",
+            {
+              hidden:
+                !orderForm?.useDiscountCode ||
+                !orderForm?.discountCode?.discount,
+            }
+          )}
+        >
+          Discount of {orderForm?.discountCode?.discount}% will be applied on
+          checkout.
         </motion.div>
       </div>
     </div>
@@ -377,6 +406,7 @@ interface CartProps extends StateProps {}
 
 const Cart = ({ authentication, cart }: CartProps) => {
   const dispatch = useDispatch();
+  const [isShown, setIsShown] = useToast({ duration: 4000 });
 
   const [orderForm, setOrderForm] = useState<OrderForm>();
   const [isFormInvalid, setIsFormInvalid] = useState<boolean>(false);
@@ -384,12 +414,24 @@ const Cart = ({ authentication, cart }: CartProps) => {
     CheckoutStep.DISCOUNT_CODE
   );
 
+  const {
+    isLoading: isValidating,
+    isError: isValidationError,
+    isSuccess: isValidationSuccess,
+    error: validationError,
+    mutate: validate,
+  } = useValidateDiscountCode();
+
   useEffect(() => {
     setOrderForm({
       ...createEmptyOrderFormObject(),
       idUser: authentication.id!,
     });
   }, []);
+
+  useEffect(() => {
+    setIsShown(isValidationError);
+  }, [isValidationError]);
 
   const onFullnameChange = (fullname: string): void => {
     setOrderForm({ ...orderForm!, buyer: fullname });
@@ -418,16 +460,21 @@ const Cart = ({ authentication, cart }: CartProps) => {
     setOrderForm({ ...orderForm!, useDiscountCode });
   };
 
-  const onDiscountCodeChange = (discountCode: string): void => {
-    setOrderForm({ ...orderForm!, discountCode });
-  };
-
   const onDeleteAllButtonClick = (): void => {
     dispatch(clearCart(authentication?.id!));
   };
 
   const onDeleteSingleButtonClick = (cartItem: any): void => {
     dispatch(removeItem(cartItem));
+  };
+
+  const onValidateCodeButtonClick = (code: string): void => {
+    validate(code, {
+      onSuccess: ({ data }) => {
+        console.log("discountCode: ", data);
+        setOrderForm({ ...orderForm!, discountCode: data });
+      },
+    });
   };
 
   const isPreviousButtonDisabled = (): boolean => {
@@ -492,9 +539,24 @@ const Cart = ({ authentication, cart }: CartProps) => {
     setCurrentStep(determinePreviousStep(currentStep));
   };
 
+  const hasAnyError = (): boolean => {
+    return isValidationError;
+  };
+
   return (
     <div className="h-full">
       <Header animated showMenu backgroundColor="split" />
+      {hasAnyError() && (
+        <Toast
+          type={ToastType.DANGER}
+          message={
+            validationError?.response.data?.message ||
+            messages.INTERNAL_SERVER_ERROR
+          }
+          isShown={isShown}
+          hideToast={() => setIsShown(false)}
+        />
+      )}
       <div className="grid grid-cols-2 text-white">
         <div
           className={`${styles.h_full} bg_primary pt-2 pb-2 pl-8 pr-8 overflow-y-auto`}
@@ -577,7 +639,7 @@ const Cart = ({ authentication, cart }: CartProps) => {
               <DiscountCode
                 orderForm={orderForm}
                 onUseDiscountCodeChange={onUseDiscountCodeChange}
-                onDiscountCodeChange={onDiscountCodeChange}
+                onValidateCodeButtonClick={onValidateCodeButtonClick}
               />
             )}
           </motion.div>

@@ -77,16 +77,16 @@ export const NotificationBox = ({
     refetch();
   }, [isDeletingAllSuccess, isDeletingSuccess]);
 
-  const hasAnyError = (): boolean => {
-    return isError || isDeletingError || isDeletingAllError;
-  };
-
   const onDeleteAllButtonClick = (): void => {
     deleteAll();
   };
 
   const onDeleteSingleButtonClick = (idNotification: number): void => {
     deleteSingle(idNotification);
+  };
+
+  const hasAnyError = (): boolean => {
+    return isError || isDeletingError || isDeletingAllError;
   };
 
   return (

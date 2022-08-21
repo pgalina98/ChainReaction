@@ -1,7 +1,6 @@
 import axios from "@utils/api";
 
 import Notification from "@models/notification/notification.model";
-import { AxiosResponse } from "axios";
 
 export const fetchNotifications = (idUser: number) => {
   return async () =>
