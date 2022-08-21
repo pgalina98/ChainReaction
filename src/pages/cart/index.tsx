@@ -281,9 +281,10 @@ const ChoosePaymentMethod = ({ orderForm, onPaymentMethodChange }) => {
         />
         <Radio
           className="mt-4"
-          helper="Apple pay"
+          helper="Apple pay (available soon)"
           helperText="Pay with Apple pay without additional fee."
           isChecked={orderForm?.paymentMethod === PaymentMethod.APPLE_PAY}
+          isDisabled
           onChange={() => {
             onPaymentMethodChange(PaymentMethod.APPLE_PAY);
           }}
@@ -471,10 +472,8 @@ const Cart = ({ authentication, cart }: CartProps) => {
 
   const onValidateCodeButtonClick = (code: string): void => {
     validate(code, {
-      onSuccess: ({ data }) => {
-        console.log("discountCode: ", data);
-        setOrderForm({ ...orderForm!, discountCode: data });
-      },
+      onSuccess: ({ data }) =>
+        setOrderForm({ ...orderForm!, discountCode: data }),
     });
   };
 

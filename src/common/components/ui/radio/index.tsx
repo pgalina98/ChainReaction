@@ -1,3 +1,4 @@
+import { declassify } from "@utils/common";
 import React from "react";
 
 interface RadioProps {
@@ -5,6 +6,7 @@ interface RadioProps {
   helper?: string;
   helperText?: string;
   isChecked: boolean;
+  isDisabled?: boolean;
   onChange: any;
 }
 
@@ -13,6 +15,7 @@ const Radio = ({
   helper,
   helperText,
   isChecked,
+  isDisabled = false,
   onChange,
 }: RadioProps) => {
   return (
@@ -22,8 +25,11 @@ const Radio = ({
           id="helper-radio"
           aria-describedby="helper-radio-text"
           type="radio"
-          value=""
-          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+          disabled={isDisabled}
+          className={declassify(
+            "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600",
+            { "cursor-not-allowed": isDisabled }
+          )}
           checked={isChecked}
           onChange={() => onChange()}
         />
@@ -31,7 +37,13 @@ const Radio = ({
       <div className="ml-2 text-sm">
         <label
           htmlFor="helper-radio"
-          className="font-medium text-gray-100 dark:text-gray-100"
+          className={declassify(
+            "font-medium",
+            {
+              "text-gray-400 dark:text-gray-400": isDisabled,
+            },
+            { "text-gray-100 dark:text-gray-100": !isDisabled }
+          )}
         >
           {helper}
         </label>
