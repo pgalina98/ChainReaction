@@ -128,7 +128,7 @@ const CheckoutStepper = ({
 
             <div
               className={`w-10 h-10 mx-auto ${
-                currentStep >= CheckoutStep.CART_SUMMARY
+                currentStep >= CheckoutStep.ORDER_SUMMARY
                   ? "bg-green-500 text-white"
                   : "bg-white border-2 border-gray-200 text-gray-600"
               } rounded-full text-lg flex items-center`}

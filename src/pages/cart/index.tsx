@@ -404,6 +404,39 @@ const DiscountCode = ({
   );
 };
 
+const CartSummary = () => {
+  return (
+    <div>
+      <div className="text-xl font-thin">Order summary</div>
+      <div className="mt-4">
+        <hr className="border-1 text-white bg-gray-600 mb-3" />
+        <div className="flex justify-between">
+          <div className="text-md font-medium">Subtotal</div>
+          <div className="text-xl font-semibold">
+            {formatNumberToCurrency(calculateSubtotal())}
+          </div>
+        </div>
+        <div className="flex justify-between mt-1 pb-2">
+          <div className="text-md font-medium">Shipping</div>
+          <div className="text-xl font-semibold">
+            + {formatNumberToCurrency(SHIPPING_COST)}
+          </div>
+        </div>
+        <hr className="border-1 text-white bg-gray-600" />
+        <div className="flex justify-between mt-2 pt-2">
+          <div className="text-md font-semibold">Total</div>
+          <div className="flex items-end">
+            <div className="text-sm mb-1 mr-2">USD</div>
+            <div className="text-2xl font-semibold">
+              {formatNumberToCurrency(calculateTotal())}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 interface CartProps extends StateProps {}
 
 const Cart = ({ authentication, cart }: CartProps) => {
@@ -413,7 +446,7 @@ const Cart = ({ authentication, cart }: CartProps) => {
   const [orderForm, setOrderForm] = useState<OrderForm>();
   const [isFormInvalid, setIsFormInvalid] = useState<boolean>(false);
   const [currentStep, setCurrentStep] = useState<CheckoutStep>(
-    CheckoutStep.PAYMENT_METHOD
+    CheckoutStep.ORDER_SUMMARY
   );
 
   const {
@@ -482,11 +515,11 @@ const Cart = ({ authentication, cart }: CartProps) => {
   };
 
   const isNextButtonHidden = (): boolean => {
-    return currentStep === CheckoutStep.CART_SUMMARY;
+    return currentStep === CheckoutStep.ORDER_SUMMARY;
   };
 
   const isConfirmButtonHidden = (): boolean => {
-    return currentStep !== CheckoutStep.CART_SUMMARY;
+    return currentStep !== CheckoutStep.ORDER_SUMMARY;
   };
 
   const isNextButtonDisabled = (): boolean => {
@@ -585,7 +618,7 @@ const Cart = ({ authentication, cart }: CartProps) => {
             variants={useFadeInOutVariants({ duration: 0.5 })}
           >
             {isEmpty(cart) && (
-              <div className="absolute w-screen pr-14">
+              <div className="absolute w-screen pr-14 z-10">
                 <Alert
                   type={AlertType.INFO}
                   accentBorderPosition="left"
@@ -608,6 +641,7 @@ const Cart = ({ authentication, cart }: CartProps) => {
             animate="animate"
             exit="exit"
             variants={useFadeInOutTopVariants({ duration: 0.5, delay: 0.5 })}
+            className={declassify({ hidden: isEmpty(cart) })}
           >
             <CheckoutStepper className="pt-8" currentStep={currentStep!} />
           </motion.div>
@@ -617,7 +651,7 @@ const Cart = ({ authentication, cart }: CartProps) => {
             animate="animate"
             exit="exit"
             variants={useFadeInOutRightVariants({ duration: 0.5, delay: 0.5 })}
-            className="px-12 py-8"
+            className={declassify("px-12 py-8", { hidden: isEmpty(cart) })}
           >
             {currentStep === CheckoutStep.DELIVERY_DETAILS && (
               <DeliveryDetails
@@ -643,41 +677,15 @@ const Cart = ({ authentication, cart }: CartProps) => {
                 onValidateCodeButtonClick={onValidateCodeButtonClick}
               />
             )}
+            {currentStep === CheckoutStep.ORDER_SUMMARY && <CartSummary />}
           </motion.div>
-
-          {/* {!isEmpty(cart) && (
-            <div className="absolute w-full pl-12 pr-12 bottom-10">
-              <hr className="border-1 text-white bg-gray-600 mb-3" />
-              <div className="flex justify-between">
-                <div className="text-md font-medium">Subtotal</div>
-                <div className="text-xl font-semibold">
-                  {formatNumberToCurrency(calculateSubtotal())}
-                </div>
-              </div>
-              <div className="flex justify-between mt-1 pb-2">
-                <div className="text-md font-medium">Shipping</div>
-                <div className="text-xl font-semibold">
-                  + {formatNumberToCurrency(SHIPPING_COST)}
-                </div>
-              </div>
-              <hr className="border-1 text-white bg-gray-600" />
-              <div className="flex justify-between mt-2 pt-2">
-                <div className="text-md font-semibold">Total</div>
-                <div className="flex items-end">
-                  <div className="text-sm mb-1 mr-2">USD</div>
-                  <div className="text-2xl font-semibold">
-                    {formatNumberToCurrency(calculateTotal())}
-                  </div>
-                </div>
-              </div>
-              <hr className="border-1 text-white bg-gray-600 mt-3" />
-              <div className="w-full h-10 bg-blue-500 hover:bg-blue-600 rounded-md flex items-center justify-center cursor-pointer mt-6 text-md">
-                Procced to checkout
-              </div>
-            </div>
-          )} */}
         </div>
-        <div className="flex absolute bottom-0 left-1/2 w-full h-16 text-black text-lg ">
+        <div
+          className={declassify(
+            "flex absolute bottom-0 left-1/2 w-full h-16 text-black text-lg",
+            { hidden: isEmpty(cart) }
+          )}
+        >
           <div
             className={declassify(
               "flex items-center justify-center w-1/4",
