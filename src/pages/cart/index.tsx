@@ -312,6 +312,7 @@ const ChoosePaymentMethod = ({ orderForm, onPaymentMethodChange }) => {
 const DiscountCode = ({
   orderForm,
   onUseDiscountCodeChange,
+  isValidating,
   onValidateCodeButtonClick,
 }) => {
   const [discountCode, setDiscountCode] = useState<string>();
@@ -319,11 +320,10 @@ const DiscountCode = ({
   const isValidateButtonDisabled = (): boolean => {
     return (
       isNullOrUndefined(orderForm?.discountCode) ||
-      isEmpty(orderForm?.discountCode)
+      isEmpty(orderForm?.discountCode) ||
+      isValidating
     );
   };
-
-  console.log("orderForm: ", orderForm);
 
   return (
     <div>
@@ -375,6 +375,7 @@ const DiscountCode = ({
             iconSize="text-2xl"
             loaderWithLabel={false}
             isDisabled={!isValidateButtonDisabled}
+            isLoading={isValidating}
             onClick={() => onValidateCodeButtonClick(discountCode)}
           />
         </motion.div>
@@ -411,7 +412,7 @@ const Cart = ({ authentication, cart }: CartProps) => {
   const [orderForm, setOrderForm] = useState<OrderForm>();
   const [isFormInvalid, setIsFormInvalid] = useState<boolean>(false);
   const [currentStep, setCurrentStep] = useState<CheckoutStep>(
-    CheckoutStep.DISCOUNT_CODE
+    CheckoutStep.PAYMENT_METHOD
   );
 
   const {
@@ -639,6 +640,7 @@ const Cart = ({ authentication, cart }: CartProps) => {
               <DiscountCode
                 orderForm={orderForm}
                 onUseDiscountCodeChange={onUseDiscountCodeChange}
+                isValidating={isValidating}
                 onValidateCodeButtonClick={onValidateCodeButtonClick}
               />
             )}
