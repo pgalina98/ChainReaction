@@ -37,7 +37,7 @@ const CreditCard = ({
           className={declassify(
             "card_inner",
             { flip: flipCard && !isNullOrUndefined(flipCard) },
-            { flip_reverse: !flipCard && isNullOrUndefined(flipCard) }
+            { flip_reverse: !flipCard && !isNullOrUndefined(flipCard) }
           )}
         >
           <div className="front">

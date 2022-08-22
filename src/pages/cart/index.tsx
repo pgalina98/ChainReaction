@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { connect, useDispatch } from "react-redux";
 
-import Stripe from "react-stripe-checkout";
+import Stripe, { Token } from "react-stripe-checkout";
 
 import { alert } from "@constants/alert";
 
@@ -395,7 +395,7 @@ const ChoosePaymentMethod = ({
             prependIcon="las la-calendar"
             value={orderForm?.creditCardDetails?.expirationDate}
             onChange={(value) => {
-              if (+value.substring(0, 2) > 0 && +value.substring(0, 2) < 13) {
+              if (+value.substring(0, 2) >= 0 && +value.substring(0, 2) < 13) {
                 onCreditCardDetailsChange(
                   "expirationDate",
                   value.replace("/", "").replace(/^(.{2})(.*)$/, "$1/$2")
@@ -533,23 +533,7 @@ const DiscountCode = ({
   );
 };
 
-const OrderSummary = ({ orderForm }) => {
-  const getDeliveryCost = (): number => {
-    switch (orderForm?.deliveryType) {
-      case DeliveryType.STORE:
-        return 0;
-
-      case DeliveryType.DHL_DELIVERY:
-        return SHIPPING_COST;
-
-      case DeliveryType.FED_EX_DELIVERY:
-        return FAST_SHIPPING_COST;
-
-      default:
-        return SHIPPING_COST;
-    }
-  };
-
+const OrderSummary = ({ orderForm, getDeliveryCost }) => {
   const calculateDeliveryCost = (): string => {
     switch (orderForm?.deliveryType) {
       case DeliveryType.STORE:
@@ -627,10 +611,6 @@ const OrderSummary = ({ orderForm }) => {
           </div>
         </div>
       </div>
-      <Stripe
-        stripeKey={process.env.NEXT_PUBLIC_STRIPE_API_KEY!}
-        token={handleStripeToken}
-      />
     </div>
   );
 };
@@ -644,7 +624,7 @@ const Cart = ({ authentication, cart }: CartProps) => {
   const [orderForm, setOrderForm] = useState<OrderForm>();
   const [isFormInvalid, setIsFormInvalid] = useState<boolean>(false);
   const [currentStep, setCurrentStep] = useState<CheckoutStep>(
-    CheckoutStep.DELIVERY_DETAILS
+    CheckoutStep.ORDER_SUMMARY
   );
 
   const {
@@ -724,7 +704,10 @@ const Cart = ({ authentication, cart }: CartProps) => {
   };
 
   const isConfirmButtonHidden = (): boolean => {
-    return currentStep !== CheckoutStep.ORDER_SUMMARY;
+    return (
+      currentStep !== CheckoutStep.ORDER_SUMMARY ||
+      orderForm?.paymentMethod === PaymentMethod.CREDIT_CART
+    );
   };
 
   const isNextButtonDisabled = (): boolean => {
@@ -783,6 +766,22 @@ const Cart = ({ authentication, cart }: CartProps) => {
     }
   };
 
+  const getDeliveryCost = (): number => {
+    switch (orderForm?.deliveryType) {
+      case DeliveryType.STORE:
+        return 0;
+
+      case DeliveryType.DHL_DELIVERY:
+        return SHIPPING_COST;
+
+      case DeliveryType.FED_EX_DELIVERY:
+        return FAST_SHIPPING_COST;
+
+      default:
+        return SHIPPING_COST;
+    }
+  };
+
   const onNextButtonClick = (): void => {
     setCurrentStep(determineNextStep(currentStep));
   };
@@ -794,6 +793,12 @@ const Cart = ({ authentication, cart }: CartProps) => {
   const hasAnyError = (): boolean => {
     return isValidationError;
   };
+
+  const onConfirmButtonClick = (): void => {};
+
+  const onPaymentSuccess = (): void => {};
+
+  const onPaymentError = (): void => {};
 
   return (
     <div className="h-full">
@@ -899,9 +904,43 @@ const Cart = ({ authentication, cart }: CartProps) => {
               />
             )}
             {currentStep === CheckoutStep.ORDER_SUMMARY && (
-              <OrderSummary orderForm={orderForm} />
+              <OrderSummary
+                orderForm={orderForm}
+                getDeliveryCost={getDeliveryCost}
+              />
             )}
           </motion.div>
+          <div
+            className={declassify("absolute bottom-20 right-5", {
+              hidden:
+                currentStep !== CheckoutStep.ORDER_SUMMARY ||
+                orderForm?.paymentMethod !== PaymentMethod.CREDIT_CART,
+            })}
+          >
+            <Stripe
+              stripeKey={process.env.NEXT_PUBLIC_STRIPE_API_KEY!}
+              token={(token: Token) => {
+                if (orderForm?.discountCode?.code) {
+                  handleStripeToken(
+                    token,
+                    calculateTotalWithDiscount(
+                      getDeliveryCost(),
+                      orderForm?.discountCode?.discount
+                    ),
+                    onPaymentSuccess,
+                    onPaymentError
+                  );
+                } else {
+                  handleStripeToken(
+                    token,
+                    calculateTotalWithoutDiscount(getDeliveryCost()),
+                    onPaymentSuccess,
+                    onPaymentError
+                  );
+                }
+              }}
+            />
+          </div>
         </div>
         <div
           className={declassify(
@@ -959,17 +998,15 @@ const Cart = ({ authentication, cart }: CartProps) => {
           ) : (
             <div
               className={declassify(
-                "flex items-center justify-center w-1/4",
+                "flex items-center justify-center w-1/4 bg_white",
                 {
-                  "bg_white cursor-pointer": !isNextButtonDisabled(),
-                },
-                {
-                  "bg_gray cursor-not-allowed": isNextButtonDisabled(),
+                  "cursor-pointer":
+                    orderForm?.paymentMethod === PaymentMethod.CASH,
                 }
               )}
               onClick={() => {
-                if (!isNextButtonDisabled()) {
-                  onNextButtonClick();
+                if (!isConfirmButtonHidden()) {
+                  onConfirmButtonClick();
                 }
               }}
             >

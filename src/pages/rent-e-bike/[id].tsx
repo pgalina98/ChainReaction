@@ -711,16 +711,7 @@ const RentEBike: NextPage<RootState> = ({ authentication }: RootState) => {
             </div>
           ) : (
             <div
-              className={declassify(
-                "flex items-center justify-center w-1/4",
-                {
-                  "bg_white cursor-pointer": !isNextButtonDisabled(),
-                },
-                {
-                  "bg_gray cursor-not-allowed":
-                    isNextButtonDisabled() || isSaving,
-                }
-              )}
+              className="flex items-center justify-center w-1/4 cursor-pointer"
               onClick={() => onConfirmButtonClick()}
             >
               <div
