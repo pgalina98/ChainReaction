@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 
+import { NextPage } from "next";
+
 import { connect, useDispatch } from "react-redux";
 
 import Stripe, { Token } from "react-stripe-checkout";
@@ -617,7 +619,7 @@ const OrderSummary = ({ orderForm, getDeliveryCost }) => {
 
 interface CartProps extends StateProps {}
 
-const Cart = ({ authentication, cart }: CartProps) => {
+const Cart: NextPage<CartProps> = ({ authentication, cart }: CartProps) => {
   const dispatch = useDispatch();
   const [isShown, setIsShown] = useToast({ duration: 4000 });
 

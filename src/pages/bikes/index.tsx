@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 
+import { NextPage } from "next";
+
 import { connect } from "react-redux";
 
 import { motion } from "framer-motion";
-
-import { NextPage } from "next";
 
 import { declassify, isEmpty } from "@utils/common";
 
@@ -54,7 +54,7 @@ import styles from "./bikes.module.scss";
 
 interface BikesProps extends StateProps {}
 
-const Bikes = ({ cart }: BikesProps) => {
+const Bikes: NextPage<BikesProps> = ({ cart }: BikesProps) => {
   const [isShown, setIsShown] = useToast({ duration: 4000 });
 
   const [isFilterBoxOpen, setIsFilterBoxOpen] = useState<boolean>(false);

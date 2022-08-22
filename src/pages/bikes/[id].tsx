@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 
+import { NextPage } from "next";
+
 import { connect, useDispatch } from "react-redux";
 
 import { motion } from "framer-motion";
@@ -53,7 +55,9 @@ import styles from "./bikes.module.scss";
 
 interface BikeDetailsProps extends StateProps {}
 
-const BikeDetails = ({ cart }: BikeDetailsProps) => {
+const BikeDetails: NextPage<BikeDetailsProps> = ({
+  cart,
+}: BikeDetailsProps) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [isShown, setIsShown] = useToast({ duration: 4000 });

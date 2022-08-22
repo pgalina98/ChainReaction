@@ -386,7 +386,11 @@ const RentSummary = ({ rentForm }) => {
   );
 };
 
-const RentEBike: NextPage<RootState> = ({ authentication }: RootState) => {
+interface RentEBikeProps extends StateProps {}
+
+const RentEBike: NextPage<RentEBikeProps> = ({
+  authentication,
+}: RentEBikeProps) => {
   const router = useRouter();
   const [isShown, setIsShown] = useToast({ duration: 4000 });
 
@@ -741,5 +745,7 @@ const RentEBike: NextPage<RootState> = ({ authentication }: RootState) => {
 const mapStateToProps = ({ authentication }: RootState) => ({
   authentication,
 });
+
+type StateProps = ReturnType<typeof mapStateToProps>;
 
 export default authenticatedBoundaryRoute(connect(mapStateToProps)(RentEBike));
