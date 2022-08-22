@@ -1,5 +1,6 @@
-import { declassify } from "@utils/common";
-import React, { useState } from "react";
+import React from "react";
+
+import { declassify, isNullOrUndefined } from "@utils/common";
 
 interface CreditCardProps {
   className?: string;
@@ -25,7 +26,7 @@ const CreditCard = ({
       <div
         className="card cursor-pointer"
         onClick={() => {
-          if (flipCard === null) {
+          if (isNullOrUndefined(flipCard)) {
             setFlipCard(true);
           } else {
             setFlipCard(!flipCard);
@@ -35,8 +36,8 @@ const CreditCard = ({
         <div
           className={declassify(
             "card_inner",
-            { flip: flipCard && flipCard !== null },
-            { flip_reverse: !flipCard && flipCard !== null }
+            { flip: flipCard && !isNullOrUndefined(flipCard) },
+            { flip_reverse: !flipCard && isNullOrUndefined(flipCard) }
           )}
         >
           <div className="front">

@@ -76,12 +76,7 @@ export function isEmpty(value: any): boolean {
   if (isArray(value)) {
     return value.filter((value) => !isEmpty(value)).length === 0;
   }
-  if (
-    undefined === value ||
-    value === "" ||
-    value === null ||
-    value === false
-  ) {
+  if (isNullOrUndefined(value) || value === "" || value === false) {
     return true;
   }
   if (isDate(value)) {
@@ -119,18 +114,12 @@ export function isUndefined(value: any): boolean {
 }
 
 export function isEqual(value: string, valueForComparison: string): boolean {
-  if (
-    undefined === value ||
-    value === "" ||
-    value === null ||
-    value === undefined
-  ) {
+  if (isNullOrUndefined(value) || value === "" || value === undefined) {
     return false;
   }
   if (
-    undefined === valueForComparison ||
+    isNullOrUndefined(valueForComparison) ||
     valueForComparison === "" ||
-    valueForComparison === null ||
     valueForComparison === undefined
   ) {
     return false;
