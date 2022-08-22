@@ -911,7 +911,7 @@ const Cart = ({ authentication, cart }: CartProps) => {
             )}
           </motion.div>
           <div
-            className={declassify("absolute bottom-20 right-5", {
+            className={declassify("absolute bottom-4 right-32 z-10", {
               hidden:
                 currentStep !== CheckoutStep.ORDER_SUMMARY ||
                 orderForm?.paymentMethod !== PaymentMethod.CREDIT_CART,
@@ -1000,7 +1000,7 @@ const Cart = ({ authentication, cart }: CartProps) => {
               className={declassify(
                 "flex items-center justify-center w-1/4 bg_white",
                 {
-                  "cursor-pointer":
+                  "cursor-pointer hover:bg-gray-200":
                     orderForm?.paymentMethod === PaymentMethod.CASH,
                 }
               )}

@@ -665,7 +665,7 @@ const RentEBike: NextPage<RootState> = ({ authentication }: RootState) => {
         <div className="flex absolute bottom-0 left-1/2 w-full h-16 text-black text-lg bg_white">
           <div
             className={declassify("flex items-center justify-center w-1/4", {
-              "cursor-pointer": !isPreviousButtonHidden(),
+              "cursor-pointer hover:bg-gray-200": !isPreviousButtonHidden(),
             })}
             onClick={() => onPreviousButtonClick()}
           >
@@ -711,7 +711,7 @@ const RentEBike: NextPage<RootState> = ({ authentication }: RootState) => {
             </div>
           ) : (
             <div
-              className="flex items-center justify-center w-1/4 cursor-pointer"
+              className="flex items-center justify-center w-1/4 cursor-pointer hover:bg-gray-200"
               onClick={() => onConfirmButtonClick()}
             >
               <div
