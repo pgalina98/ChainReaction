@@ -919,6 +919,15 @@ const Cart = ({ authentication, cart }: CartProps) => {
           >
             <Stripe
               stripeKey={process.env.NEXT_PUBLIC_STRIPE_API_KEY!}
+              description="Confirm payment"
+              amount={
+                orderForm?.discountCode?.code
+                  ? calculateTotalWithDiscount(
+                      getDeliveryCost(),
+                      orderForm?.discountCode?.discount
+                    ) * 100
+                  : calculateTotalWithoutDiscount(getDeliveryCost()) * 100
+              }
               token={(token: Token) => {
                 if (orderForm?.discountCode?.code) {
                   handleStripeToken(
