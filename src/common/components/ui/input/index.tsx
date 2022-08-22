@@ -17,6 +17,7 @@ interface InputProps {
   labelColor?: string;
   type?: InputType;
   placeholder?: string;
+  maxLength?: number;
   prependIcon?: string;
   appendIcon?: string;
   appendIconClicable?: boolean;
@@ -39,6 +40,7 @@ const Input = ({
   labelColor = "text-gray-700",
   type = InputType.TEXT,
   placeholder,
+  maxLength,
   prependIcon,
   appendIcon,
   appendIconClicable = false,
@@ -118,6 +120,7 @@ const Input = ({
               ? "password"
               : "text"
           }
+          maxLength={maxLength}
           className={declassify(
             `focus:ring-gray-500 focus:border-gray-500 block w-full pr-12 sm:text-sm border-gray-300 rounded-md text-black ${
               styles.input

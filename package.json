@@ -23,11 +23,12 @@
     "react-dom": "18.2.0",
     "react-query": "^3.39.2",
     "react-redux": "^8.0.2",
+    "react-stripe-checkout": "^2.6.3",
     "rxjs": "^7.5.6",
     "sharp": "^0.30.7",
     "sockjs-client": "^1.5.2",
-    "stompjs": "^2.3.3",
-    "stomp-websocket": "^2.3.4-next"
+    "stomp-websocket": "^2.3.4-next",
+    "stompjs": "^2.3.3"
   },
   "devDependencies": {
     "@types/node": "18.0.0",

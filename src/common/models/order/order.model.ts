@@ -9,6 +9,9 @@ import {
 import { CartItem } from "@features/cart/cart-slice";
 
 import Address, { createEmptyAddressObject } from "./address.model";
+import CreditCardDetails, {
+  createEmptyCreditCardDetailsObject,
+} from "./credit-card-detalis.model";
 
 export default interface OrderForm {
   idUser: number;
@@ -18,6 +21,7 @@ export default interface OrderForm {
   deliveryType: DeliveryType;
   deliveryAddress: Address;
   paymentMethod: PaymentMethod;
+  creditCardDetails: CreditCardDetails;
   useDiscountCode: boolean;
   discountCode: DiscountCode;
 }
@@ -31,6 +35,7 @@ export const createEmptyOrderFormObject = (): OrderForm => {
     deliveryType: null as any,
     deliveryAddress: createEmptyAddressObject(),
     paymentMethod: PaymentMethod.CASH,
+    creditCardDetails: createEmptyCreditCardDetailsObject(),
     useDiscountCode: true,
     discountCode: createEmptyDiscountCodeObject(),
   };

@@ -1,7 +1,6 @@
 import { LocalStorageKeys } from "@enums/local-storage-keys";
 
 import { CartItem, CartState } from "@features/cart/cart-slice";
-import { SHIPPING_COST } from "@features/cart/constants";
 
 import Product from "@models/product/product.model";
 
@@ -65,8 +64,21 @@ export const calculateSubtotal = (): number => {
   );
 };
 
-export const calculateTotal = (): number => {
-  return calculateSubtotal() + SHIPPING_COST;
+export const calculateTotalWithoutDiscount = (shippingCost: number): number => {
+  return calculateSubtotal() + shippingCost;
+};
+
+export const calculateTotalWithDiscount = (
+  shippingCost: number,
+  discount: number
+): number => {
+  return (
+    calculateTotalWithoutDiscount(shippingCost) - calculateDiscount(discount)
+  );
+};
+
+export const calculateDiscount = (discount: number): number => {
+  return calculateSubtotal() * (discount / 100);
 };
 
 export const getCartItemByIdProduct = (idProduct: number): CartItem | null => {

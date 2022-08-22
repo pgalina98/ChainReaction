@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { motion } from "framer-motion";
 
 import { declassify, toString } from "@utils/common";
-import { calculateSubtotal, calculateTotal } from "@utils/cart";
+import { calculateSubtotal, calculateTotalWithoutDiscount } from "@utils/cart";
 import { clearActiveTab } from "@utils/local-storage";
 import { formatNumberToCurrency } from "@utils/currency";
 
@@ -74,8 +74,11 @@ const CartSummary = ({
           </div>
           <div className="flex justify-between text-gray-500 mt-1 pb-2">
             <div className="text-md font-medium">Shipping</div>
-            <div className="text-xl font-semibold">
-              + {formatNumberToCurrency(SHIPPING_COST)}
+            <div className="flex items-center">
+              <div className="mr-2">from</div>
+              <div className="text-xl font-semibold">
+                {formatNumberToCurrency(SHIPPING_COST)}
+              </div>
             </div>
           </div>
           <hr className="border-1 text-white bg-gray-600" />
@@ -84,7 +87,9 @@ const CartSummary = ({
             <div className="flex items-end">
               <div className="text-sm mb-1 mr-2">USD</div>
               <div className="text-2xl font-semibold">
-                {formatNumberToCurrency(calculateTotal())}
+                {formatNumberToCurrency(
+                  calculateTotalWithoutDiscount(SHIPPING_COST)
+                )}
               </div>
             </div>
           </div>
@@ -102,7 +107,9 @@ const CartSummary = ({
             <div className="flex items-end">
               <div className="text-sm mb-1 mr-2">USD</div>
               <div className="text-2xl font-semibold">
-                {formatNumberToCurrency(calculateTotal())}
+                {formatNumberToCurrency(
+                  calculateTotalWithoutDiscount(SHIPPING_COST)
+                )}
               </div>
             </div>
           </div>
