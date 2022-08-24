@@ -5,7 +5,7 @@ export enum PaymentMethod {
   APPLE_PAY = 4,
 }
 
-export const getDeliveryTypeValue = (idPaymentType: number): string | null => {
+export const getPaymentMethodValue = (idPaymentType: number): string | null => {
   switch (idPaymentType) {
     case PaymentMethod.CASH:
       return "CASH";

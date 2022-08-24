@@ -32,4 +32,5 @@ export const messages = {
   ACCOUNT_SUCCESSFULLY_CREATED:
     "Account has been successfully created! Please check your email for a confirmation link.",
   RENT_SUCCESSFULLY_CREATED: "Rent has been successfully created!",
+  ORDER_SUCCESSFULLY_CREATED: "Order has been successfully created!",
 };

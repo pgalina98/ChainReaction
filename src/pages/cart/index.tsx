@@ -17,6 +17,8 @@ import {
 
 import { motion } from "framer-motion";
 
+import useDidMountEffect from "common/hooks/useDidMountEffect";
+
 import { DeliveryType } from "@enums/delivery-type";
 import { PaymentMethod } from "@enums/payment-method";
 import { ToastType } from "@enums/toast-type";
@@ -24,6 +26,7 @@ import { ToastType } from "@enums/toast-type";
 import OrderForm, {
   createEmptyOrderFormObject,
 } from "@models/order/order.model";
+import { createEmptyDiscountCodeObject } from "@models/discount-code/discount-code.model";
 
 import { RootState } from "@store/index";
 
@@ -81,9 +84,9 @@ import {
 } from "@features/registration/validators";
 import useValidateDiscountCode from "@features/discount-code/api/hooks/useValidateDiscountCode";
 import { handleStripeToken } from "@features/payment/api/queries";
+import useSaveOrder from "@features/order/api/hooks/useSaveOrder";
 
 import styles from "./cart.module.scss";
-import useDidMountEffect from "common/hooks/useDidMountEffect";
 
 const DeliveryDetails = ({
   orderForm,
@@ -535,7 +538,19 @@ const DiscountCode = ({
   );
 };
 
-const OrderSummary = ({ orderForm, getDeliveryCost }) => {
+const OrderSummary = ({ orderForm, cart, setOrderForm, getDeliveryCost }) => {
+  useEffect(() => {
+    setOrderForm({
+      ...orderForm,
+      total: orderForm?.discountCode?.code
+        ? calculateTotalWithDiscount(
+            getDeliveryCost(),
+            orderForm?.discountCode?.discount
+          )
+        : calculateTotalWithoutDiscount(getDeliveryCost()),
+    });
+  }, [cart]);
+
   const calculateDeliveryCost = (): string => {
     switch (orderForm?.deliveryType) {
       case DeliveryType.STORE:
@@ -599,16 +614,7 @@ const OrderSummary = ({ orderForm, getDeliveryCost }) => {
           <div className="flex items-end">
             <div className="text-sm mb-1 mr-2">USD</div>
             <div className="text-2xl font-semibold">
-              {orderForm?.discountCode?.code
-                ? formatNumberToCurrency(
-                    calculateTotalWithDiscount(
-                      getDeliveryCost(),
-                      orderForm?.discountCode?.discount
-                    )
-                  )
-                : formatNumberToCurrency(
-                    calculateTotalWithoutDiscount(getDeliveryCost())
-                  )}
+              {formatNumberToCurrency(orderForm?.total)}
             </div>
           </div>
         </div>
@@ -626,7 +632,7 @@ const Cart: NextPage<CartProps> = ({ authentication, cart }: CartProps) => {
   const [orderForm, setOrderForm] = useState<OrderForm>();
   const [isFormInvalid, setIsFormInvalid] = useState<boolean>(false);
   const [currentStep, setCurrentStep] = useState<CheckoutStep>(
-    CheckoutStep.ORDER_SUMMARY
+    CheckoutStep.DELIVERY_DETAILS
   );
 
   const {
@@ -636,17 +642,25 @@ const Cart: NextPage<CartProps> = ({ authentication, cart }: CartProps) => {
     error: validationError,
     mutate: validate,
   } = useValidateDiscountCode();
+  const {
+    isLoading: isSaving,
+    isError: isSavingError,
+    isSuccess: isSavingSuccess,
+    error: savingError,
+    mutate: saveOrder,
+  } = useSaveOrder(orderForm!);
 
   useEffect(() => {
     setOrderForm({
       ...createEmptyOrderFormObject(),
       idUser: authentication.id!,
+      products: [...cart.items],
     });
   }, []);
 
   useEffect(() => {
-    setIsShown(isValidationError);
-  }, [isValidationError]);
+    setIsShown(isValidationError || isSavingSuccess);
+  }, [isValidationError, isSavingSuccess]);
 
   const onFullnameChange = (fullname: string): void => {
     setOrderForm({ ...orderForm!, buyer: fullname });
@@ -679,7 +693,11 @@ const Cart: NextPage<CartProps> = ({ authentication, cart }: CartProps) => {
   };
 
   const onUseDiscountCodeChange = (useDiscountCode: boolean): void => {
-    setOrderForm({ ...orderForm!, useDiscountCode });
+    setOrderForm({
+      ...orderForm!,
+      useDiscountCode,
+      discountCode: createEmptyDiscountCodeObject(),
+    });
   };
 
   const onDeleteAllButtonClick = (): void => {
@@ -793,12 +811,16 @@ const Cart: NextPage<CartProps> = ({ authentication, cart }: CartProps) => {
   };
 
   const hasAnyError = (): boolean => {
-    return isValidationError;
+    return isValidationError || isSavingError;
   };
 
-  const onConfirmButtonClick = (): void => {};
+  const onConfirmButtonClick = (): void => {
+    saveOrder();
+  };
 
-  const onPaymentSuccess = (): void => {};
+  const onPaymentSuccess = (): void => {
+    saveOrder();
+  };
 
   const onPaymentError = (): void => {};
 
@@ -812,6 +834,24 @@ const Cart: NextPage<CartProps> = ({ authentication, cart }: CartProps) => {
             validationError?.response.data?.message ||
             messages.INTERNAL_SERVER_ERROR
           }
+          isShown={isShown}
+          hideToast={() => setIsShown(false)}
+        />
+      )}
+      {isSavingError && (
+        <Toast
+          type={ToastType.DANGER}
+          message={
+            savingError.response.data?.message || messages.INTERNAL_SERVER_ERROR
+          }
+          isShown={isShown}
+          hideToast={() => setIsShown(false)}
+        />
+      )}
+      {isSavingSuccess && (
+        <Toast
+          type={ToastType.SUCCESS}
+          message={messages.ORDER_SUCCESSFULLY_CREATED}
           isShown={isShown}
           hideToast={() => setIsShown(false)}
         />
@@ -908,6 +948,8 @@ const Cart: NextPage<CartProps> = ({ authentication, cart }: CartProps) => {
             {currentStep === CheckoutStep.ORDER_SUMMARY && (
               <OrderSummary
                 orderForm={orderForm}
+                cart={cart}
+                setOrderForm={setOrderForm}
                 getDeliveryCost={getDeliveryCost}
               />
             )}
@@ -922,34 +964,15 @@ const Cart: NextPage<CartProps> = ({ authentication, cart }: CartProps) => {
             <Stripe
               stripeKey={process.env.NEXT_PUBLIC_STRIPE_API_KEY!}
               description="Confirm payment"
-              amount={
-                orderForm?.discountCode?.code
-                  ? calculateTotalWithDiscount(
-                      getDeliveryCost(),
-                      orderForm?.discountCode?.discount
-                    ) * 100
-                  : calculateTotalWithoutDiscount(getDeliveryCost()) * 100
+              amount={orderForm?.total! * 100}
+              token={(token: Token) =>
+                handleStripeToken(
+                  token,
+                  orderForm?.total!,
+                  onPaymentSuccess,
+                  onPaymentError
+                )
               }
-              token={(token: Token) => {
-                if (orderForm?.discountCode?.code) {
-                  handleStripeToken(
-                    token,
-                    calculateTotalWithDiscount(
-                      getDeliveryCost(),
-                      orderForm?.discountCode?.discount
-                    ),
-                    onPaymentSuccess,
-                    onPaymentError
-                  );
-                } else {
-                  handleStripeToken(
-                    token,
-                    calculateTotalWithoutDiscount(getDeliveryCost()),
-                    onPaymentSuccess,
-                    onPaymentError
-                  );
-                }
-              }}
             />
           </div>
         </div>
@@ -1028,7 +1051,7 @@ const Cart: NextPage<CartProps> = ({ authentication, cart }: CartProps) => {
                   { invisible: isConfirmButtonHidden() }
                 )}
               >
-                {true ? (
+                {!isSaving ? (
                   <div className="flex items-center">
                     <div className="uppercase">Confirm</div>
                     <Icon icon="las la-check ml-3" />

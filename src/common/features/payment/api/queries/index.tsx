@@ -9,8 +9,8 @@ export const handleStripeToken = async (
   onError: any
 ): Promise<void> => {
   await axios
-    .get("/payments/charge", {
-      headers: { token: token?.id, amount },
+    .get<void>(`/payments/charge?amount=${amount}`, {
+      headers: { token: token?.id },
     })
     .then(() => onSuccess())
     .catch((error) => onError(error));

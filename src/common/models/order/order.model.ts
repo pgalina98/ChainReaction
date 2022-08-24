@@ -24,6 +24,7 @@ export default interface OrderForm {
   creditCardDetails: CreditCardDetails;
   useDiscountCode: boolean;
   discountCode: DiscountCode;
+  total: number;
 }
 
 export const createEmptyOrderFormObject = (): OrderForm => {
@@ -38,5 +39,6 @@ export const createEmptyOrderFormObject = (): OrderForm => {
     creditCardDetails: createEmptyCreditCardDetailsObject(),
     useDiscountCode: true,
     discountCode: createEmptyDiscountCodeObject(),
+    total: null as any,
   };
 };
