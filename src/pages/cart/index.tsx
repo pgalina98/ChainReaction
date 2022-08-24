@@ -45,10 +45,7 @@ import {
   calculateTotalWithoutDiscount,
 } from "@utils/cart";
 import { formatNumberToCurrency } from "@utils/currency";
-import {
-  calculateExpressDeliveryArrivalDateRange,
-  calculateStandardDeliveryArrivalDateRange,
-} from "@utils/order";
+import { calculateDeliveryArrivalDateRange } from "@utils/order";
 
 import {
   useFadeInOutRightVariants,
@@ -244,7 +241,9 @@ const DeliveryDetails = ({
             helper={`Deliver via DHL (${formatNumberToCurrency(
               SHIPPING_COST
             )})`}
-            helperText={`Estimated delivery: ${calculateStandardDeliveryArrivalDateRange()}`}
+            helperText={`Estimated delivery: ${calculateDeliveryArrivalDateRange(
+              DeliveryType.DHL_DELIVERY
+            )}`}
             isChecked={orderForm?.deliveryType === DeliveryType.DHL_DELIVERY}
             onChange={() => {
               onDeliveryTypeChange(DeliveryType.DHL_DELIVERY);
@@ -255,7 +254,9 @@ const DeliveryDetails = ({
             helper={`Deliver via FedEx (${formatNumberToCurrency(
               FAST_SHIPPING_COST
             )})`}
-            helperText={`Estimated delivery: ${calculateExpressDeliveryArrivalDateRange()}`}
+            helperText={`Estimated delivery: ${calculateDeliveryArrivalDateRange(
+              DeliveryType.FED_EX_DELIVERY
+            )}`}
             isChecked={orderForm?.deliveryType === DeliveryType.FED_EX_DELIVERY}
             onChange={() => {
               onDeliveryTypeChange(DeliveryType.FED_EX_DELIVERY);
