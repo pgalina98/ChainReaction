@@ -47,7 +47,7 @@ import {
 } from "@features/authentication/validators";
 
 import { isEmpty, isNullOrUndefined, toBoolean } from "@utils/common";
-import { setValue } from "@utils/local-storage";
+import { getValueByKey, setValue } from "@utils/local-storage";
 import { createInitPagination } from "@utils/pagination";
 import { createInitCart } from "@utils/cart";
 
@@ -124,10 +124,12 @@ const Login: NextPage = () => {
         LocalStorageKeys.PAGING_SETTINGS,
         JSON.stringify(createInitPagination())
       );
-      setValue(
-        LocalStorageKeys.CART,
-        JSON.stringify(createInitCart(user?.id!))
-      );
+      if (isNullOrUndefined(getValueByKey(LocalStorageKeys.CART)!)) {
+        setValue(
+          LocalStorageKeys.CART,
+          JSON.stringify(createInitCart(user?.id!))
+        );
+      }
 
       router.push("/");
     }
