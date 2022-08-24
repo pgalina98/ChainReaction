@@ -63,7 +63,7 @@ export const NotificationBox = ({
 
   useEffect(() => {
     refetch();
-  }, []);
+  }, [isOpen]);
 
   useEffect(() => {
     setLoggedUserNotifications(data?.data);
