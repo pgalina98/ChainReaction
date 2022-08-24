@@ -10,6 +10,7 @@ export { default as Tooltip } from "common/components/ui/tooltip";
 export { default as Toast } from "common/components/ui/toast";
 export { default as Avatar } from "common/components/ui/avatar";
 export { default as LoadingOverlay } from "common/components/ui/loading-overlay";
+export { default as DeliveryOverlay } from "common/components/ui/delivery-overlay";
 export { default as ProgressBar } from "common/components/ui/progress-bar";
 export { default as RentEBikeStepper } from "common/components/ui/steppers/rent-e-bike-stepper";
 export { default as CheckoutStepper } from "common/components/ui/steppers/checkout-stepper";

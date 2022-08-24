@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { NextPage } from "next";
+import { useRouter } from "next/router";
 
 import { connect, useDispatch } from "react-redux";
 
@@ -60,6 +61,7 @@ import {
   CartItem,
   CheckoutStepper,
   CreditCard,
+  DeliveryOverlay,
   Header,
   Icon,
   Input,
@@ -628,6 +630,7 @@ interface CartProps extends StateProps {}
 
 const Cart: NextPage<CartProps> = ({ authentication, cart }: CartProps) => {
   const dispatch = useDispatch();
+  const router = useRouter();
   const [isShown, setIsShown] = useToast({ duration: 4000 });
 
   const [orderForm, setOrderForm] = useState<OrderForm>();
@@ -635,6 +638,7 @@ const Cart: NextPage<CartProps> = ({ authentication, cart }: CartProps) => {
   const [currentStep, setCurrentStep] = useState<CheckoutStep>(
     CheckoutStep.DELIVERY_DETAILS
   );
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const {
     isLoading: isValidating,
@@ -816,14 +820,30 @@ const Cart: NextPage<CartProps> = ({ authentication, cart }: CartProps) => {
   };
 
   const onConfirmButtonClick = (): void => {
+    setIsLoading(true);
+
+    setTimeout(() => {
+      setIsLoading(false);
+      router.push("/");
+    }, 4000);
+
     saveOrder();
   };
 
   const onPaymentSuccess = (): void => {
+    setIsLoading(true);
+
+    setTimeout(() => {
+      setIsLoading(false);
+      router.push("/");
+    }, 3000);
+
     saveOrder();
   };
 
   const onPaymentError = (): void => {};
+
+  if (isLoading) return <DeliveryOverlay />;
 
   return (
     <div className="h-full">
