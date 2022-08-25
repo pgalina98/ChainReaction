@@ -9,7 +9,7 @@ import { Loader } from "@components";
 
 import { RootState } from "@store/index";
 
-import { clearAuthenticationToken } from "@utils/local-storage";
+import { clearActiveTab, clearAuthenticationToken } from "@utils/local-storage";
 import { declassify } from "@utils/common";
 
 import { disconnect } from "@config/websocket-middleware";
@@ -44,6 +44,11 @@ const Avatar = ({
     }, 1500);
   };
 
+  const navigateToMyOrdersPage = (): void => {
+    router.push("/my-orders");
+    clearActiveTab();
+  };
+
   return (
     <div className={`${className} relative`}>
       <Image
@@ -70,8 +75,11 @@ const Avatar = ({
           aria-labelledby="avatarButton"
         >
           <li>
-            <a className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex justify-between items-center cursor-pointer">
-              <span> My Orders</span>
+            <a
+              className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex justify-between items-center cursor-pointer"
+              onClick={navigateToMyOrdersPage}
+            >
+              <span> My orders</span>
               <i className="las la-truck-loading text-lg" />
             </a>
           </li>

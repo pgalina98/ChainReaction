@@ -29,3 +29,5 @@ export { default as CartItem } from "common/components/ui/cart/cart-item";
 export { default as CartSummary } from "common/components/ui/cart/cart-summary";
 export { default as Radio } from "common/components/ui/radio";
 export { default as CreditCard } from "common/components/ui/credit-card";
+export { default as OrderCard } from "common/components/ui/cards/order-card";
+export { default as OrderCardItem } from "common/components/ui/cards/order-card/order-card-item";
