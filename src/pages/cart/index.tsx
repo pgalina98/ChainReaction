@@ -664,8 +664,28 @@ const Cart: NextPage<CartProps> = ({ authentication, cart }: CartProps) => {
   }, []);
 
   useEffect(() => {
-    setIsShown(isValidationError || isSavingSuccess);
-  }, [isValidationError, isSavingSuccess]);
+    if (isSavingSuccess && !isLoading) {
+      setIsShown(isSavingSuccess);
+
+      setTimeout(() => {
+        router.push("/");
+      }, 4000);
+    }
+  }, [isSavingSuccess, isLoading]);
+
+  useEffect(() => {
+    if (isSaving) {
+      setIsLoading(true);
+
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 3000);
+    }
+  }, [isSaving]);
+
+  useEffect(() => {
+    setIsShown(isValidationError || isSavingError);
+  }, [isValidationError, isSavingError]);
 
   const onFullnameChange = (fullname: string): void => {
     setOrderForm({ ...orderForm!, buyer: fullname });
@@ -820,24 +840,10 @@ const Cart: NextPage<CartProps> = ({ authentication, cart }: CartProps) => {
   };
 
   const onConfirmButtonClick = (): void => {
-    setIsLoading(true);
-
-    setTimeout(() => {
-      setIsLoading(false);
-      router.push("/");
-    }, 4000);
-
     saveOrder();
   };
 
   const onPaymentSuccess = (): void => {
-    setIsLoading(true);
-
-    setTimeout(() => {
-      setIsLoading(false);
-      router.push("/");
-    }, 3000);
-
     saveOrder();
   };
 
