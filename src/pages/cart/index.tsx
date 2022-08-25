@@ -666,10 +666,11 @@ const Cart: NextPage<CartProps> = ({ authentication, cart }: CartProps) => {
   useEffect(() => {
     if (isSavingSuccess && !isLoading) {
       setIsShown(isSavingSuccess);
+      dispatch(clearCart(authentication?.id!));
 
       setTimeout(() => {
         router.push("/");
-      }, 4000);
+      }, 2500);
     }
   }, [isSavingSuccess, isLoading]);
 
