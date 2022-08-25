@@ -636,7 +636,7 @@ const Cart: NextPage<CartProps> = ({ authentication, cart }: CartProps) => {
   const [orderForm, setOrderForm] = useState<OrderForm>();
   const [isFormInvalid, setIsFormInvalid] = useState<boolean>(false);
   const [currentStep, setCurrentStep] = useState<CheckoutStep>(
-    CheckoutStep.DELIVERY_DETAILS
+    CheckoutStep.ORDER_SUMMARY
   );
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -670,7 +670,7 @@ const Cart: NextPage<CartProps> = ({ authentication, cart }: CartProps) => {
 
       setTimeout(() => {
         router.push("/");
-      }, 2500);
+      }, 2000);
     }
   }, [isSavingSuccess, isLoading]);
 
@@ -982,27 +982,6 @@ const Cart: NextPage<CartProps> = ({ authentication, cart }: CartProps) => {
               />
             )}
           </motion.div>
-          <div
-            className={declassify("absolute bottom-4 right-32 z-10", {
-              hidden:
-                currentStep !== CheckoutStep.ORDER_SUMMARY ||
-                orderForm?.paymentMethod !== PaymentMethod.CREDIT_CART,
-            })}
-          >
-            <Stripe
-              stripeKey={process.env.NEXT_PUBLIC_STRIPE_API_KEY!}
-              description="Confirm payment"
-              amount={orderForm?.total! * 100}
-              token={(token: Token) =>
-                handleStripeToken(
-                  token,
-                  orderForm?.total!,
-                  onPaymentSuccess,
-                  onPaymentError
-                )
-              }
-            />
-          </div>
         </div>
         <div
           className={declassify(
@@ -1057,15 +1036,9 @@ const Cart: NextPage<CartProps> = ({ authentication, cart }: CartProps) => {
                 <Icon icon="las la-arrow-right ml-3" />
               </div>
             </div>
-          ) : (
+          ) : orderForm?.paymentMethod === PaymentMethod.CASH ? (
             <div
-              className={declassify(
-                "flex items-center justify-center w-1/4 bg_white",
-                {
-                  "cursor-pointer hover:bg-gray-200":
-                    orderForm?.paymentMethod === PaymentMethod.CASH,
-                }
-              )}
+              className="flex items-center justify-center w-1/4 bg_white cursor-pointer hover:bg-gray-200"
               onClick={() => {
                 if (!isConfirmButtonHidden()) {
                   onConfirmButtonClick();
@@ -1088,6 +1061,31 @@ const Cart: NextPage<CartProps> = ({ authentication, cart }: CartProps) => {
                   <Loader />
                 )}
               </div>
+            </div>
+          ) : (
+            <div className="flex items-center justify-center w-1/4 bg_white cursor-pointer hover:bg-gray-200">
+              <Stripe
+                stripeKey={process.env.NEXT_PUBLIC_STRIPE_API_KEY!}
+                description="Confirm payment"
+                amount={orderForm?.total! * 100}
+                token={(token: Token) =>
+                  handleStripeToken(
+                    token,
+                    orderForm?.total!,
+                    onPaymentSuccess,
+                    onPaymentError
+                  )
+                }
+              >
+                {!isSaving ? (
+                  <div className="flex items-center">
+                    <div className="uppercase">Pay</div>
+                    <Icon icon="las la-credit-card text-3xl ml-3" />
+                  </div>
+                ) : (
+                  <Loader />
+                )}
+              </Stripe>
             </div>
           )}
         </div>
