@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 
 import { LocalStorageKeys } from "@enums/local-storage-keys";
 import { ToastType } from "@enums/toast-type";
+import { AlertType } from "@enums/alert-type";
 
 import Pagination from "@models/pagination/pagination.model";
 import { OrderPage } from "@models/order/order-page.model";
@@ -14,11 +15,13 @@ import { OrderPage } from "@models/order/order-page.model";
 import { RootState } from "@store/index";
 
 import { messages } from "@constants/messages";
+import { alert } from "@constants/alert";
 
 import { getValueByKey } from "@utils/local-storage";
-import { declassify } from "@utils/common";
+import { declassify, isEmpty } from "@utils/common";
 
 import {
+  Alert,
   Header,
   Icon,
   LoadingOverlay,
@@ -63,7 +66,6 @@ const MyOrders: NextPage<MyOrdersProps> = ({
 
   useEffect(() => {
     setOrderPage(data?.data);
-    console.log("data: ", data?.data);
     setPagination({ ...pagination, totalElements: data?.data?.totalElements });
   }, [data]);
 
@@ -96,6 +98,7 @@ const MyOrders: NextPage<MyOrdersProps> = ({
           <div className="text-3xl font-thin mt-2">My orders</div>
           <Icon icon="las la-truck-loading" className="ml-3 text-4xl" />
         </div>
+
         <motion.div
           initial="initial"
           animate="animate"
@@ -107,38 +110,22 @@ const MyOrders: NextPage<MyOrdersProps> = ({
             `w-full pt-4 pb-36 grid grid-cols-4 gap-4 overflow-auto`
           )}
         >
-          <OrderCard className="flex space-y-4">
-            <OrderCardItem />
-            <OrderCardItem />
-          </OrderCard>
-          <OrderCard className="flex space-y-4">
-            <OrderCardItem />
-            <OrderCardItem />
-          </OrderCard>
-          <OrderCard className="flex space-y-4">
-            <OrderCardItem />
-            <OrderCardItem />
-          </OrderCard>
-          <OrderCard className="flex space-y-4">
-            <OrderCardItem />
-            <OrderCardItem />
-          </OrderCard>
-          <OrderCard className="flex space-y-4">
-            <OrderCardItem />
-            <OrderCardItem />
-          </OrderCard>
-          <OrderCard className="flex space-y-4">
-            <OrderCardItem />
-            <OrderCardItem />
-          </OrderCard>
-          <OrderCard className="flex space-y-4">
-            <OrderCardItem />
-            <OrderCardItem />
-          </OrderCard>
-          <OrderCard className="flex space-y-4">
-            <OrderCardItem />
-            <OrderCardItem />
-          </OrderCard>
+          {isEmpty(orderPage?.orders) && (
+            <div className={styles.w_full}>
+              <Alert
+                type={AlertType.INFO}
+                accentBorderPosition="left"
+                text={alert.NO_ORDERS_YET}
+              />
+            </div>
+          )}
+          {orderPage?.orders?.map((order, index) => (
+            <OrderCard key={index} className="flex space-y-4" order={order}>
+              {order?.products?.map((orderedProduct, index) => (
+                <OrderCardItem key={index} orderedProduct={orderedProduct} />
+              ))}
+            </OrderCard>
+          ))}
         </motion.div>
       </div>
       <motion.div

@@ -377,7 +377,7 @@ const ChoosePaymentMethod = ({
           hidden: orderForm?.paymentMethod !== PaymentMethod.CREDIT_CART,
         })}
       >
-        <div className="flex justify-center space-x-24">
+        <div className="flex space-x-24">
           <Input
             id="cardholder"
             className="w-5/12"
@@ -412,7 +412,7 @@ const ChoosePaymentMethod = ({
             }}
           />
         </div>
-        <div className="flex justify-center space-x-24 mt-8">
+        <div className="flex space-x-24 mt-8">
           <Input
             id="cardNumber"
             className="w-5/12"
@@ -605,7 +605,7 @@ const OrderSummary = ({ orderForm, cart, setOrderForm, getDeliveryCost }) => {
           </div>
           <div
             className={declassify("-mt-2 text-sm font-normal text-gray-400", {
-              hidden: !orderForm?.discountCode.code,
+              hidden: !orderForm?.discountCode?.code,
             })}
           >
             {orderForm?.discountCode?.discount}% off
@@ -636,7 +636,7 @@ const Cart: NextPage<CartProps> = ({ authentication, cart }: CartProps) => {
   const [orderForm, setOrderForm] = useState<OrderForm>();
   const [isFormInvalid, setIsFormInvalid] = useState<boolean>(false);
   const [currentStep, setCurrentStep] = useState<CheckoutStep>(
-    CheckoutStep.ORDER_SUMMARY
+    CheckoutStep.DELIVERY_DETAILS
   );
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
