@@ -1,6 +1,8 @@
 .list {
-  width: 375px;
-  max-height: 410px;
+  width: 350px;
+  max-width: 350px;
+  min-height: 322px;
+  max-height: 322px;
   display: flex;
   flex-direction: column;
   background: white;

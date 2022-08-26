@@ -1,4 +1,4 @@
-import OrderForm from "@models/order/order.model";
+import OrderForm from "@models/order/order-form.model";
 
 import { useMutation } from "react-query";
 

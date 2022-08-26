@@ -26,7 +26,7 @@ import { ToastType } from "@enums/toast-type";
 
 import OrderForm, {
   createEmptyOrderFormObject,
-} from "@models/order/order.model";
+} from "@models/order/order-form.model";
 import { createEmptyDiscountCodeObject } from "@models/discount-code/discount-code.model";
 
 import { RootState } from "@store/index";
