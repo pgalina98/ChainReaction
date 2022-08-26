@@ -7,6 +7,13 @@ import { useRouter } from "next/router";
 
 import { Loader } from "@components";
 
+import { DropdownMenuItem } from "@enums/dropdown-menu-items";
+
+import {
+  createEmptyLoadingStateObject,
+  LoadingState,
+} from "@models/loading/loading-state.model";
+
 import { RootState } from "@store/index";
 
 import { clearActiveTab, clearAuthenticationToken } from "@utils/local-storage";
@@ -27,26 +34,49 @@ const Avatar = ({
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [loadingState, setLoadingState] = useState<LoadingState>(
+    createEmptyLoadingStateObject()
+  );
 
   const toggleMenu = (): void => {
     setIsMenuOpen(!isMenuOpen);
   };
 
   const onSignOutButtonClick = (): void => {
-    setIsLoading(true);
+    setLoadingState({
+      isLoading: true,
+      item: DropdownMenuItem.SIGN_OUT,
+    });
     clearAuthenticationToken();
     disconnect();
 
     setTimeout(() => {
-      setIsLoading(false);
+      setLoadingState({
+        isLoading: false,
+        item: DropdownMenuItem.SIGN_OUT,
+      });
       router.push("/");
-    }, 1500);
+    }, 1000);
   };
 
   const navigateToMyOrdersPage = (): void => {
-    router.push("/my-orders");
-    clearActiveTab();
+    setLoadingState({
+      isLoading: true,
+      item: DropdownMenuItem.MY_ORDERS,
+    });
+
+    setTimeout(() => {
+      setLoadingState({
+        isLoading: false,
+        item: DropdownMenuItem.MY_ORDERS,
+      });
+      router.push("/my-orders");
+      clearActiveTab();
+    }, 1000);
+  };
+
+  const isLoading = (item: DropdownMenuItem): boolean => {
+    return loadingState?.isLoading && loadingState?.item === item;
   };
 
   return (
@@ -80,13 +110,21 @@ const Avatar = ({
               onClick={navigateToMyOrdersPage}
             >
               <span> My orders</span>
-              <i className="las la-truck-loading text-lg" />
+              {isLoading(DropdownMenuItem.MY_ORDERS) ? (
+                <Loader size="small" withLabel={false} />
+              ) : (
+                <i className="las la-truck-loading text-lg" />
+              )}
             </a>
           </li>
           <li>
             <a className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex justify-between items-center cursor-pointer">
               <span>Settings</span>
-              <i className="las la-tools text-lg" />
+              {isLoading(DropdownMenuItem.SETTINGS) ? (
+                <Loader size="small" withLabel={false} />
+              ) : (
+                <i className="las la-tools text-lg" />
+              )}
             </a>
           </li>
         </ul>
@@ -96,7 +134,7 @@ const Avatar = ({
             onClick={onSignOutButtonClick}
           >
             <span>Sign out</span>
-            {isLoading ? (
+            {isLoading(DropdownMenuItem.SIGN_OUT) ? (
               <Loader size="small" withLabel={false} />
             ) : (
               <i className="las la-sign-out-alt text-lg" />
