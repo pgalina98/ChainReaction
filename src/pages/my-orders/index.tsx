@@ -48,8 +48,14 @@ const MyOrders: NextPage<MyOrdersProps> = ({
     JSON.parse(getValueByKey(LocalStorageKeys.PAGING_SETTINGS)!)
   );
 
-  const { isLoading, isError, isSuccess, data, error, refetch } =
-    useFetchOrdersByIdUser(authentication?.id!);
+  const {
+    isLoading,
+    isError,
+    isSuccess,
+    data,
+    error,
+    mutate: refetch,
+  } = useFetchOrdersByIdUser(authentication?.id!);
 
   useEffect(() => {
     refetch({ pagination });
@@ -57,6 +63,7 @@ const MyOrders: NextPage<MyOrdersProps> = ({
 
   useEffect(() => {
     setOrderPage(data?.data);
+    console.log("data: ", data?.data);
     setPagination({ ...pagination, totalElements: data?.data?.totalElements });
   }, [data]);
 
@@ -140,11 +147,13 @@ const MyOrders: NextPage<MyOrdersProps> = ({
         exit="exit"
         variants={useFadeInOutVariants({ duration: 0.5, delay: 0.25 })}
       >
-        <Paginator
-          className={`${styles.w_full} absolute bottom-3 right-10 pl-6`}
-          pagination={pagination}
-          onPageChange={onPageChange}
-        />
+        {pagination?.totalElements && (
+          <Paginator
+            className={`${styles.w_full} absolute bottom-3 right-10 pl-6`}
+            pagination={pagination}
+            onPageChange={onPageChange}
+          />
+        )}
       </motion.div>
     </div>
   );
