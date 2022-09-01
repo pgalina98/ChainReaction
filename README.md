@@ -1,10 +1,14 @@
 # ChainReaction
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## 1. Podešavanje datoteke .env.local.example
+Preimenujte datoteku *.env.local.example* u *.env.local* i postavite vrijednosti varijablama
+```
+NEXT_PUBLIC_API_URL=<API_URL>
+NEXT_PUBLIC_WEB_SOCKET_URL=<WEB_SOCKET_URL>
+NEXT_PUBLIC_STRIPE_API_KEY=<STRIPE_API_KEY>
+```
 
-## Run application
-
-First, run the development server:
+## 2. Pokretanje aplikacije
 
 ```bash
 npm run dev
@@ -12,4 +16,4 @@ npm run dev
 yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Otvoriite [http://localhost:3000](http://localhost:3000) unutar preglednika.
