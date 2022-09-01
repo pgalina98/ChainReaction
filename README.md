@@ -12,7 +12,7 @@ NEXT_PUBLIC_STRIPE_API_KEY=<STRIPE_API_KEY>
 
 ```bash
 npm run dev
-# or
+# ili
 yarn dev
 ```
 
