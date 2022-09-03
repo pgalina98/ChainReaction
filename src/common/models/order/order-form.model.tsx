@@ -1,5 +1,6 @@
 import { DeliveryType } from "@enums/delivery-type";
 import { PaymentMethod } from "@enums/payment-method";
+import { OrderStatus } from "@enums/order-status";
 
 import {
   createEmptyDiscountCodeObject,
@@ -24,6 +25,7 @@ export default interface OrderForm {
   creditCardDetails: CreditCardDetails;
   useDiscountCode: boolean;
   discountCode: DiscountCode;
+  status: OrderStatus;
   total: number;
 }
 
@@ -39,6 +41,7 @@ export const createEmptyOrderFormObject = (): OrderForm => {
     creditCardDetails: createEmptyCreditCardDetailsObject(),
     useDiscountCode: true,
     discountCode: createEmptyDiscountCodeObject(),
+    status: OrderStatus.CREATED,
     total: null as any,
   };
 };
