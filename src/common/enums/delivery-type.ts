@@ -21,7 +21,7 @@ export const getDeliveryType = (
     case DeliveryType.DHL_DELIVERY:
       return {
         idDeliveryType: 2,
-        value: "DHL_DELIVERY",
+        value: "DHL DELIVERY",
         minimumArrivalDays: 20,
         maximumArrivalDays: 26,
       };
@@ -29,7 +29,7 @@ export const getDeliveryType = (
     case DeliveryType.FED_EX_DELIVERY:
       return {
         idDeliveryType: 3,
-        value: "FED_EX_DELIVERY",
+        value: "FEDEX DELIVERY",
         minimumArrivalDays: 7,
         maximumArrivalDays: 11,
       };
