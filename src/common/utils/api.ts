@@ -1,5 +1,6 @@
-import setupAxiosInterceptors from "@config/axios-interceptor";
 import axios from "axios";
+
+import setupAxiosInterceptors from "@config/axios-interceptor";
 
 let instance = axios.create();
 
