@@ -6,7 +6,6 @@ import styles from "./animation.module.scss";
 
 interface AnimationProps {
   className?: string;
-  styles?: string;
   animationPath: string;
 }
 
@@ -32,7 +31,7 @@ const Animation = ({ className, animationPath }: AnimationProps) => {
     }
   }, [lottie]);
 
-  return <div ref={ref} className={`${className} ${styles}.${styles}`} />;
+  return <div ref={ref} className={className} />;
 };
 
 export default Animation;
