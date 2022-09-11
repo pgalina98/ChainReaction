@@ -70,7 +70,6 @@ const BikeDetails: NextPage<BikeDetailsProps> = ({
 
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
 
-  // TO-DO -> sending notifications will be implemented later
   const [sendNotification, setSendNotification] = useState<boolean>(false);
 
   const { isLoading, isError, data, error, refetch } = useFetchProductById(
