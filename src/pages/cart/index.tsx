@@ -653,7 +653,7 @@ const Cart: NextPage<CartProps> = ({ authentication, cart }: CartProps) => {
     isSuccess: isSavingSuccess,
     error: savingError,
     mutate: saveOrder,
-  } = useSaveOrder(orderForm!);
+  } = useSaveOrder();
 
   useEffect(() => {
     setOrderForm({
@@ -841,11 +841,11 @@ const Cart: NextPage<CartProps> = ({ authentication, cart }: CartProps) => {
   };
 
   const onConfirmButtonClick = (): void => {
-    saveOrder();
+    saveOrder({ ...orderForm, products: [...cart?.items] });
   };
 
   const onPaymentSuccess = (): void => {
-    saveOrder();
+    saveOrder({ ...orderForm, products: [...cart?.items] });
   };
 
   const onPaymentError = (): void => {};
